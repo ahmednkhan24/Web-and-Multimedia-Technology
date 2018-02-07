@@ -45,19 +45,21 @@
         </script>
         
         <script>
-            var url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
-            url += '?' + $.param({
-              'api-key': "d12cba8f68d74da4bbc0fd74bc16f602",
-              'query': "star wars"
-            });
-            $.ajax({
-              url: url,
-              method: 'GET',
-            }).done(function(result) {
-              console.log(result);
-            }).fail(function(err) {
-              throw err;
-            });
+            function doSearch(){
+                var url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
+                url += '?' + $.param({
+                  'api-key': "d12cba8f68d74da4bbc0fd74bc16f602",
+                  'query': "star wars"
+                });
+                $.ajax({
+                  url: url,
+                  method: 'GET',
+                }).done(function(result) {
+                  console.log(result);
+                }).fail(function(err) {
+                  throw err;
+                });
+            }
         </script>
     </body>
     
