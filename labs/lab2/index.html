@@ -60,15 +60,32 @@
                 $.ajax({
                   url: url,
                   method: 'GET',
-                }).done(function(result) {
-                  console.log(result);
+                }).done(function(response) 
+                {
+                  console.log(response);
+                  $.each(response.results, function(i, v)
+                  {
+                    $("#results").append(v.display_title + "<br>");
+                } );
+                  
                 }).fail(function(err) {
                   throw err;
                 });
+                
+                
+                
             }
             
             
             
+            
+            // function loadResponse(response)
+            // {
+            //   $.each(response.results, function(i, v){
+            //     $("#results").append(v.display_title + "<br>");
+            //   });
+              
+            // }
             
             
         </script>
