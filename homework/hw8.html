@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Weather Data</title>
+
+	<style type="text/css">
+		body
+		{
+			font-size: 20px;
+		}
+	</style>
+
+</head>
+<body>
+	<h1>My Weather App</h1>
+
+	<div id="instructions">
+		<p>Enter the zip code of a location you want to retrieve weather data for, then click the submit button</p>
+	</div>
+
+	<div id="inputData">
+		<input type="text" placeholder="ZIP Code" id="zipCode">
+		<button id="btn">SUBMIT</button>
+	</div>
+
+	<div id="output"></div>
+
+	
+
+	<!-- JQuery Script -->
+	<script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+    </script>
+
+    <!-- script for getting the weather -->
+   	<script type="text/javascript">
+   		
+   		// get the button, and add the event handler to it
+   		$("#btn").click(getData);
+
+
+   		function getData()
+   		{
+   			// get the desired zip code 
+   			var zip = $("#zipCode").val();
+   		
+   			// print it out for debugging
+   			console.log(zip);
+
+   			// get the data from yahoo
+   			$.get('https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in (select woeid from geo.places(1) where text="' + zip + '")&format=json', 
+   				function(data) 
+   				{
+   					var linebreak = "<br>";
+
+   					// clear any previous data
+			        $("#output").empty();
+
+   					//Check that a place was found (we'll just grab the first) 
+			        if (data.query.results === null) 
+			        {
+			        	$("#output").append(linebreak + linebreak + "Location not found..." + linebreak);
+			        }
+			        else
+			        {
+			        	// The forecast title and time, for example "Conditions for New York, NY at 1:51 pm EST"
+			        	var location = data.query.results.channel.item.title;
+
+			        	// A simple summary of the current conditions and tomorrow's forecast, in HTML format, including a link to Yahoo! Weather for the full forecast.
+			        	var weather = data.query.results.channel.item.description;
+
+			        	$("#output").append(linebreak + linebreak + location + linebreak + weather + linebreak + linebreak);
+			        }
+			    });
+   		}
+   	</script>
+</body>
+</html>
