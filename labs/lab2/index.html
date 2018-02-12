@@ -48,6 +48,8 @@
         
             var btn = $("#btnSearch").click(doSearch);
             
+            var res;
+            
             function doSearch()
             {
                 var search = $("#query").val();
@@ -63,29 +65,25 @@
                 }).done(function(response) 
                 {
                   console.log(response);
-                  $.each(response.results, function(i, v)
-                  {
-                    $("#results").append(v.display_title + "<br>");
-                } );
+                  loadResponse(response);
+                  // $.each(response.results, function(i, v)
+                  // {
+                  //   $("#results").append(v.display_title + "<br>");
+                  // } );
                   
                 }).fail(function(err) {
                   throw err;
                 });
-                
-                
-                
             }
             
-            
-            
-            
-            // function loadResponse(response)
-            // {
-            //   $.each(response.results, function(i, v){
-            //     $("#results").append(v.display_title + "<br>");
-            //   });
+          
+            function loadResponse(response)
+            {
+              $.each(response.results, function(i, v){
+                $("#results").append(v.display_title + "<br>");
+              });
               
-            // }
+            }
             
             
         </script>
