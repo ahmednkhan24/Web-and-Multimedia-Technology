@@ -45,7 +45,11 @@
         </script>
         
         <script>
-            function doSearch(){
+        
+            var btn = $("#btnSearch").click(doSearch);
+            
+            function doSearch()
+            {
                 var search = $("#query").val();
                 
                 var url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
