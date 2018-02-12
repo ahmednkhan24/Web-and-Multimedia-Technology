@@ -97,22 +97,17 @@
 
             <!-- services item -->
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#services" style="color:#D50032; font-family: Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;">Services</a>
+              <a class="nav-link js-scroll-trigger" href="#featuress" style="color:#D50032; font-family: Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;">Features</a>
             </li>
 
             <!-- portfolio item -->
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#portfolio" style="color:#D50032; font-family: Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;">Portfolio</a>
+              <a class="nav-link js-scroll-trigger" href="#aboutt" style="color:#D50032; font-family: Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;">About</a>
             </li>
 
             <!-- about item -->
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#about" style="color:#D50032; font-family: Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;">About</a>
-            </li>
-
-            <!-- team item -->
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="#team" style="color:#D50032; font-family: Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;">Team</a>
+              <a class="nav-link js-scroll-trigger" href="#hqq" style="color:#D50032; font-family: Montserrat,'Helvetica Neue',Helvetica,Arial,sans-serif;">HQ Location</a>
             </li>
 
             <!-- contact item -->
@@ -194,7 +189,7 @@
 
 
     <!-- Original Icons Grid -->
-    <section class="features-icons bg-light text-center">
+    <section class="features-icons bg-light text-center" id="featuress">
       <div class="container">
 
         <!-- open row 1 tag -->
@@ -279,7 +274,7 @@
 
 
     <!-- Original Image Showcases -->
-    <section class="showcase">
+    <section class="showcase" id="aboutt">
       <div class="container-fluid p-0">
         <div class="row no-gutters">
 
@@ -370,7 +365,7 @@
 
 
     <!-- Container (Contact Section) -->
-    <div id="contact" class="container-fluid bg-grey">
+    <div id="contact" class="container-fluid bg-grey" style="padding: 40px">
       <h2 class="text-center">CONTACT</h2>
       <div class="row">
         <div class="col-sm-5">
@@ -409,18 +404,21 @@
 
 
     <!-- Add Google Maps -->
-    <div id="googleMap" style="height:400px;width:100%;"></div>
-    <script>
-      function myMap() 
-      {
-        var myCenter = new google.maps.LatLng(41.8826136,-87.61897850000003);
-        var mapProp = {center:myCenter, zoom:17, scrollwheel:false, draggable:false, mapTypeId:google.maps.MapTypeId.ROADMAP};
-        var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-        var marker = new google.maps.Marker({position:myCenter});
-        marker.setMap(map);
-      }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0zHggstjz-FDhr9M8nHdzOxEa_5QCvnY&callback=myMap"></script>
+    <div id="hqq">
+       <div id="googleMap" style="height:400px;width:100%;"></div>
+      <script>
+        function myMap() 
+        {
+          var myCenter = new google.maps.LatLng(41.8826136,-87.61897850000003);
+          var mapProp = {center:myCenter, zoom:17, scrollwheel:false, draggable:false, mapTypeId:google.maps.MapTypeId.ROADMAP};
+          var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+          var marker = new google.maps.Marker({position:myCenter});
+          marker.setMap(map);
+        }
+      </script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0zHggstjz-FDhr9M8nHdzOxEa_5QCvnY&callback=myMap"></script>
+    </div>
+   
 
 
     <!-- Footer -->
@@ -445,7 +443,7 @@
                 <a href="#">Privacy Policy</a>
               </li>
             </ul>
-            <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2018. All Rights Reserved.</p>
+            <p class="text-muted small mb-4 mb-lg-0">&copy; Feline Friends 2018. All Rights Reserved.</p>
           </div>
           <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
             <ul class="list-inline mb-0">
