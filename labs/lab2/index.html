@@ -10,6 +10,11 @@
           {
             display: none;
           }
+
+         /* .card
+          {
+            float: left;
+          }*/
         </style>
         
     </head>
@@ -20,13 +25,13 @@
         </div>
         
         <div id="search" class="screen">
-            <input type="text" id="query"/>
+            <input value="star wars" type="text" id="query"/>
             <button type="button" id="btnSearch">Search</button>   
         </div>
         
         <div id="results" class="screen">
 
-          <div class="card screen" style="width: 18rem;">
+          <div id="originalCard" class="card screen" style="width: 18rem;">
             <img class="card-img-top" src="https://placebear.com/200/300" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
@@ -100,7 +105,11 @@
               $.each(response.results, function(i, v)
               {
                 // clone the original card
-                var card = $(".card").clone();
+                var card = $("#originalCard").clone();
+
+                // change the id of the cloned card
+                var id = "#card" + i;
+                $(card).attr("id", id);
 
                 // find the h5 tag and change it to the movie title
                 $(card).find("h5").text(v.display_title);
