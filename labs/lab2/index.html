@@ -4,19 +4,28 @@
         
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         
-        
+        <style type="text/css">
+          
+          .screen
+          {
+            display: none;
+          }
+        </style>
         
     </head>
     <body>
         
         <div id="home">
+          <h1>Welcome</h1>
+
+          <button id="start">Get Started</button>
             
         </div>
         
         
         
         
-        <div id="search">
+        <div id="search" class="screen">
             <input type="text" id="query"/>
             <button type="button" id="btnSearch">Search</button>
             
@@ -27,8 +36,18 @@
         
         
         
-        <div id="results">
+        <div id="results" class="screen">
+
+          <div class="card screen" style="width: 18rem;">
+            <img class="card-img-top" src="..." alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
             
+
         </div>
         
         
@@ -45,7 +64,17 @@
         </script>
         
         <script>
-        
+          
+            $(document).ready(function(){});
+
+            var startBtn = $("#start").click(function()
+            {
+              $("#home").toggleClass("screen");
+              $("#search").toggleClass("screen");
+              $("#results").toggleClass("screen");
+            });
+
+
             var btn = $("#btnSearch").click(doSearch);
             
             var res;
@@ -79,11 +108,16 @@
 
               $("#results").append(msg);
 
-              $.each(response.results, function(i, v){
+              $.each(response.results, function(i, v)
+              {
+                var card = $(".card").clone();
+
                 $("#results").append("<h5>" + v.display_title + "</h5>" + "<p>" + v.summary_short + "</p><br>");
+
               });
-              
             }
+
+
             
             
         </script>
