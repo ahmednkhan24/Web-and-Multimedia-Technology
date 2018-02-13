@@ -27,11 +27,10 @@
         <div id="results" class="screen">
 
           <div class="card screen" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
+            <img class="card-img-top" src="https://placebear.com/200/300" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
           </div>
 
@@ -91,28 +90,39 @@
             // function that will take the data given to it and add it to the DOM
             function loadResponse(response)
             {
+              // turn the search option off
+              $("#search").toggleClass("screen");
+
               var msg = "<br><h2>Number of movie reviews: " + response.num_results + "</h2><br>";
 
               $("#results").append(msg);
 
               $.each(response.results, function(i, v)
               {
-                // clone the main card
+                // clone the original card
                 var card = $(".card").clone();
 
+                // find the h5 tag and change it to the movie title
+                $(card).find("h5").text(v.display_title);
+
+                // find the p tag and change it to the movie review
+                $(card).find("p").text(v.summary_short);
+
+                // get the src image for movie if it exists
+                if (v.multimedia !== null)
+                {
+                  // add the given image into the card
+                  $(card).find("img").attr("src", v.multimedia.src);
+                }
+            
                 // turn the clone's visibility on
                 card.toggleClass("screen");
-
-                // find the h5 text and change it
-                $(card).find("h5").text("Hello WORLD");
 
                 // add the clone to the DOM
                 $("#results").append(card);
 
-
-
-                $("#results").append(v.display_title + "<p>" + v.summary_short + "</p><br>");
-
+                // print out data for debugging purposes
+                // $("#results").append(v.display_title + "<p>" + v.summary_short + "</p><br>");
               });
             }
 
