@@ -97,14 +97,25 @@
 
               $.each(response.results, function(i, v)
               {
+                // clone the main card
                 var card = $(".card").clone();
 
-                $("#results").append("<h5>" + v.display_title + "</h5>" + "<p>" + v.summary_short + "</p><br>");
+                // turn the clone's visibility on
+                card.toggleClass("screen");
+
+                // find the h5 text and change it
+                $(card).find("h5").text("Hello WORLD");
+
+                // add the clone to the DOM
+                $("#results").append(card);
+
+
+
+                $("#results").append(v.display_title + "<p>" + v.summary_short + "</p><br>");
 
               });
             }
 
         </script>
     </body>
-    
 </html>
