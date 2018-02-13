@@ -14,27 +14,15 @@
         
     </head>
     <body>
-        
         <div id="home">
           <h1>Welcome</h1>
-
           <button id="start">Get Started</button>
-            
         </div>
-        
-        
-        
         
         <div id="search" class="screen">
             <input type="text" id="query"/>
-            <button type="button" id="btnSearch">Search</button>
-            
-            
+            <button type="button" id="btnSearch">Search</button>   
         </div>
-        
-        
-        
-        
         
         <div id="results" class="screen">
 
@@ -46,17 +34,9 @@
               <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
           </div>
-            
 
         </div>
-        
-        
-        
-        <h3></h3>
-        
-        
-        
-        
+
         <script
           src="https://code.jquery.com/jquery-3.3.1.min.js"
           integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -67,6 +47,8 @@
           
             $(document).ready(function(){});
 
+            // when the user clicks the 'Get Started' button, change the screens 
+            // so that the search menu is visible
             var startBtn = $("#start").click(function()
             {
               $("#home").toggleClass("screen");
@@ -75,33 +57,38 @@
             });
 
 
+            // add an event handler to the 'Search' button
             var btn = $("#btnSearch").click(doSearch);
             
-            var res;
-            
+            // function that will create and execute a call to the API to retrieve data
+            // about the name in the search input box
             function doSearch()
             {
-                var search = $("#query").val();
+              // get the text in the input box
+              var search = $("#query").val();
+              
+              // first part of the url for requesting data from the api
+              var url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
+
+              // concatenate url to add the api key and the query text 
+              url += '?' + $.param({
+                'api-key': "d12cba8f68d74da4bbc0fd74bc16f602",
+                'query': search
+              });
+              $.ajax({
+                url: url,
+                method: 'GET',
+              }).done(function(response) 
+              {
+                console.log(response);
+                loadResponse(response);
                 
-                var url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
-                url += '?' + $.param({
-                  'api-key': "d12cba8f68d74da4bbc0fd74bc16f602",
-                  'query': search
-                });
-                $.ajax({
-                  url: url,
-                  method: 'GET',
-                }).done(function(response) 
-                {
-                  console.log(response);
-                  loadResponse(response);
-                  
-                }).fail(function(err) {
-                  throw err;
-                });
+              }).fail(function(err) {
+                throw err;
+              });
             }
             
-          
+            // function that will take the data given to it and add it to the DOM
             function loadResponse(response)
             {
               var msg = "<br><h2>Number of movie reviews: " + response.num_results + "</h2><br>";
@@ -117,9 +104,6 @@
               });
             }
 
-
-            
-            
         </script>
     </body>
     
