@@ -1,38 +1,47 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+        <title>akhan227 | lab 2</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         
         <style type="text/css">
           
+          body
+          {
+            padding: 20px;
+            margin: 20px;
+          }
+
           .screen
           {
             display: none;
           }
 
-         /* .card
+          .card
           {
             float: left;
-          }*/
+            padding: 20px;
+            margin: 20px;
+          }
+
         </style>
         
     </head>
     <body>
-        <div id="home">
+        <div id="home" class="screen">
           <h1>Welcome</h1>
           <button id="start">Get Started</button>
         </div>
         
         <div id="search" class="screen">
-            <input value="star wars" type="text" id="query"/>
+            <input type="text" id="query" placeholder="Enter Movie Name"/>
             <button type="button" id="btnSearch">Search</button>   
         </div>
         
         <div id="results" class="screen">
 
           <div id="originalCard" class="card screen" style="width: 18rem;">
-            <img class="card-img-top" src="https://placebear.com/200/300" alt="Card image cap">
+            <img class="card-img-top" src="https://vignette.wikia.nocookie.net/yakusokunoneverland/images/3/3c/NoImageAvailable.png/revision/latest?cb=20160910192028" alt="Card image cap">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -49,7 +58,9 @@
         
         <script>
           
-            $(document).ready(function(){});
+            $(document).ready(function(){
+              $("#home").toggleClass("screen");
+            });
 
             // when the user clicks the 'Get Started' button, change the screens 
             // so that the search menu is visible
