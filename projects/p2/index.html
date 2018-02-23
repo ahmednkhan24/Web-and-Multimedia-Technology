@@ -32,16 +32,14 @@
 	   	
 	   	select
 	   	{
-	   		height: 200px;
+	   		height: 250px;
 	   		width: 300px;
 	   	}
 
 	   	button
 	   	{
 	   		padding: 10px;
-	   		margin-top: 20px;
-	   		margin-bottom: 20px;
-	   		margin-right: 20px;
+	   		margin: 20px;
 	   	}
 
 		.inactiveScreen
@@ -162,16 +160,15 @@
 					 
 					</select>
 
-					<br>
-
 					<button id="addBtn">Add</button>
 					<button id="rmvBtn">Remove</button>
 					<button id="clrBtn">Clear All</button>
 				</div>
 
 				<div id="display">
-					<textarea rows="5" cols="80" readonly>At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
-					</textarea>
+					<br>
+					<p>Currently Selected School Types:</p>
+					<textarea id="txtbox" rows="5" cols="40" readonly></textarea>
 				</div>
 
 			</div>
@@ -266,22 +263,10 @@
     	// add event handlers to the map screen navbar
     	addNavActions(mScreen, "#homeLI", hScreen);
     	addNavActions(mScreen, "#searchLI", sScreen);
- 
-
-    // 	<option value="volvo">Volvo</option>
-		  // <option value="saab">Saab</option>
-		  // <option value="opel">Opel</option>
-		  // <option value="audi">Audi</option>
-		  // <option value="volvo">Volvo</option>
-		  // <option value="saab">Saab</option>
-		  // <option value="opel">Opel</option>
-		  // <option value="audi">Audi</option>
-		  // <option value="saab">Saab</option>
-		  // <option value="opel">Opel</option>
-		  // <option value="audi">Audi</option>
 
     	// Search Stuff
     	//-------------------------------------------------------------------------------
+    	// add the school type names to the select 
 	    $.ajax(
 	    {
 	    	// the url for requesting school type data from the api
@@ -289,11 +274,8 @@
 	        method: 'GET',
 	     }).done(function(response) 
 		    {
-		        console.log(response);
-
 				$.each(response, function(i, v)
 				{
-					console.log(v.school_type);
 					var option = "<option value=\"" + v.school_type + "\">" + v.school_type + "</option>";
 
 					$("#multiselect").append(option);
@@ -303,6 +285,74 @@
 			   {
 			   		throw err;
 		       });
+
+		// the array that will hold all of the currently selected schools
+		var selectedSchools = [];
+
+	    // add event handlers to buttons
+	    $("#addBtn").click(
+	    	function()
+	    	{
+	    		// get the selected value and turn it to a string
+	    		var schoolType = $("#multiselect").val().toString();
+
+	    		// check to see if the selected value is already in the array
+	    		if (selectedSchools.indexOf(schoolType) === -1)
+	    		{
+	    			// if the selected value is not in the array,
+	    			// add it to the array and then add it to the text area
+
+	    			selectedSchools.push(schoolType);
+
+	    			$("#txtbox").append(schoolType + "\n");
+	    		}
+	    	});
+
+	    function clearBox()
+	    {
+	    	$("#txtbox").val("");
+	    }
+
+	    $("#rmvBtn").click(
+	    	function()
+	    	{
+	    		// get the selected value and turn it to a string
+	    		var schoolType = $("#multiselect").val().toString();
+
+	    		// find the index if it is in the array
+	    		var index = selectedSchools.indexOf(schoolType);
+	    		
+	    		// if it is in the array, remove it
+	    		if (index > -1)
+	    		{
+	    			// remove the value from the array
+	    			selectedSchools.splice(index, 1);
+
+	    			// clear the text area
+	    			$("#txtbox").val("");
+
+	    			// refill the text area
+	    			$.each(selectedSchools, function(i, v)
+					{
+						console.log(v);
+						$("#txtbox").append(v + "\n");
+					});
+	    		}
+
+	    	});
+
+	    $("#clrBtn").click(
+	    	function()
+	    	{
+	    		// clear the text area
+	    		clearBox();
+
+	    		// empty the array
+	    		selectedSchools = [];
+	    	});
+
+
+
     	//-------------------------------------------------------------------------------
 
 
