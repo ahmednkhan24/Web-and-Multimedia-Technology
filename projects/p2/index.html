@@ -35,7 +35,12 @@
 	        display: none;
 	    }
 	   
-	   
+	   	#map 
+	   	{
+	   		margin: 20px;
+	   		padding: 20px;
+        	height: 650px;
+        }
 
 
 	</style>
@@ -155,6 +160,11 @@
 		  	</div>
 		</nav>
 
+		<h1>Hello world</h1>
+		<div id="map">
+			
+		</div>
+
 
 	<!-- close map screen div -->
 	</div>
@@ -210,10 +220,23 @@
     	addNavActions(mScreen, "#searchLI", sScreen);
  
 
-
-
+    	// add the map to the map screen inside the div with id 'map'
+    	function initMap() 
+    	{
+	        var uluru = {lat: 41.8781, lng: -87.6298};
+	        var map = new google.maps.Map(document.getElementById("map"), 
+	        {
+	          zoom: 9,
+	          center: uluru
+        	});
+	    }
 
     
+    </script>
+
+    <!-- Google Maps API -->
+    <script async defer
+    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0zHggstjz-FDhr9M8nHdzOxEa_5QCvnY&callback=initMap">
     </script>
 
 </body>
