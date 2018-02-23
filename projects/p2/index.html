@@ -33,13 +33,13 @@
 
 		  	<div class="collapse navbar-collapse" id="navbarNav">
 			    <ul class="navbar-nav">
-			    	<li class="nav-item active">
-			    		<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+			    	<li id="homeLI" class="nav-item active">
+			    		<a class="nav-link" href="#">Home</a>
 				    </li>
-				    <li class="nav-item">
+				    <li id="searchLI" class="nav-item">
 				        <a class="nav-link" href="#">Search</a>
 				    </li>
-				    <li class="nav-item">
+				    <li id="mapLI" class="nav-item">
 				    	<a class="nav-link" href="#">Map</a>
 				    </li>
 			    </ul>
@@ -58,7 +58,7 @@
 	<!-- Search/Listing Screen-->
 	<div id="searchScreen" class="inactiveScreen">
 
-		<h1>Hello World</h1>
+		<h1>search Screen</h1>
 
 	<!-- close search screen div -->
 	</div>
@@ -71,7 +71,7 @@
 	<!-- Map Screen -->
 	<div id="mapScreen" class="inactiveScreen">
 		
-
+		<h1>map screen</h1>
 	<!-- close map screen div -->
 	</div>
 
@@ -87,42 +87,44 @@
 
     <!-- My Script -->
     <script type="text/javascript">
-    	
     	// variables to hold the three screens
-    	var hScreen, sScreen, mScreen;
+    	var hScreen = $("#homeScreen");
+    	var sScreen = $("#searchScreen");
+    	var mScreen = $("#mapScreen");
 
-    	// document ready event handler to grab all three screens, and show the home screen
+    	// document ready event handler to show the home screen
     	$(document).ready(
     		function()
 	    	{
-	    		// get the three screens
-	    		hScreen = $("#homeScreen");
-		    	sScreen = $("#searchScreen");
-		    	mScreen = $("#mapScreen");
-
 		    	// show the home screen by removing the 'inactiveScreen' class
-	    		$(hScreen).toggleClass("inactiveScreen");
+	    		$(mScreen).toggleClass("inactiveScreen");
 	        });
 
 
-    	// // get the navbar from the home screen, and clone it for the search screen
-    	// var searchNav = $("#homeNav").clone();
+    	// navbar section
+    	//----------------------------------------------------------------------------
+    	// get the navbar from the home screen, and clone it for the search screen
+    	var searchNav = $("#homeNav").clone();
 
-    	// // clone the search screen nav for the map screen
-    	// var mapNav = $(searchNav).clone();
+    	// clone the search screen nav for the map screen
+    	var mapNav = $(searchNav).clone();
 
-    	// // change the new nav bar id's
-     // 	$(searchNav).attr("id", "searchNav");
-     // 	$(mapNav).attr("id", "mapNav");
+    	// change the new nav bar id's
+     	$(searchNav).attr("id", "searchNav");
+     	$(mapNav).attr("id", "mapNav");
 
+     	// remove the active class from the home li from both screens
+     	$(searchNav).find("#homeLI").toggleClass("active");
+     	$(mapNav).find("#homeLI").toggleClass("active");
 
-     // 	// get the search screen
-     // 	var sScreen = $("#searchScreen");
+     	// add the active class to the right li 
+     	$(searchNav).find("#searchLI").toggleClass("active");
+     	$(mapNav).find("#mapLI").toggleClass("active");
 
-     // 	sScreen.append(searchNav);
-
-     // 	sScreen.toggleClass("inactiveScreen");
-
+     	// add the search bars to the screens
+     	sScreen.append(searchNav);
+     	mScreen.append(mapNav);
+     	//----------------------------------------------------------------------------
 
 
     
