@@ -30,6 +30,20 @@
 	   		background-color: gray;
 	   	}
 	   	
+	   	select
+	   	{
+	   		height: 300px;
+	   		width: 300px;
+	   	}
+
+	   	button
+	   	{
+	   		padding: 10px;
+	   		margin-top: 20px;
+	   		margin-bottom: 20px;
+	   		margin-right: 20px;
+	   	}
+
 		.inactiveScreen
 		{
 	        display: none;
@@ -129,6 +143,50 @@
 		  	</div>
 		</nav>
 
+
+		<div class="container">
+			<div class="searchContent">
+				<h1>hello world</h1>
+
+				<p>
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				</p>
+
+				<div id="selection">
+					<select multiple>
+					  <option value="volvo">Volvo</option>
+					  <option value="saab">Saab</option>
+					  <option value="opel">Opel</option>
+					  <option value="audi">Audi</option>
+					  <option value="volvo">Volvo</option>
+					  <option value="saab">Saab</option>
+					  <option value="opel">Opel</option>
+					  <option value="audi">Audi</option>
+					  <option value="saab">Saab</option>
+					  <option value="opel">Opel</option>
+					  <option value="audi">Audi</option>
+					</select>
+
+					<br>
+					<button>Add</button>
+					<button>Remove</button>
+					<button>Clear All</button>
+				</div>
+
+				<div id="display">
+					<textarea rows="8" cols="80" readonly>
+						At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
+					</textarea>
+				</div>
+
+			</div>
+		</div>
+
 	<!-- close search screen div -->
 	</div>
 
@@ -191,7 +249,7 @@
     		function()
 	    	{
 		    	// show the home screen by removing the 'inactiveScreen' class
-	    		$(hScreen).toggleClass("inactiveScreen");
+	    		$(sScreen).toggleClass("inactiveScreen");
 	        });
 
     	// function will add event handler to the li 'listItem' that will
