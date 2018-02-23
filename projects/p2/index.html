@@ -391,7 +391,8 @@
 				$(sScreen).toggleClass("inactiveScreen");
 		    	$(mScreen).toggleClass("inactiveScreen");
 
-				getData();
+		    	// create the map with markers
+				initMap();
 			});
     	//-------------------------------------------------------------------------------
 
@@ -400,18 +401,11 @@
 
     	// Map Stuff
     	//-------------------------------------------------------------------------------
-    	// add the map to the map screen inside the div with id 'map'
-    	function initMap() 
-    	{
-	        var uluru = {lat: 41.8781, lng: -87.6298};
-	        var map = new google.maps.Map(document.getElementById("map"), 
-	        {
-	          zoom: 9,
-	          center: uluru
-        	});
-	    }
 
-	    function createQuery()
+    	// https://teamtreehouse.com/community/google-maps-changing-default-markers-color-urgent
+
+
+    	function createQuery()
 	    {
 	    	var arr;
 
@@ -456,12 +450,8 @@
 		        method: 'GET',
 		     }).done(function(response) 
 			    {
+			    	loadData(response);
 
-					$.each(response, function(i, v)
-					{
-						console.log(v);
-					});
-			        
 			    }).fail(function(err) 
 				   {
 				   		throw err;
@@ -470,10 +460,48 @@
 
 
 
-	    function loadData()
-	    {
 
+	    function loadData(data)
+	    {
+	    	$.each(data, function(i, v)
+				{
+					var latitude = parseFloat(v.school_latitude);
+					var longitude = parseFloat(v.school_longitude);
+
+					console.log(v.long_name + ": " + latitude + ", " + longitude);
+
+					var marker = new google.maps.Marker(
+						{
+							position: {lat: latitude, lng: longitude},
+							setMap: map,
+							title: v.long_name
+						});
+				});
 	    }
+
+
+
+    	// add the map to the map screen inside the div with id 'map'
+    	function initMap() 
+    	{
+	        var uluru = {lat: 41.8781, lng: -87.6298};
+	        var map = new google.maps.Map(document.getElementById("map"), 
+	        {
+	          zoom: 9,
+	          center: uluru
+        	});
+
+
+	        getData();
+	    }
+
+	    
+
+	    
+
+
+
+	    
 
 
 	    //-------------------------------------------------------------------------------
