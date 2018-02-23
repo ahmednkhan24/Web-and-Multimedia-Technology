@@ -264,6 +264,7 @@
     	addNavActions(mScreen, "#homeLI", hScreen);
     	addNavActions(mScreen, "#searchLI", sScreen);
 
+
     	// Search Stuff
     	//-------------------------------------------------------------------------------
     	// add the school type names to the select 
@@ -289,7 +290,34 @@
 		// the array that will hold all of the currently selected schools
 		var selectedSchools = [];
 
-	    // add event handlers to buttons
+		// takes the array of strings from 'selectedSchools' and returns it
+		// as a single string with newlines
+		function createString()
+		{
+			// the string we will be adding on to
+			var arr;
+
+			// loop through the array of strings
+			$.each(selectedSchools, function(i, v)
+			{
+				// for the first time just add the first string
+				if (arr === undefined)
+				{
+					arr = v + "\n";
+				}
+				// for every other time add the rest 
+				else
+				{
+					arr = arr + v + "\n";
+				}
+			});
+
+			// return the string
+			return arr;
+		}
+
+
+	    // add event handlers to the add button
 	    $("#addBtn").click(
 	    	function()
 	    	{
@@ -304,15 +332,11 @@
 
 	    			selectedSchools.push(schoolType);
 
-	    			$("#txtbox").append(schoolType + "\n");
+	    			$("#txtbox").val(createString());
 	    		}
 	    	});
 
-	    function clearBox()
-	    {
-	    	$("#txtbox").val("");
-	    }
-
+	    // add event handlers to the remove button
 	    $("#rmvBtn").click(
 	    	function()
 	    	{
@@ -332,27 +356,21 @@
 	    			$("#txtbox").val("");
 
 	    			// refill the text area
-	    			$.each(selectedSchools, function(i, v)
-					{
-						console.log(v);
-						$("#txtbox").append(v + "\n");
-					});
+	    			$("#txtbox").val(createString());
 	    		}
 
 	    	});
 
+	    // add event handlers to the clear button
 	    $("#clrBtn").click(
 	    	function()
 	    	{
 	    		// clear the text area
-	    		clearBox();
+	    		$("#txtbox").val("");
 
 	    		// empty the array
 	    		selectedSchools = [];
 	    	});
-
-
-
     	//-------------------------------------------------------------------------------
 
 
