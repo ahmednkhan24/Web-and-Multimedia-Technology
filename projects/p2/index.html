@@ -25,16 +25,14 @@
 	<div id="homeScreen" class="inactiveScreen">
 		<!-- nav bar -->
 		<nav id="homeNav" class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="#">Project 2</a>
-
+			<a class="navbar-brand" href="#">HOME</a>
 		  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 		    	<span class="navbar-toggler-icon"></span>
 		  	</button>
-
 		  	<div class="collapse navbar-collapse" id="navbarNav">
 			    <ul class="navbar-nav">
 			    	<li id="homeLI" class="nav-item active">
-			    		<a class="nav-link" href="#">Home</a>
+			    		<a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
 				    </li>
 				    <li id="searchLI" class="nav-item">
 				        <a class="nav-link" href="#">Search</a>
@@ -44,7 +42,6 @@
 				    </li>
 			    </ul>
 		  	</div>
-
 		</nav>
 		
 	<!-- close home screen div -->
@@ -57,8 +54,26 @@
 
 	<!-- Search/Listing Screen-->
 	<div id="searchScreen" class="inactiveScreen">
-
-		<h1>search Screen</h1>
+		<!-- nav bar -->
+		<nav id="homeNav" class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">SEARCH</a>
+		  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		    	<span class="navbar-toggler-icon"></span>
+		  	</button>
+		  	<div class="collapse navbar-collapse" id="navbarNav">
+			    <ul class="navbar-nav">
+			    	<li id="homeLI" class="nav-item">
+			    		<a class="nav-link" href="#">Home</a>
+				    </li>
+				    <li id="searchLI" class="nav-item active">
+				        <a class="nav-link" href="#">Search<span class="sr-only">(current)</span></a>
+				    </li>
+				    <li id="mapLI" class="nav-item">
+				    	<a class="nav-link" href="#">Map</a>
+				    </li>
+			    </ul>
+		  	</div>
+		</nav>
 
 	<!-- close search screen div -->
 	</div>
@@ -70,8 +85,28 @@
 
 	<!-- Map Screen -->
 	<div id="mapScreen" class="inactiveScreen">
-		
-		<h1>map screen</h1>
+		<!-- nav bar -->
+		<nav id="homeNav" class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">MAP</a>
+		  	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		    	<span class="navbar-toggler-icon"></span>
+		  	</button>
+		  	<div class="collapse navbar-collapse" id="navbarNav">
+			    <ul class="navbar-nav">
+			    	<li id="homeLI" class="nav-item">
+			    		<a class="nav-link" href="#">Home</a>
+				    </li>
+				    <li id="searchLI" class="nav-item">
+				        <a class="nav-link" href="#">Search</a>
+				    </li>
+				    <li id="mapLI" class="nav-item active">
+				    	<a class="nav-link" href="#">Map<span class="sr-only">(current)</span></a>
+				    </li>
+			    </ul>
+		  	</div>
+		</nav>
+
+
 	<!-- close map screen div -->
 	</div>
 
@@ -97,34 +132,36 @@
     		function()
 	    	{
 		    	// show the home screen by removing the 'inactiveScreen' class
-	    		$(mScreen).toggleClass("inactiveScreen");
+	    		$(hScreen).toggleClass("inactiveScreen");
 	        });
 
+    	// function will add event handler to the li 'listItem' that will
+    	// turn the 'turnoffScreen' to inactive, 
+    	// and turn the 'turnonnScreen' to active
+    	function addNavActions(turnoffScreen, listItem, turnonScreen)
+    	{
+    		$(turnoffScreen).find(listItem).click(
+    			function()
+    			{
+		    		$(turnoffScreen).toggleClass("inactiveScreen");
+		    		$(turnonScreen).toggleClass("inactiveScreen");
+		    	});
+    	}
 
-    	// navbar section
-    	//----------------------------------------------------------------------------
-    	// get the navbar from the home screen, and clone it for the search screen
-    	var searchNav = $("#homeNav").clone();
+    	// add event handlers to the home screen navbar
+    	addNavActions(hScreen, "#searchLI", sScreen);
+    	addNavActions(hScreen, "#mapLI", mScreen);
 
-    	// clone the search screen nav for the map screen
-    	var mapNav = $(searchNav).clone();
+    	// add event handlers to the search screen navbar
+    	addNavActions(sScreen, "#homeLI", hScreen);
+    	addNavActions(sScreen, "#mapLI", mScreen);
 
-    	// change the new nav bar id's
-     	$(searchNav).attr("id", "searchNav");
-     	$(mapNav).attr("id", "mapNav");
+    	// add event handlers to the map screen navbar
+    	addNavActions(mScreen, "#homeLI", hScreen);
+    	addNavActions(mScreen, "#searchLI", sScreen);
+ 
 
-     	// remove the active class from the home li from both screens
-     	$(searchNav).find("#homeLI").toggleClass("active");
-     	$(mapNav).find("#homeLI").toggleClass("active");
 
-     	// add the active class to the right li 
-     	$(searchNav).find("#searchLI").toggleClass("active");
-     	$(mapNav).find("#mapLI").toggleClass("active");
-
-     	// add the search bars to the screens
-     	sScreen.append(searchNav);
-     	mScreen.append(mapNav);
-     	//----------------------------------------------------------------------------
 
 
     
