@@ -269,12 +269,10 @@
     	addNavActions(sScreen, "#homeLI", hScreen);
     	addNavActions(sScreen, "#mapLI", mScreen);
 
-    	// add event handlers to the search 'SUBMIT' button
-    	addNavActions(sScreen, "#submitBtn", mScreen);
-
     	// add event handlers to the map screen navbar
     	addNavActions(mScreen, "#homeLI", hScreen);
     	addNavActions(mScreen, "#searchLI", sScreen);
+
 
 
     	// Search Stuff
@@ -383,6 +381,18 @@
 	    		// empty the array
 	    		selectedSchools = [];
 	    	});
+
+
+	    // add event handlers to the search 'SUBMIT' button
+    	$("#submitBtn").click(
+			function()
+			{
+				// add the functionality to go to the map screen
+				$(sScreen).toggleClass("inactiveScreen");
+		    	$(mScreen).toggleClass("inactiveScreen");
+
+				getData();
+			});
     	//-------------------------------------------------------------------------------
 
 
@@ -400,6 +410,72 @@
 	          center: uluru
         	});
 	    }
+
+	    function createQuery()
+	    {
+	    	var arr;
+
+	    	if (selectedSchools.length === 0)
+	    		return arr;
+
+	    	$.each(selectedSchools, function(i, v)
+			{
+				// for the first time
+				if (arr === undefined)
+				{
+					arr = "('" + v + "'";
+				}
+				// every other time
+				else
+				{
+					arr = arr + ",'" + v + "'";
+				}
+			});
+
+	    	// add the closing parentheses
+	    	arr += ")";
+
+			return arr;
+	    }
+
+	    function getData()
+	    {
+	    	var url = "https://data.cityofchicago.org/resource/76dk-7ieb.json?$where=school_type IN ";
+
+	    	var query = createQuery();
+
+	    	if (query === undefined)
+	    		return;
+
+	    	url += query;
+
+	    	$.ajax(
+		    {
+		    	// the url for requesting school type data from the api
+		        url: url,
+		        method: 'GET',
+		     }).done(function(response) 
+			    {
+
+					$.each(response, function(i, v)
+					{
+						console.log(v);
+					});
+			        
+			    }).fail(function(err) 
+				   {
+				   		throw err;
+			       });
+	    }
+
+
+
+	    function loadData()
+	    {
+
+	    }
+
+
 	    //-------------------------------------------------------------------------------
 
 	    
