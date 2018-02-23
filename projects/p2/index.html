@@ -32,7 +32,7 @@
 	   	
 	   	select
 	   	{
-	   		height: 300px;
+	   		height: 200px;
 	   		width: 300px;
 	   	}
 
@@ -158,29 +158,19 @@
 				</p>
 
 				<div id="selection">
-					<select multiple>
-					  <option value="volvo">Volvo</option>
-					  <option value="saab">Saab</option>
-					  <option value="opel">Opel</option>
-					  <option value="audi">Audi</option>
-					  <option value="volvo">Volvo</option>
-					  <option value="saab">Saab</option>
-					  <option value="opel">Opel</option>
-					  <option value="audi">Audi</option>
-					  <option value="saab">Saab</option>
-					  <option value="opel">Opel</option>
-					  <option value="audi">Audi</option>
+					<select id="multiselect" multiple>
+					 
 					</select>
 
 					<br>
-					<button>Add</button>
-					<button>Remove</button>
-					<button>Clear All</button>
+
+					<button id="addBtn">Add</button>
+					<button id="rmvBtn">Remove</button>
+					<button id="clrBtn">Clear All</button>
 				</div>
 
 				<div id="display">
-					<textarea rows="8" cols="80" readonly>
-						At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
+					<textarea rows="5" cols="80" readonly>At w3schools.com you will learn how to make a website. We offer free tutorials in all web development technologies. 
 					</textarea>
 				</div>
 
@@ -193,7 +183,7 @@
 
 
 
-
+	<!-- https://data.cityofchicago.org/resource/76dk-7ieb.json?$select=school_type&$group=school_type -->
 
 	<!-- Map Screen -->
 	<div id="mapScreen" class="inactiveScreen">
@@ -278,6 +268,48 @@
     	addNavActions(mScreen, "#searchLI", sScreen);
  
 
+    // 	<option value="volvo">Volvo</option>
+		  // <option value="saab">Saab</option>
+		  // <option value="opel">Opel</option>
+		  // <option value="audi">Audi</option>
+		  // <option value="volvo">Volvo</option>
+		  // <option value="saab">Saab</option>
+		  // <option value="opel">Opel</option>
+		  // <option value="audi">Audi</option>
+		  // <option value="saab">Saab</option>
+		  // <option value="opel">Opel</option>
+		  // <option value="audi">Audi</option>
+
+    	// Search Stuff
+    	//-------------------------------------------------------------------------------
+	    $.ajax(
+	    {
+	    	// the url for requesting school type data from the api
+	        url: "https://data.cityofchicago.org/resource/76dk-7ieb.json?$select=school_type&$group=school_type",
+	        method: 'GET',
+	     }).done(function(response) 
+		    {
+		        console.log(response);
+
+				$.each(response, function(i, v)
+				{
+					console.log(v.school_type);
+					var option = "<option value=\"" + v.school_type + "\">" + v.school_type + "</option>";
+
+					$("#multiselect").append(option);
+				});
+		        
+		    }).fail(function(err) 
+			   {
+			   		throw err;
+		       });
+    	//-------------------------------------------------------------------------------
+
+
+
+
+    	// Map Stuff
+    	//-------------------------------------------------------------------------------
     	// add the map to the map screen inside the div with id 'map'
     	function initMap() 
     	{
@@ -288,6 +320,9 @@
 	          center: uluru
         	});
 	    }
+	    //-------------------------------------------------------------------------------
+
+	    
 
     
     </script>
