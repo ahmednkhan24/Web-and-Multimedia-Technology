@@ -229,7 +229,6 @@
 		crossorigin="anonymous">     	
     </script>
 
-
     <!-- My Script -->
     <script type="text/javascript">
     	// variables to hold the three screens
@@ -273,8 +272,6 @@
     	addNavActions(mScreen, "#homeLI", hScreen);
     	addNavActions(mScreen, "#searchLI", sScreen);
 
-
-
     	// Search Stuff
     	//-------------------------------------------------------------------------------
     	// add the school type names to the select 
@@ -308,24 +305,25 @@
 			var arr;
 
 			// loop through the array of strings
-			$.each(selectedSchools, function(i, v)
-			{
-				// for the first time just add the first string
-				if (arr === undefined)
+			$.each(selectedSchools, 
+				function(i, v)
 				{
-					arr = v + "\n";
+					// for the first time just add the first string
+					if (arr === undefined)
+					{
+						arr = v + "\n";
+					}
+					// for every other time add the rest 
+					else
+					{
+						arr = arr + v + "\n";
+					}
 				}
-				// for every other time add the rest 
-				else
-				{
-					arr = arr + v + "\n";
-				}
-			});
+			);
 
 			// return the string
 			return arr;
 		}
-
 
 	    // add event handlers to the add button
 	    $("#addBtn").click(
@@ -344,7 +342,8 @@
 
 	    			$("#txtbox").val(createString());
 	    		}
-	    	});
+	    	}
+	    );
 
 	    // add event handlers to the remove button
 	    $("#rmvBtn").click(
@@ -369,7 +368,8 @@
 	    			$("#txtbox").val(createString());
 	    		}
 
-	    	});
+	    	}
+	    );
 
 	    // add event handlers to the clear button
 	    $("#clrBtn").click(
@@ -380,7 +380,8 @@
 
 	    		// empty the array
 	    		selectedSchools = [];
-	    	});
+	    	}
+	    );
 
 
 	    // add event handlers to the search 'SUBMIT' button
@@ -393,45 +394,32 @@
 
 		    	// create the map with markers
 				initMap();
-			});
+			}
+		);
     	//-------------------------------------------------------------------------------
-
-
-
 
     	// Map Stuff
     	//-------------------------------------------------------------------------------
 
     	// https://teamtreehouse.com/community/google-maps-changing-default-markers-color-urgent
 
+    	// the variable that is the map
+    	var map;
 
-    	function createQuery()
-	    {
-	    	var arr;
+    	// add the map to the map screen inside the div with id 'map'
+    	function initMap() 
+    	{
+	        var uluru = {lat: 41.8781, lng: -87.6298};
+	        map = new google.maps.Map(document.getElementById("map"), 
+	        {
+	          zoom: 9,
+	          center: uluru
+        	});
 
-	    	if (selectedSchools.length === 0)
-	    		return arr;
-
-	    	$.each(selectedSchools, function(i, v)
-			{
-				// for the first time
-				if (arr === undefined)
-				{
-					arr = "('" + v + "'";
-				}
-				// every other time
-				else
-				{
-					arr = arr + ",'" + v + "'";
-				}
-			});
-
-	    	// add the closing parentheses
-	    	arr += ")";
-
-			return arr;
+	        getData();
 	    }
 
+	    // creates and executes the AJAX call to retrieve the data for the specified schools
 	    function getData()
 	    {
 	    	var url = "https://data.cityofchicago.org/resource/76dk-7ieb.json?$where=school_type IN ";
@@ -458,11 +446,11 @@
 			       });
 	    }
 
-
-
-
+	    // takes the data that was retrieved from the AJAX call as a parameter and 
+	    // adds the data to a marker on the map
 	    function loadData(data)
 	    {
+	    	console.log(map);
 	    	$.each(data, function(i, v)
 				{
 					var latitude = parseFloat(v.school_latitude);
@@ -473,37 +461,39 @@
 					var marker = new google.maps.Marker(
 						{
 							position: {lat: latitude, lng: longitude},
-							setMap: map,
+							map: map,
 							title: v.long_name
 						});
 				});
 	    }
 
+	    // creates and returns the ending part of the AJAX call query that has the list of school types
+    	function createQuery()
+	    {
+	    	var arr;
 
+	    	if (selectedSchools.length === 0)
+	    		return arr;
 
-    	// add the map to the map screen inside the div with id 'map'
-    	function initMap() 
-    	{
-	        var uluru = {lat: 41.8781, lng: -87.6298};
-	        var map = new google.maps.Map(document.getElementById("map"), 
-	        {
-	          zoom: 9,
-	          center: uluru
-        	});
+	    	$.each(selectedSchools, function(i, v)
+			{
+				// for the first time
+				if (arr === undefined)
+				{
+					arr = "('" + v + "'";
+				}
+				// every other time
+				else
+				{
+					arr = arr + ",'" + v + "'";
+				}
+			});
 
+	    	// add the closing parentheses
+	    	arr += ")";
 
-	        getData();
+			return arr;
 	    }
-
-	    
-
-	    
-
-
-
-	    
-
-
 	    //-------------------------------------------------------------------------------
 
 	    
