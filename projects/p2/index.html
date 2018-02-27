@@ -1,17 +1,12 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
 	<!-- Bootstrap CDN -->
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
 	<!-- CDN for the font used -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-
 	<!-- Personal CSS -->
 	<style type="text/css">
-
 		body
 		{
 			background-color: #232323;
@@ -51,7 +46,7 @@
 	   	{
 	   		margin: 20px;
 	   		padding: 20px;
-        	height: 500px;
+        	height: 700px;
         }
 
         .square 
@@ -62,14 +57,9 @@
 		  padding: 15px;
 		  border: 1px solid rgba(0, 0, 0, 0.2);
 		}
-
-
 	</style>
-
 	<title>akhan227 | Project 2</title>
-
 </head>
-
 <body>
 	<!-- Home/Instructions Screen -->
 	<div id="homeScreen" class="inactiveScreen">
@@ -193,8 +183,9 @@
 			    </ul>
 		  	</div>
 		</nav>
+		<button id="newBtn">New Search</button>
 		<br>
-		<div id="colorKey">
+		<div id="results">
 			<div><span class="square" style="background: #FF0000"></span>Career Academy</div><br>
 			<div><span class="square" style="background: #FF7F00"></span>Charter</div><br>
 			<div><span class="square" style="background: #FFFF00"></span>Citywide-Option</div><br>
@@ -310,8 +301,6 @@
 					}
 				}
 			);
-
-			// return the string
 			return arr;
 		}
 
@@ -357,22 +346,21 @@
 	    			// refill the text area
 	    			$("#txtbox").val(createString());
 	    		}
-
 	    	}
 	    );
+
+	    // clears the selected schools array and the text area
+	    function clear()
+	    {
+	    	// clear the text area
+	    	$("#txtbox").val("");
+
+    		// empty the array
+    		selectedSchools = [];
+	    }
 
 	    // add event handlers to the clear button
-	    $("#clrBtn").click(
-	    	function()
-	    	{
-	    		// clear the text area
-	    		$("#txtbox").val("");
-
-	    		// empty the array
-	    		selectedSchools = [];
-	    	}
-	    );
-
+	    $("#clrBtn").click(clear);
 
 	    // add event handlers to the search 'SUBMIT' button
     	$("#submitBtn").click(
@@ -391,8 +379,17 @@
     	// Map Stuff
     	//-------------------------------------------------------------------------------
 
-    	// https://teamtreehouse.com/community/google-maps-changing-default-markers-color-urgent
+    	// add event handlers to the map 'New Search' button
+    	$("#newBtn").click(
+			function()
+			{
+				// add the functionality to go to the search screen
+				$(mScreen).toggleClass("inactiveScreen");
+		    	$(sScreen).toggleClass("inactiveScreen");
 
+		    	clear();
+			}
+		);
 
     	// the variable that is the map
     	var map;
@@ -453,6 +450,7 @@
 			Small						dark green: 	#006600
 			Special Education			light green: 	#66ff66
 	    */
+
 	    // array of key value pairs where the key is the 
 	    // school type and the key is the hex code for a unique color
 	    colors = 
@@ -496,8 +494,10 @@
 						        fillOpacity: 1.0,
 						        strokeWeight: 0.4
 						    }
-						});
-				});
+						}
+					);
+				}
+			);
 	    }
 
 	    // creates and returns the ending part of the AJAX call query that has the list of school types
@@ -535,7 +535,5 @@
     <script async defer
     	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0zHggstjz-FDhr9M8nHdzOxEa_5QCvnY&callback=initMap">
     </script>
-
 </body>
-
 </html>
