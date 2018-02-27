@@ -46,7 +46,7 @@
 	   	{
 	   		margin: 20px;
 	   		padding: 20px;
-        	height: 700px;
+        	height: 500px;
         }
 
         .square 
@@ -185,21 +185,55 @@
 		</nav>
 		<button id="newBtn">New Search</button>
 		<br>
-		<div id="results">
-			<div><span class="square" style="background: #FF0000"></span>Career Academy</div><br>
-			<div><span class="square" style="background: #FF7F00"></span>Charter</div><br>
-			<div><span class="square" style="background: #FFFF00"></span>Citywide-Option</div><br>
-			<div><span class="square" style="background: #0000FF"></span>Classical</div><br>
-			<div><span class="square" style="background: #9400D3"></span>Contract</div><br>
-			<div><span class="square" style="background: #FFFFFF"></span>Magnet</div><br>
-			<div><span class="square" style="background: #000000"></span>Military academy</div><br>
-			<div><span class="square" style="background: #00FFFF"></span>Neighborhood</div><br>
-			<div><span class="square" style="background: #FF99FF"></span>Regional gifted center</div><br>
-			<div><span class="square" style="background: #996633"></span>Selective enrollment</div><br>
-			<div><span class="square" style="background: #006600"></span>Small</div><br>
-			<div><span class="square" style="background: #66ff66"></span>Special Education</div><br>
-		</div>
 		<div id="map"></div>
+		<div class="container" id="colorKey">
+			<br>
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #FF0000"></span>Career Academy
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #FF7F00"></span>Charter
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #FFFF00"></span>Citywide-Option
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #0000FF"></span>Classical
+				</div>
+			</div>
+			<br><br>
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #9400D3"></span>Contract
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #FFFFFF"></span>Magnet
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #000000"></span>Military academy
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #00FFFF"></span>Neighborhood
+				</div>
+			</div>
+			<br><br>
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #FF99FF"></span>Regional gifted center
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #996633"></span>Selective enrollment
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #006600"></span>Small
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-12">
+					<span class="square" style="background: #66ff66"></span>Special Education
+				</div>
+			</div>
+			<br><br>
+		</div>
 	<!-- close map screen div -->
 	</div>
 
@@ -496,6 +530,38 @@
 						    }
 						}
 					);
+
+
+
+					var contentString = '<div id="content">'+
+			            '<div id="siteNotice">'+
+			            '</div>'+
+			            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
+			            '<div id="bodyContent">'+
+			            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+			            'sandstone rock formation in the southern part of the '+
+			            'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+			            'south west of the nearest large town, Alice Springs; 450&#160;km '+
+			            '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+			            'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+			            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+			            'Aboriginal people of the area. It has many springs, waterholes, '+
+			            'rock caves and ancient paintings. Uluru is listed as a World '+
+			            'Heritage Site.</p>'+
+			            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+			            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+			            '(last visited June 22, 2009).</p>'+
+			            '</div>'+
+			            '</div>';
+
+			        var infowindow = new google.maps.InfoWindow({
+			          content: contentString
+			        });
+
+
+
+
+
 				}
 			);
 	    }
