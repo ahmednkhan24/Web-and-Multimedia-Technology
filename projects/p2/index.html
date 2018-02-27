@@ -398,6 +398,7 @@
 
     	// https://teamtreehouse.com/community/google-maps-changing-default-markers-color-urgent
 
+
     	// the variable that is the map
     	var map;
 
@@ -441,28 +442,64 @@
 			       });
 	    }
 
+	    /*
+			School Type 				Color 			Hex
+			===================================================
+			Career academy 				red: 			#FF0000
+			Charter						orange: 		#FF7F00
+			Citywide-Option				yellow: 		#FFFF00
+			Classical					blue: 			#0000FF
+			Contract					violet: 		#9400D3
+			Magnet 						white: 			#FFFFFF
+			Military academy			black: 			#000000
+			Neighborhood				aqua: 			#00FFFF
+			Regional gifted center		pink: 			#FF99FF
+			Selective enrollment		brown: 			#996633
+			Small						dark green: 	#006600
+			Special Education			light green: 	#66ff66
+	    */
+	    colors = 
+    	{
+    		"Career academy": "#FF0000",
+    		"Charter": "#FF7F00",
+    		"Citywide-Option": "#FFFF00",
+    		"Classical": "#0000FF",
+    		"Contract": "#9400D3",
+    		"Magnet": "#FFFFFF",
+    		"Military academy": "#000000",
+    		"Neighborhood": "#00FFFF",
+    		"Regional gifted center": "#FF99FF",
+    		"Selective enrollment": "#996633",
+    		"Small": "#006600",
+    		"Special Education": "#66ff66"
+    	};
+
+
 	    // takes the data that was retrieved from the AJAX call as a parameter and 
 	    // adds the data to a marker on the map
 	    function loadData(data)
 	    {
-	    	var image = "img/blue.png";
-
-	    	image.style.height = "auto";
-
-	    	console.log(map);
 	    	$.each(data, function(i, v)
 				{
 					var latitude = parseFloat(v.school_latitude);
 					var longitude = parseFloat(v.school_longitude);
-
-					console.log(v.long_name + ": " + latitude + ", " + longitude);
+					var name = v.long_name;
+					var type = v.school_type;
+					var color = colors[type];
 
 					var marker = new google.maps.Marker(
 						{
 							position: {lat: latitude, lng: longitude},
 							map: map,
-							title: v.long_name,
-							icon: image
+							title: name,
+							icon: 
+							{
+						        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+						        scale: 5.5,
+						        fillColor: color,
+						        fillOpacity: 1.0,
+						        strokeWeight: 0.4
+						    }
 						});
 				});
 	    }
