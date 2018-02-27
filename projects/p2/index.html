@@ -150,7 +150,6 @@
 		<div class="container">
 			<div class="searchContent">
 				<h1>hello world</h1>
-
 				<p>
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
@@ -159,7 +158,6 @@
 					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 				</p>
-
 				<div id="selection">
 					<select id="multiselect" multiple>
 					 
@@ -169,14 +167,11 @@
 					<button id="rmvBtn">Remove</button>
 					<button id="clrBtn">Clear All</button>
 				</div>
-
 				<div id="display">
-					<br>
 					<p>Currently Selected School Types:</p>
 					<textarea id="txtbox" rows="5" cols="40" readonly></textarea>
 					<button id="submitBtn">SUBMIT</button>
 				</div>
-
 			</div>
 		</div>
 
@@ -450,6 +445,8 @@
 	    // adds the data to a marker on the map
 	    function loadData(data)
 	    {
+	    	var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
 	    	console.log(map);
 	    	$.each(data, function(i, v)
 				{
@@ -462,7 +459,8 @@
 						{
 							position: {lat: latitude, lng: longitude},
 							map: map,
-							title: v.long_name
+							title: v.long_name,
+							icon: image
 						});
 				});
 	    }
