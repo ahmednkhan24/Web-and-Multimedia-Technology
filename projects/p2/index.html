@@ -46,7 +46,7 @@
 	   	{
 	   		margin: 20px;
 	   		padding: 20px;
-        	height: 500px;
+        	height: 600px;
         }
 
         .square 
@@ -56,6 +56,11 @@
 		  margin: 20px;
 		  padding: 15px;
 		  border: 1px solid rgba(0, 0, 0, 0.2);
+		}
+
+		.black 
+		{
+			color: black;
 		}
 	</style>
 	<title>akhan227 | Project 2</title>
@@ -185,9 +190,7 @@
 		</nav>
 		<button id="newBtn">New Search</button>
 		<br>
-		<div id="map"></div>
 		<div class="container" id="colorKey">
-			<br>
 			<div class="row">
 				<div class="col-lg-3 col-md-6 col-sm-12">
 					<span class="square" style="background: #FF0000"></span>Career Academy
@@ -232,11 +235,11 @@
 					<span class="square" style="background: #66ff66"></span>Special Education
 				</div>
 			</div>
-			<br><br>
+			<br>
 		</div>
+		<div id="map"></div>
 	<!-- close map screen div -->
 	</div>
-
 	<!-- JQuery CDN -->
 	<script
 		src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -425,20 +428,73 @@
 			}
 		);
 
+		/*
+			School Type 				Color 			Hex
+			===================================================
+			Career academy 				red: 			#FF0000
+			Charter						orange: 		#FF7F00
+			Citywide-Option				yellow: 		#FFFF00
+			Classical					blue: 			#0000FF
+			Contract					violet: 		#9400D3
+			Magnet 						white: 			#FFFFFF
+			Military academy			black: 			#000000
+			Neighborhood				aqua: 			#00FFFF
+			Regional gifted center		pink: 			#FF99FF
+			Selective enrollment		brown: 			#663300
+			Small						dark green: 	#006600
+			Special Education			light green: 	#66ff66
+	    */
+	    colors = 
+    	{
+    		"Career academy": "#FF0000",
+    		"Charter": "#FF7F00",
+    		"Citywide-Option": "#FFFF00",
+    		"Classical": "#0000FF",
+    		"Contract": "#9400D3",
+    		"Magnet": "#FFFFFF",
+    		"Military academy": "#000000",
+    		"Neighborhood": "#00FFFF",
+    		"Regional gifted center": "#FF99FF",
+    		"Selective enrollment": "#663300",
+    		"Small": "#006600",
+    		"Special Education": "#66ff66"
+    	};
+
     	// the variable that is the map
     	var map;
 
     	// add the map to the map screen inside the div with id 'map'
     	function initMap() 
     	{
-	        var uluru = {lat: 41.8781, lng: -87.6298};
+	        var chicago = {lat: 41.8781, lng: -87.6298};
 	        map = new google.maps.Map(document.getElementById("map"), 
 	        {
 	          zoom: 10,
-	          center: uluru
+	          center: chicago
         	});
 
 	        getData();
+	    }
+
+	    // creates a string filled with content to add to the info window
+	    function getContentString(v)
+	    {
+			var contentString = 
+				'<div id="content" class="black">'+
+					'<h1 id="firstHeading" class="firstHeading">' + v.long_name + '</h1>'+
+					'<div id="bodyContent">'+
+						'<p>' + v.summary + '</p>'+
+						'<p><strong>Rating Status:</strong> ' + v.rating_status + '</p>'+
+						'<p>' + v.rating_statement + '</p>'+
+						'<p><strong>Graduation Rate:</strong> ' + v.graduation_rate_school + '</p>'+
+						'<p><strong>Grades Offered:</strong>' + v.grades_offered + '</p>'+
+						'<p><strong>Address:</strong> ' + v.address + '</p>'+
+						'<p><strong>Phone:</strong> ' + v.phone + '</p>'+
+						'<p><a href=' +v.school_website +'>' + 'School Website</a></p>'+
+					'</div>'+
+				'</div>';
+
+				return contentString;
 	    }
 
 	    // creates and executes the AJAX call to retrieve the data for the specified schools
@@ -468,41 +524,6 @@
 			       });
 	    }
 
-	    /*
-			School Type 				Color 			Hex
-			===================================================
-			Career academy 				red: 			#FF0000
-			Charter						orange: 		#FF7F00
-			Citywide-Option				yellow: 		#FFFF00
-			Classical					blue: 			#0000FF
-			Contract					violet: 		#9400D3
-			Magnet 						white: 			#FFFFFF
-			Military academy			black: 			#000000
-			Neighborhood				aqua: 			#00FFFF
-			Regional gifted center		pink: 			#FF99FF
-			Selective enrollment		brown: 			#663300
-			Small						dark green: 	#006600
-			Special Education			light green: 	#66ff66
-	    */
-
-	    // array of key value pairs where the key is the 
-	    // school type and the key is the hex code for a unique color
-	    colors = 
-    	{
-    		"Career academy": "#FF0000",
-    		"Charter": "#FF7F00",
-    		"Citywide-Option": "#FFFF00",
-    		"Classical": "#0000FF",
-    		"Contract": "#9400D3",
-    		"Magnet": "#FFFFFF",
-    		"Military academy": "#000000",
-    		"Neighborhood": "#00FFFF",
-    		"Regional gifted center": "#FF99FF",
-    		"Selective enrollment": "#663300",
-    		"Small": "#006600",
-    		"Special Education": "#66ff66"
-    	};
-
 	    // takes the data that was retrieved from the AJAX call as a parameter and 
 	    // adds the data to a marker on the map
 	    function loadData(data)
@@ -514,7 +535,9 @@
 					var name = v.long_name;
 					var type = v.school_type;
 					var color = colors[type];
+					var contentString = getContentString(v);
 
+					// create the marker for this school
 					var marker = new google.maps.Marker(
 						{
 							position: {lat: latitude, lng: longitude},
@@ -531,37 +554,18 @@
 						}
 					);
 
+					// create the info window for this school
+			        var infowindow = new google.maps.InfoWindow(
+				        {
+				          content: contentString
+				        }
+				    );
 
-
-					var contentString = '<div id="content">'+
-			            '<div id="siteNotice">'+
-			            '</div>'+
-			            '<h1 id="firstHeading" class="firstHeading">Uluru</h1>'+
-			            '<div id="bodyContent">'+
-			            '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-			            'sandstone rock formation in the southern part of the '+
-			            'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
-			            'south west of the nearest large town, Alice Springs; 450&#160;km '+
-			            '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
-			            'features of the Uluru - Kata Tjuta National Park. Uluru is '+
-			            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-			            'Aboriginal people of the area. It has many springs, waterholes, '+
-			            'rock caves and ancient paintings. Uluru is listed as a World '+
-			            'Heritage Site.</p>'+
-			            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-			            'https://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-			            '(last visited June 22, 2009).</p>'+
-			            '</div>'+
-			            '</div>';
-
-			        var infowindow = new google.maps.InfoWindow({
-			          content: contentString
+			        // add a listener to the marker to display the info window when clicked
+			        marker.addListener('click', function() 
+			        {
+			          infowindow.open(map, marker);
 			        });
-
-
-
-
-
 				}
 			);
 	    }
