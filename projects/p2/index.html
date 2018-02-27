@@ -7,6 +7,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 	<!-- Personal CSS -->
 	<style type="text/css">
+
+		/* HTML elements */
 		body
 		{
 			background-color: #232323;
@@ -37,19 +39,18 @@
 	   		margin: 20px;
 	   	}
 
+	   	li
+	   	{
+	   		padding: 10px;
+	   	}
+
+	   	/* classes */
 		.inactiveScreen
 		{
 	        display: none;
 	    }
-	   
-	   	#map 
-	   	{
-	   		margin: 20px;
-	   		padding: 20px;
-        	height: 600px;
-        }
 
-        .square 
+	    .square 
         {
 		  width: 20px;
 		  height: 10px;
@@ -58,10 +59,33 @@
 		  border: 1px solid rgba(0, 0, 0, 0.2);
 		}
 
+		.searchContent
+		{
+			margin: 10px;
+			padding: 20px;
+		}
+
 		.black 
 		{
 			color: black;
 		}
+
+		/* ID's */
+	   	#list
+	   	{
+	   		background-color: rgb(52, 58, 64);
+	   	}
+
+	   	#map 
+	   	{
+	   		margin: 20px;
+	   		padding: 20px;
+        	height: 600px;
+        }
+        #submitBtn
+        {
+        	width: 20%;
+        }
 	</style>
 	<title>akhan227 | Project 2</title>
 </head>
@@ -93,22 +117,37 @@
 				<h1>CPS Information</h1>
 				<hr>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					Welcome to our CPS school information prototype. Our goal is to provide a valuable resource for those seeking to rent or buy in Chicago. A major factor that plays into purchasing a home is the school surrounding the area. Whether prospective buyers have kids or not, Nearby schools are important to prospective buyers even if they don’t have kids yet because it speaks volumes about the community they want to enter and can also help push the conversation of having kids in the future.
 				</p>
 				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					We appreciate you using our website and hope you could provide any sort of positive and/or negative feedback on our design!
 				</p>
 
+				<ul id="list">
+					<li>Click the ‘Get Started’ button to start searching for the various school types available in Chicago.</li>
+					<li>
+						The search page allows you to add/remove any combination of Chicago school types to your search. 
+						<ul>
+							<li>Click the ‘submit’ button to display the results of your search.</li>
+						</ul>
+					</li>
+					<li>
+						The map page shows a map with markers for all the different schools in the areas you chose! 
+						<ul>
+							<li>To make your life easier the markers are color coded by school type. There’s also a key for you </li>
+							<li>Click a marker on the map to see information about that specific school</li>
+							<li>Click the ‘New Search’ to start a clean search</li>
+						</ul>
+					</li>
+					<li>
+						At any time, you can navigate to any of the other pages by simply using the navigation bar at the top of the screen. 
+						<ul>
+							<li>
+								The screen you are on will be highlighted white, while also being displayed in all caps on the left
+							</li>
+						</ul>
+					</li>
+				</ul>
 				<div style="text-align: center">
 					<button id="startBtn">Get Started</button>
 				</div>
@@ -116,7 +155,6 @@
 		</div>
 	<!-- close home screen div -->
 	</div>
-
 	<!-- Search/Listing Screen-->
 	<div id="searchScreen" class="inactiveScreen">
 		<!-- nav bar -->
@@ -141,15 +179,6 @@
 		</nav>
 		<div class="container">
 			<div class="searchContent">
-				<h1>hello world</h1>
-				<p>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-					quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-					cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-					proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
 				<div id="selection">
 					<select id="multiselect" multiple></select>
 					<button id="addBtn">Add</button>
@@ -165,7 +194,6 @@
 		</div>
 	<!-- close search screen div -->
 	</div>
-
 	<!-- Map Screen -->
 	<div id="mapScreen" class="inactiveScreen">
 		<!-- nav bar -->
@@ -246,7 +274,6 @@
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 		crossorigin="anonymous">     	
     </script>
-
     <!-- My Script -->
     <script type="text/javascript">
     	// variables to hold the three screens
@@ -259,7 +286,7 @@
     		function()
 	    	{
 		    	// show the home screen by removing the 'inactiveScreen' class
-	    		$(mScreen).toggleClass("inactiveScreen");
+	    		$(hScreen).toggleClass("inactiveScreen");
 	        });
 
     	// function will add event handler to the li 'listItem' that will
