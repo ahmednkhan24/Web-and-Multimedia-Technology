@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+   
+  </head>
+  <body>
+    <canvas id="myCanvas" width="400" height="600"></canvas>
+
+    <!-- JQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+
+    <script>
+      var c=document.getElementById("myCanvas");
+      var ctx=c.getContext("2d");
+      ctx.font = "30px Arial";
+      
+      var game = {lives: 3, score: 0, state: "play"};
+      var player = {x: 75, y:110 , color: "blue", radius: 25};     
+      var harm = {x: c.width, y:100 , color: "red", radius: 25};
+      var benefit = {x: c.width+100, y:100 , color: "green", radius: 25};
+
+      
+
+
+
+       function drawObject(object)
+        {
+          // move the x coordinate to the left
+          object.x--;
+
+          // if the object isnt on the canvas frame anymore, reset it
+          if (object.x <= 0) 
+          {
+            // harm
+            if (object.color === "red")
+              object.x = c.width;
+            else if (object.color === "green")
+            {
+              object.x = c.width + 100;
+              object.y = Math.floor(Math.random() * c.height);
+            }
+          }
+
+
+          var dx = player.x - object.x;
+          var dy = player.y - object.y;
+          var distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < player.radius + object.radius) 
+          {
+              // collision detected!
+              
+              harm.x = c.width;  
+
+              if (object.color === "red")
+              {
+                  object.x = c.width;   // reposition harm 
+                  game.lives--;       // reduce lives
+              }
+             
+              else if (object.color === "green")
+              {
+                   object.x = c.width + 100;
+                   object.y = Math.floor(Math.random() * c.height);
+                   console.log(object.y);
+                   game.score++;
+              }
+             
+              
+              // TODO: handle game over condition
+              if (game.lives === 0)
+              {
+                gameOver();
+              }
+          }
+        }
+
+
+        function gameOver()
+        {
+          game.state = "over";
+          ctx.clearRect(0,0,c.width, c.height);
+          ctx.fillStyle = "red";
+          ctx.fillRect(0,0,c.width, c.height);
+
+          ctx.font = "30px Arial";
+          ctx.fillStyle = "white";
+          ctx.fillText("Game Over! Final Score: " + game.score, 10, 50);
+        }
+
+
+
+
+
+
+      function draw() 
+      {
+        // clear the canvas
+        ctx.clearRect(0,0,c.width,c.height);
+
+        // draw score and lives
+        ctx.fillText("Lives:" + game.lives + "   Score: " + game.score,10,50);
+        
+        // draw harm
+        ctx.fillStyle = harm.color;
+        ctx.beginPath();
+        ctx.arc(harm.x,harm.y,harm.radius,0,2*Math.PI);
+        ctx.fill();
+
+        drawObject(harm);
+       
+
+        // draw benefit
+        ctx.fillStyle = benefit.color;
+        ctx.beginPath();
+        ctx.arc(benefit.x,benefit.y,benefit.radius,0,2*Math.PI);
+        ctx.fill();
+
+        drawObject(benefit);
+
+
+        // draw player
+        ctx.fillStyle = player.color;
+        ctx.beginPath();
+        ctx.arc(player.x,player.y,player.radius,0,2*Math.PI);
+        ctx.fill();
+        
+      
+        if (game.state === "play")
+        {
+           requestAnimationFrame(draw);
+        }
+
+      }
+      
+      
+    
+      draw();
+
+      // keyboard events to change player y coordinate
+     $(document).keydown(
+      function(e) 
+       {
+          switch(e.which) 
+          {
+              case 37: // left
+                break;
+              case 38: // up
+                player.y -= 10;
+                break;
+              case 39: // right
+                break;
+              case 40: // down
+                player.y += 10;
+                break;
+
+              default: return; // exit this handler for other keys
+          }
+          e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
+      
+      
+      // TODO:  space bar to pause game
+
+
+
+
+    </script>
+  </body>
+</html>
