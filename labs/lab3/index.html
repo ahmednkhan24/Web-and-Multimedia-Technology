@@ -3,6 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
+
+  <style type="text/css">
+    #myCanvas  
+    { 
+      background-image: url(https://cmkt-image-prd.global.ssl.fastly.net/0.1.0/ps/1571726/1280/640/m1/fpnw/wm0/game_background_65-.jpg?1471607773&s=0ff18ff1ba29f749dfecf3bef75ab5ca); 
+    }
+  </style>
   <title>Lab 3</title>
 </head>
 <body>
@@ -18,13 +25,15 @@
     var c=document.getElementById("myCanvas");
     var ctx=c.getContext("2d");
     ctx.font = "30px Arial";
+      
 
     var game = {lives: 3, score: 0, state: "play", level: 1};
     var player = {x: 75, y:110 , color: "blue", radius: 25};     
     var harm = {x: c.width, y:100 , color: "red", radius: 25};
     var benefit = {x: c.width+100, y:100 , color: "green", radius: 25};
 
-    // TODO:  space bar to pause game
+    // start the animation
+    draw();
 
     //---------------------------------------------------------------------------
     // add event handlers to the arrow keys
@@ -171,9 +180,6 @@
       } 
     }
     //---------------------------------------------------------------------------
-
-    draw();
-
   </script>
 </body>
 </html>
