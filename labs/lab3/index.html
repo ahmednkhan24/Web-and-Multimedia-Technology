@@ -19,7 +19,7 @@
     var ctx=c.getContext("2d");
     ctx.font = "30px Arial";
 
-    var game = {lives: 3, score: 0, state: "play"};
+    var game = {lives: 3, score: 0, state: "play", level: 1};
     var player = {x: 75, y:110 , color: "blue", radius: 25};     
     var harm = {x: c.width, y:100 , color: "red", radius: 25};
     var benefit = {x: c.width+100, y:100 , color: "green", radius: 25};
@@ -61,7 +61,7 @@
     function drawObject(object)
     {
       // move the object to the left
-      object.x--;
+      object.x -= game.level;
 
       // if the object isnt on the canvas frame anymore, reset it
       if (object.x <= 0) 
@@ -70,6 +70,7 @@
         if (object.color === "red")
         {
           object.x = c.width;
+          object.y = Math.floor(Math.random() * c.height);
         }
         // object is a benefit
         else if (object.color === "green")
@@ -112,6 +113,11 @@
 
           // increase the score
           game.score++;
+
+          if (game.score % 2 === 0)
+          {
+            game.level++;
+          }
         }
       }
     }
@@ -135,7 +141,7 @@
       ctx.clearRect(0,0,c.width,c.height);
 
       // draw score and lives
-      ctx.fillText("Lives:" + game.lives + "   Score: " + game.score,10,50);
+      ctx.fillText("Lives:" + game.lives + "   Score: " + game.score + "   Level: " + game.level,10,50);
 
       // draw harm
       ctx.fillStyle = harm.color;
