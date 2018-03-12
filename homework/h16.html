@@ -1,10 +1,23 @@
 <!doctype html>
 <html>
   <head>
+      <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
       <!-- Include Dexie -->
       <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+  </head>
 
-      <script>
+  <body>
+    
+    <div></div>
+
+
+     <script>
+
+          var dom = $("div");
+
           //
           // Define your database
           //
@@ -30,7 +43,9 @@
           ).then(
             function(friends)
             {
-              console.log(friends);
+              $(friends).each(function(i,v){
+                dom.append("ID: " + v.id + "   Name: " + v.name + "   Cuisine: " + v.cuisine + "\n");
+              });
             }
           ).then(
             function()
@@ -81,6 +96,6 @@
           //    //
           //    alert ("Ooops: " + error);
           // });
-      </script>
-  </head>
+        </script>
+  </body>
 </html>
