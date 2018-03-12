@@ -10,30 +10,77 @@
           //
           var db = new Dexie("AppDB");
           db.version(1).stores({
-              friends: 'name,shoeSize'
+              Restaurants: '++id,name,cuisine'
           });
 
-          //
-          // Put some data into it
-          //
-          db.friends.put({name: "Nicolas", shoeSize: 8}).then (function(){
-              //
-              // Then when data is stored, read from it
-              //
-              return db.friends.get('Nicolas');
-          }).then(function (friend) {
-              //
-              // Display the result
-              //
-              alert ("Nicolas has shoe size " + friend.shoeSize);
-          }).catch(function(error) {
+
+          db.open().then(
+            function()
+            {
+              // return db.friends.add({name: "Foo", age: 42});
+              db.Restaurants.put({name: "Usmania", cuisine: "Thai"});
+              db.Restaurants.put({name: "Broast", cuisine: "Burgers"});
+              db.Restaurants.put({name: "Pita Inn", cuisine: "Mediteranean"});
+            }
+          ).then(
+            function()
+            {
+              return db.Restaurants.where('cuisine').noneOf(["Thai"]);
+            }
+          ).then(
+            function(friends)
+            {
+              console.log(friends);
+            }
+          ).then(
+            function()
+            {
+              return db.delete(); // So you can experiment again and again...
+            }
+          ).catch(
+            function(error) 
+            {
              //
              // Finally don't forget to catch any error
              // that could have happened anywhere in the
              // code blocks above.
              //
-             alert ("Ooops: " + error);
-          });
+              alert ("Ooops: " + error);
+            }
+          );
+
+
+
+
+
+
+
+
+
+
+          //
+          // Put some data into it
+          //
+          // db.Restaurants.put({name: "Nicolas", cuisine: 8}).then
+          // return db.friends.add({name: "Foo", age: 42});
+          // db.Restaurants.add({name: "Nicolas", cuisine: 8}).then (function(){
+          //     //
+          //     // Then when data is stored, read from it
+          //     //
+          //     return db.Restaurants.get('Nicolas');
+          // }).then(function (friend) {
+          //     //
+          //     // Display the result
+          //     //
+          //     alert ("id: " + friend.id + "  name: " + friend.name + "  cuisine: " + friend.cuisine );
+          // }).catch(function(error) {
+          //    //
+          //    // Finally don't forget to catch any error
+          //    // that could have happened anywhere in the
+          //    // code blocks above.
+          //    //
+          //    alert ("Ooops: " + error);
+          // });
       </script>
   </head>
 </html>
