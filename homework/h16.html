@@ -39,7 +39,7 @@
             {
               return db.Restaurants.where('cuisine').noneOf(["Thai"]).each(function(x)
               {
-                dom.append("came: " + x.name + "    cuisine: " + x.cuisine + "<br>");
+                dom.append("Name: " + x.name + "    Cuisine: " + x.cuisine + "<br>");
                 console.log(JSON.stringify(x));
               });
             }
