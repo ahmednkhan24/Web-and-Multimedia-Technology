@@ -4,6 +4,26 @@
 	<title></title>
 </head>
 <body>
+	<img id="pic" src="http://business.uic.edu/sites/default/files/content/fields/intro_image/recruiters.jpg">
 
+	<script
+	  src="https://code.jquery.com/jquery-3.3.1.min.js"
+	  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	  crossorigin="anonymous">
+	</script>
+
+	<script type="text/javascript">
+		
+		if('caches' in window) 
+		{
+		  	// Has support!
+		  	console.log("has support");
+		  	caches.open('test-cache').then(function(cache) 
+			{
+			  // Cache is created and accessible
+			  cache.add($('#pic').src);
+			});
+		}
+	</script>
 </body>
 </html>
