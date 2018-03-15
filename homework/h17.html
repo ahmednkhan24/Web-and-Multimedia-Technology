@@ -4,7 +4,7 @@
 	<title></title>
 </head>
 <body>
-	<img src="http://business.uic.edu/sites/default/files/content/fields/intro_image/recruiters.jpg">
+	<img src="recruiters.jpg">
 
 	<script
 	  src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -18,11 +18,13 @@
 		{
 		  	// Has support!
 		  	//console.log("has support");
-		  	console.log($('body').find('img').attr("src"));
-		  	caches.open('test-cache').then(function(cache) 
+		  	//console.log($('body').find('img').attr("src"));
+		  	caches.open('homework').then(function(cache) 
 			{
 			  // Cache is created and accessible
-			  cache.add($('body').find('img').attr("src"));
+			  cache.add('https://akhan227.github.io/it202spr2018/homework/h17.html');
+			  //cache.add('./recruiters.jpg');
+			  //cache.add($('body').find('img').attr("src"));
 			});
 		}
 	</script>
