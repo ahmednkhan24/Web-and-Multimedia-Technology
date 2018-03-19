@@ -15,3 +15,13 @@ self.addEventListener('install', function(e) {
   );
 });
 
+self.addEventListener('fetch', function(e) {
+    // log the event
+    console.log('[Service Worker] Fetch', e);
+    e.respondWith(
+      caches.match(e.request).then(function(response) {
+        return response || fetch(e.request);
+      })
+    );
+});
+
