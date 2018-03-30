@@ -12,7 +12,7 @@
 	<!-- Personal CSS -->
 	<style type="text/css">
 
-	  	.inactiveScreen
+	  	.hide
 	  	{
 	  		display: none;
 	  	}
@@ -22,18 +22,34 @@
 </head>
 
 <body>
-
+	<!-- Nav Bar -->
 	<div id="navBar">
 		<!-- Tab Bar used as the app's nav bar -->
 		<nav id="basic-tab-bar" class="mdc-tab-bar">
-			<a id="home" class="mdc-tab mdc-tab--active" href="#one">Home</a>
-			<a id="search" class="mdc-tab" href="#two">Merchandise</a>
-			<a id="map" class="mdc-tab" href="#three">About Us</a>
+			<a id="homeNav" class="mdc-tab" href="#one">Home</a>
+			<a id="listingNav" class="mdc-tab" href="#two">Listing</a>
+			<a id="settingsNav" class="mdc-tab" href="#three">Settings</a>
 			<span class="mdc-tab-bar__indicator"></span>
 		</nav>
 	</div>
 
+	<!-- screen 1 -->
+	<div id="homeScreen" class="hide">
+		<h1>home</h1>
+		
+	</div>
 
+	<!-- screen 2 -->
+	<div id="listingScreen" class="hide">
+		<h1>listing</h1>
+		
+	</div>
+
+	<!-- screen 3 -->
+	<div id="settingsScreen" class="hide">
+		<h1>settings</h1>
+		
+	</div>
 
 
 
@@ -49,9 +65,67 @@
 
     <!-- Personal JavaScript -->
     <script type="text/javascript">
-    	
+
+   /*****************************************************************************
+   *
+   * make the home nav item bold, show the home screen 
+   * and attach action listeners to each nav item
+   *
+   ****************************************************************************/
+
+	// document ready event handler to show the home screen and 
+	// set the nav item for the home screen active
+	// add event handlers when either nav item is clicked
+	$(document).ready(function(){
+    		$("#homeScreen").removeClass("hide");
+    		$("#homeNav").addClass("mdc-tab--active");
+
+    		addNavActions("#homeNav");
+    		addNavActions("#listingNav");
+    		addNavActions("#settingsNav");
+        });
+
+	function addNavActions(clickedNavID)
+	{
+		switch (clickedNavID)
+		{
+			case "#homeNav":
+				$("#homeNav").click(function(){
+					$("#homeNav").addClass("mdc-tab--active");
+					$("#listingNav").removeClass("mdc-tab--active");
+					$("#settingsNav").removeClass("mdc-tab--active");
+					$("#homeScreen").removeClass("hide");
+					$("#listingScreen").addClass("hide");
+					$("#settingsScreen").addClass("hide");
+				});
+				break;
+			case "#listingNav":
+				$("#listingNav").click(function(){
+					$("#listingNav").addClass("mdc-tab--active");
+					$("#homeNav").removeClass("mdc-tab--active");
+					$("#settingsNav").removeClass("mdc-tab--active");
+					$("#listingScreen").removeClass("hide");
+					$("#homeScreen").addClass("hide");
+					$("#settingsScreen").addClass("hide");
+				});
+				break;
+			case "#settingsNav":
+				$("#settingsNav").click(function(){
+					$("#settingsNav").addClass("mdc-tab--active");
+					$("#listingNav").removeClass("mdc-tab--active");
+					$("#homeNav").removeClass("mdc-tab--active");
+					$("#settingsScreen").removeClass("hide");
+					$("#listingScreen").addClass("hide");
+					$("#homeScreen").addClass("hide");
+				});
+				break;
+			default:
+				console.log("Error in addNavActions()");
+		}
+    }
+
+
 
     </script>
-
 </body>
 </html>
