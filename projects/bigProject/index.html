@@ -21,6 +21,7 @@
 </head>
 
 <body>
+
 	<!-- Nav Bar -->
 	<div id="navBar">
 		<!-- Tab Bar used as the app's nav bar -->
@@ -28,9 +29,27 @@
 			<a id="homeNav" class="mdc-tab" href="#one">Home</a>
 			<a id="listingNav" class="mdc-tab" href="#two">Listing</a>
 			<a id="settingsNav" class="mdc-tab" href="#three">Settings</a>
+			<a id="aboutNav" class="mdc-tab" href="#four">About</a>
 			<span class="mdc-tab-bar__indicator"></span>
 		</nav>
 	</div>
+
+	<!-- About tab -->
+	<aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
+		<nav class="mdc-drawer__drawer">
+	    	<header class="mdc-drawer__header">
+	      		<div class="mdc-drawer__header-content">Header here</div>
+	    	</header>
+	    	<nav id="icon-with-text-demo" class="mdc-drawer__content mdc-list">
+	      		<a class="mdc-list-item mdc-list-item--activated" href="#">
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>Inbox
+	      		</a>
+	      		<a class="mdc-list-item" href="#">
+	        		<i class="material-icons mdc-list-item__graphic" aria-hidden="true">star</i>Star
+	      		</a>
+	    	</nav>
+	  	</nav>
+	</aside>
 
 	<!-- screen 1 -->
 	<div id="homeScreen" class="hide">
@@ -50,22 +69,17 @@
 		
 	</div>
 
-	<!-- Temporary settings drawer -->
-	<aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
-		<nav class="mdc-drawer__drawer">
-	    	<header class="mdc-drawer__header">
-	      		<div class="mdc-drawer__header-content">Header here</div>
-	    	</header>
-	    	<nav id="icon-with-text-demo" class="mdc-drawer__content mdc-list">
-	      		<a class="mdc-list-item mdc-list-item--activated" href="#">
-	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>Inbox
-	      		</a>
-	      		<a class="mdc-list-item" href="#">
-	        		<i class="material-icons mdc-list-item__graphic" aria-hidden="true">star</i>Star
-	      		</a>
-	    	</nav>
-	  	</nav>
-	</aside>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -79,21 +93,21 @@
 		crossorigin="anonymous">	
 	</script>
 
-	<!-- Script for temporary drawer -->
+	<!-- Script for temporary drawer about nav -->
 	<script type="text/javascript">
     	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
-		document.querySelector('#settingsNav').addEventListener('click', () => drawer.open = true);
+		document.querySelector('#aboutNav').addEventListener('click', () => drawer.open = true);
     </script>
 
     <!-- Personal JavaScript -->
     <script type="text/javascript">
 
-   /*****************************************************************************
-   *
-   * make the home nav item bold, show the home screen 
-   * and attach action listeners to each nav item
-   *
-   ****************************************************************************/
+	   /*****************************************************************************
+	   *
+	   * make the home nav item bold, show the home screen 
+	   * and attach action listeners to each nav item
+	   *
+	   ****************************************************************************/
 
 		// document ready event handler to show the home screen and 
 		// set the nav item for the home screen active
@@ -105,6 +119,7 @@
 	    		addNavActions("#homeNav");
 	    		addNavActions("#listingNav");
 	    		addNavActions("#settingsNav");
+	    		addNavActions("#aboutNav");
 	        });
 
 		function addNavActions(clickedNavID)
@@ -116,6 +131,8 @@
 						$("#homeNav").addClass("mdc-tab--active");
 						$("#listingNav").removeClass("mdc-tab--active");
 						$("#settingsNav").removeClass("mdc-tab--active");
+						$("#aboutNav").removeClass("mdc-tab--active");
+
 						$("#homeScreen").removeClass("hide");
 						$("#listingScreen").addClass("hide");
 						$("#settingsScreen").addClass("hide");
@@ -126,6 +143,8 @@
 						$("#listingNav").addClass("mdc-tab--active");
 						$("#homeNav").removeClass("mdc-tab--active");
 						$("#settingsNav").removeClass("mdc-tab--active");
+						$("#aboutNav").removeClass("mdc-tab--active");
+
 						$("#listingScreen").removeClass("hide");
 						$("#homeScreen").addClass("hide");
 						$("#settingsScreen").addClass("hide");
@@ -136,15 +155,33 @@
 						$("#settingsNav").addClass("mdc-tab--active");
 						$("#listingNav").removeClass("mdc-tab--active");
 						$("#homeNav").removeClass("mdc-tab--active");
+						$("#aboutNav").removeClass("mdc-tab--active");
+
 						$("#settingsScreen").removeClass("hide");
 						$("#listingScreen").addClass("hide");
 						$("#homeScreen").addClass("hide");
+					});
+					break;
+				case "#aboutNav":
+					$("#aboutNav").click(function(){
+						$("#aboutNav").addClass("mdc-tab--active");
+						$("#listingNav").removeClass("mdc-tab--active");
+						$("#settingsNav").removeClass("mdc-tab--active");
+						$("#homeNav").removeClass("mdc-tab--active");
 					});
 					break;
 				default:
 					console.log("Error in addNavActions()");
 			}
 	    }
+
+
+
+
+
+
+
+	    
     </script>
 </body>
 </html>
