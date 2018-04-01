@@ -119,7 +119,6 @@
 	    		addNavActions("#homeNav");
 	    		addNavActions("#listingNav");
 	    		addNavActions("#settingsNav");
-	    		addNavActions("#aboutNav");
 	        });
 
 		function addNavActions(clickedNavID)
@@ -131,7 +130,6 @@
 						$("#homeNav").addClass("mdc-tab--active");
 						$("#listingNav").removeClass("mdc-tab--active");
 						$("#settingsNav").removeClass("mdc-tab--active");
-						$("#aboutNav").removeClass("mdc-tab--active");
 
 						$("#homeScreen").removeClass("hide");
 						$("#listingScreen").addClass("hide");
@@ -143,7 +141,6 @@
 						$("#listingNav").addClass("mdc-tab--active");
 						$("#homeNav").removeClass("mdc-tab--active");
 						$("#settingsNav").removeClass("mdc-tab--active");
-						$("#aboutNav").removeClass("mdc-tab--active");
 
 						$("#listingScreen").removeClass("hide");
 						$("#homeScreen").addClass("hide");
@@ -155,19 +152,10 @@
 						$("#settingsNav").addClass("mdc-tab--active");
 						$("#listingNav").removeClass("mdc-tab--active");
 						$("#homeNav").removeClass("mdc-tab--active");
-						$("#aboutNav").removeClass("mdc-tab--active");
 
 						$("#settingsScreen").removeClass("hide");
 						$("#listingScreen").addClass("hide");
 						$("#homeScreen").addClass("hide");
-					});
-					break;
-				case "#aboutNav":
-					$("#aboutNav").click(function(){
-						$("#aboutNav").addClass("mdc-tab--active");
-						$("#listingNav").removeClass("mdc-tab--active");
-						$("#settingsNav").removeClass("mdc-tab--active");
-						$("#homeNav").removeClass("mdc-tab--active");
 					});
 					break;
 				default:
@@ -181,7 +169,7 @@
 
 
 
-	    
+
     </script>
 </body>
 </html>
