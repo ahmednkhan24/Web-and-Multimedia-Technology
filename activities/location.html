@@ -30,7 +30,9 @@
 			  	//  https://data.seattle.gov/resource/pu5n-trf4.json?$where=within_circle(incident_location, 47.59815, -122.334540, 500)
 			  	var url = "https://data.cityofchicago.org/resource/787j-mys9.json?$where=within_circle(LOCATION, ";
 
-			  	url += position.coords.latitude.toString() + ", " + position.coords.longitude.toString(), ", 500)";
+			  	var end = position.coords.latitude + ", " + position.coords.longitude + ", 500)";
+
+			  	url += end;
 
 			  	$.ajax(
 			    {
