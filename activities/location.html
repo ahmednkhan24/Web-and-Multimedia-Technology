@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>location</title>
+</head>
+<body>
+
+
+
+
+
+	<!-- JQuery CDN -->
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous">	
+	</script>
+
+	<script type="text/javascript">
+		
+		// data endpoint: https://data.cityofchicago.org/resource/787j-mys9.json
+
+
+		if ("geolocation" in navigator) 
+		{
+			
+			navigator.geolocation.getCurrentPosition(function(position) {
+			  	console.log(position.coords.latitude, position.coords.longitude);
+
+
+			  	//  https://data.seattle.gov/resource/pu5n-trf4.json?$where=within_circle(incident_location, 47.59815, -122.334540, 500)
+			  	var url = "https://data.cityofchicago.org/resource/787j-mys9.json$where=within_circle(LOCATION, ";
+
+			  	url += position.coords.latitude + ", " + position.coords.longitude, ", 500)";
+
+			  	$.ajax(
+			    {
+			        url: url,
+			        method: 'GET',
+			     }).done(function(response) 
+				    {
+				    	console.log(response);
+				    }).fail(function(err) 
+					   {
+					   		throw err;
+				       });
+			});
+		} 
+		else 
+		{
+		  console.log("geolocation IS NOT available");
+		}
+
+
+
+	</script>
+
+
+
+</body>
+</html>
