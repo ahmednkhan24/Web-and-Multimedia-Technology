@@ -47,10 +47,14 @@
                 if (distance < player.r + target.r) {
                     // collision detected!
                     console.log("collision");
-
+                    player.y = 200;
+                    player.x = 200;
                     //TODO:  add vibration upon collision
+                    window.navigator.vibrate(200);
 
                     //TODO:  add speechSynthesis notification of collision
+                    var msg = new SpeechSynthesisUtterance('collision');
+                    window.speechSynthesis.speak(msg);
 
                 }
 
