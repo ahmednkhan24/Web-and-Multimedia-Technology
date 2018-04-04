@@ -106,13 +106,17 @@
 			<div id="busNumSelect" class="mdc-select">
 				<select class="mdc-select__native-control">
 					<option value="" disabled selected></option>
-					<option value="grains">Bread, Cereal, Rice, and Pasta</option>
-					<option value="vegetables">Vegetables</option>
-					<option value="fruit">Fruit</option>
+					<option value="seven">7 - Harrison</option>
+					<option value="eight">8 - Halsted</option>
+					<option value="twelve">12 - Roosevelt</option>
+					<option value="sixty">60 - Blue Island/26th</option>
+					<option value="one-fifty-seven">157 - Streeterville/Taylor</option>
 				</select>
-				<div class="mdc-select__label">Bus Number</div>
+				<div class="mdc-select__label">Select Route</div>
 				<div class="mdc-select__bottom-line"></div>
 			</div>
+
+			
 
 		</div>​
 	</div>
@@ -132,10 +136,6 @@
 
 
 	</div>
-
-
-
-
 
 
 	<!-- screen 3 -->
@@ -170,7 +170,6 @@
 	   		console.log("Document Ready");
 	   	});
 
-
 	   	// Script for temporary drawer for the tool bar
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
@@ -179,7 +178,7 @@
 		const select = new mdc.select.MDCSelect(document.querySelector('#busNumSelect'));
 
 		$("#busNumSelect").change(function(){
-			alert("change!");
+			console.log("change");
 		});
 
 	   	/**********************************************************************************************
