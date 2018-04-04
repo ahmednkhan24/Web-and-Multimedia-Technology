@@ -169,52 +169,35 @@
 		* 
 	   	**********************************************************************************************/
 
-	   	$("#busNav").click(function(){
-	   		$("#busNav").addClass("mdc-tab--active");
-	   		$("#trainNav").removeClass("mdc-tab--active");
-	   	});
+	   	tabListener("#busNav", "#trainNav");
+	   	tabListener("#trainNav", "#busNav");
 
-	   	$("#trainNav").click(function(){
-	   		$("#trainNav").addClass("mdc-tab--active");
-	   		$("#busNav").removeClass("mdc-tab--active");
-	   	});
+	   	function tabListener(mainTab, otherTab)
+		{
+			$(mainTab).click(function(){
+		   		$(mainTab).addClass("mdc-tab--active");
+		   		$(otherTab).removeClass("mdc-tab--active");
+		   	});
+		}
 
-	   	$("#arrivalsNav").click(function(){
-			$("#arrivalsNav").addClass("mdc-list-item--activated");
-			$("#nearMeNav").removeClass("mdc-list-item--activated");
-			$("#settingsNav").removeClass("mdc-list-item--activated");
+		navListener("#arrivalsNav", "#arrivalsScreen", "#nearMeNav", "#nearMeScreen", "#settingsNav", "#settingsScreen");
+		navListener("#nearMeNav", "#nearMeScreen", "#arrivalsNav", "#arrivalsScreen", "#settingsNav", "#settingsScreen");
+		navListener("#settingsNav", "#settingsScreen", "#arrivalsNav", "#arrivalsScreen", "#nearMeNav", "#nearMeScreen");
 
-			$("#arrivalsScreen").removeClass("hide");
-			$("#nearMeScreen").addClass("hide");
-			$("#settingsScreen").addClass("hide");
+		function navListener(mainNav, mainScreen, nav2, screen2, nav3, screen3)
+		{
+			$(mainNav).click(function(){
+				$(mainNav).addClass("mdc-list-item--activated");
+				$(nav2).removeClass("mdc-list-item--activated");
+				$(nav3).removeClass("mdc-list-item--activated");
 
-			drawer.open = false;
-		});
+				$(mainScreen).removeClass("hide");
+				$(screen2).addClass("hide");
+				$(screen3).addClass("hide");
 
-		$("#nearMeNav").click(function(){
-			$("#nearMeNav").addClass("mdc-list-item--activated");
-			$("#arrivalsNav").removeClass("mdc-list-item--activated");
-			$("#settingsNav").removeClass("mdc-list-item--activated");
-
-			$("#nearMeScreen").removeClass("hide");
-			$("#arrivalsScreen").addClass("hide");
-			$("#settingsScreen").addClass("hide");
-
-			drawer.open = false;
-		});
-
-		$("#settingsNav").click(function(){
-			$("#settingsNav").addClass("mdc-list-item--activated");
-			$("#nearMeNav").removeClass("mdc-list-item--activated");
-			$("#arrivalsNav").removeClass("mdc-list-item--activated");
-
-			$("#settingsScreen").removeClass("hide");
-			$("#nearMeScreen").addClass("hide");
-			$("#arrivalsScreen").addClass("hide");
-
-			drawer.open = false;
-		});
-
+				drawer.open = false;
+			});
+		}
 
 
     </script>
