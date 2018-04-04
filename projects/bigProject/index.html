@@ -16,69 +16,90 @@
 	  		display: none;
 	  	}
 
+  		#shrine-header {
+  			background-color: #E2E2E2;
+  		}
+
+		#shrine-header .mdc-toolbar__section {
+			overflow: visible;
+		}
+
 	</style>
 
 </head>
 
 <body>
 
-	<!-- Nav Bar -->
-	<div id="navBar">
-		<!-- Tab Bar used as the app's nav bar -->
-		<nav id="basic-tab-bar" class="mdc-tab-bar">
-			<a id="homeNav" class="mdc-tab" href="#one">Home</a>
-			<a id="listingNav" class="mdc-tab" href="#two">Listing</a>
-			<a id="settingsNav" class="mdc-tab" href="#three">Settings</a>
-			<a id="aboutNav" class="mdc-tab" href="#four">About</a>
-			<span class="mdc-tab-bar__indicator"></span>
-		</nav>
-	</div>
+	<!-- tool bar -->
+	<header id="shrine-header" class="mdc-toolbar mdc-toolbar--fixed mdc-theme--text-primary-on-background">
+		<div class="mdc-toolbar__row">
+	    	<section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+				<a id="shrine-nav-icon" class="material-icons mdc-ripple-surface"
+				   href="#"
+				   aria-label="Click to show the navigation menu"
+				   aria-controls="shrine-nav-menu"
+				   data-mdc-auto-init="MDCRipple"
+				   data-mdc-ripple-is-unbounded>menu
+				</a>
+		    </section>
+	  	</div>
+	</header>
 
-	<!-- About tab -->
+	<!-- contents of the tool bar -->
 	<aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
 		<nav class="mdc-drawer__drawer">
 	    	<header class="mdc-drawer__header">
-	      		<div class="mdc-drawer__header-content">Header here</div>
+	      		<div class="mdc-drawer__header-content">
+	      			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">directions_bus</i>
+	      			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">train</i>
+	      			<strong>UIC CTA Tracker</strong>
+	      		</div>	
 	    	</header>
 	    	<nav id="icon-with-text-demo" class="mdc-drawer__content mdc-list">
-	      		<a class="mdc-list-item mdc-list-item--activated" href="#">
-	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>Inbox
+	      		<a id="arrivalsNav" class="mdc-list-item mdc-list-item--activated" href="#">
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">alarm</i>Estimated Arrivals
 	      		</a>
-	      		<a class="mdc-list-item" href="#">
-	        		<i class="material-icons mdc-list-item__graphic" aria-hidden="true">star</i>Star
+	      		<a id="nearMeNav" class="mdc-list-item" href="#">
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">person_pin_circle</i>Near Me
+	      		</a>
+	      		<a id="settingsNav" class="mdc-list-item" href="#">
+	        		<i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>Settings
 	      		</a>
 	    	</nav>
 	  	</nav>
 	</aside>
 
+
+
+
+
 	<!-- screen 1 -->
-	<div id="homeScreen" class="hide">
-		<h1>home</h1>
-		
+	<div id="arrivalsScreen">
+		<br><br><br><br>
+		<!-- Nav Bar -->
+		<div id="navBar">
+			<!-- Tab Bar used as the app's nav bar -->
+			<nav id="basic-tab-bar" class="mdc-tab-bar">
+				<a id="busNav" class="mdc-tab mdc-tab--active" href="#">Bus</a>
+				<a id="trainNav" class="mdc-tab" href="#">Train</a>
+				<span class="mdc-tab-bar__indicator"></span>
+			</nav>
+		</div>
 	</div>
 
 	<!-- screen 2 -->
-	<div id="listingScreen" class="hide">
-		<h1>listing</h1>
+	<div id="nearMeScreen" class="hide">
+		<br><br>
+		<h1>Near Me Screen</h1>
 		
 	</div>
 
 	<!-- screen 3 -->
 	<div id="settingsScreen" class="hide">
-		<h1>settings</h1>
+		<br><br>
+		<h1>Settings Screen</h1>
 		
 	</div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -93,80 +114,64 @@
 		crossorigin="anonymous">	
 	</script>
 
-	<!-- Script for temporary drawer about nav -->
+	<!-- Script for temporary drawer for the tool bar -->
 	<script type="text/javascript">
     	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
-		document.querySelector('#aboutNav').addEventListener('click', () => drawer.open = true);
+		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
     </script>
 
     <!-- Personal JavaScript -->
     <script type="text/javascript">
 
-	   /*****************************************************************************
-	   *
-	   * make the home nav item bold, show the home screen 
-	   * and attach action listeners to each nav item
-	   *
-	   ****************************************************************************/
+	   	$(document).ready(function(){
+	   		console.log("Document Ready");
+	   	});
 
-		// document ready event handler to show the home screen and 
-		// set the nav item for the home screen active
-		// add event handlers when either nav item is clicked
-		$(document).ready(function(){
-	    		$("#homeScreen").removeClass("hide");
-	    		$("#homeNav").addClass("mdc-tab--active");
+	   	/**********************************************************************************************
+		*
+		* adding action listeners to the tool bar items and the arrival screen's tab bar items
+		* 
+	   	**********************************************************************************************/
 
-	    		addNavActions("#homeNav");
-	    		addNavActions("#listingNav");
-	    		addNavActions("#settingsNav");
-	        });
+	   	$("#busNav").click(function(){
+	   		$("#busNav").addClass("mdc-tab--active");
+	   		$("#trainNav").removeClass("mdc-tab--active");
+	   	});
 
-		function addNavActions(clickedNavID)
-		{
-			switch (clickedNavID)
-			{
-				case "#homeNav":
-					$("#homeNav").click(function(){
-						$("#homeNav").addClass("mdc-tab--active");
-						$("#listingNav").removeClass("mdc-tab--active");
-						$("#settingsNav").removeClass("mdc-tab--active");
+	   	$("#trainNav").click(function(){
+	   		$("#trainNav").addClass("mdc-tab--active");
+	   		$("#busNav").removeClass("mdc-tab--active");
+	   	});
 
-						$("#homeScreen").removeClass("hide");
-						$("#listingScreen").addClass("hide");
-						$("#settingsScreen").addClass("hide");
-					});
-					break;
-				case "#listingNav":
-					$("#listingNav").click(function(){
-						$("#listingNav").addClass("mdc-tab--active");
-						$("#homeNav").removeClass("mdc-tab--active");
-						$("#settingsNav").removeClass("mdc-tab--active");
+	   	$("#arrivalsNav").click(function(){
+			$("#arrivalsNav").addClass("mdc-list-item--activated");
+			$("#nearMeNav").removeClass("mdc-list-item--activated");
+			$("#settingsNav").removeClass("mdc-list-item--activated");
 
-						$("#listingScreen").removeClass("hide");
-						$("#homeScreen").addClass("hide");
-						$("#settingsScreen").addClass("hide");
-					});
-					break;
-				case "#settingsNav":
-					$("#settingsNav").click(function(){
-						$("#settingsNav").addClass("mdc-tab--active");
-						$("#listingNav").removeClass("mdc-tab--active");
-						$("#homeNav").removeClass("mdc-tab--active");
+			$("#arrivalsScreen").removeClass("hide");
+			$("#nearMeScreen").addClass("hide");
+			$("#settingsScreen").addClass("hide");
+		});
 
-						$("#settingsScreen").removeClass("hide");
-						$("#listingScreen").addClass("hide");
-						$("#homeScreen").addClass("hide");
-					});
-					break;
-				default:
-					console.log("Error in addNavActions()");
-			}
-	    }
+		$("#nearMeNav").click(function(){
+			$("#nearMeNav").addClass("mdc-list-item--activated");
+			$("#arrivalsNav").removeClass("mdc-list-item--activated");
+			$("#settingsNav").removeClass("mdc-list-item--activated");
 
+			$("#nearMeScreen").removeClass("hide");
+			$("#arrivalsScreen").addClass("hide");
+			$("#settingsScreen").addClass("hide");
+		});
 
+		$("#settingsNav").click(function(){
+			$("#settingsNav").addClass("mdc-list-item--activated");
+			$("#nearMeNav").removeClass("mdc-list-item--activated");
+			$("#arrivalsNav").removeClass("mdc-list-item--activated");
 
-
-
+			$("#settingsScreen").removeClass("hide");
+			$("#nearMeScreen").addClass("hide");
+			$("#arrivalsScreen").addClass("hide");
+		});
 
 
 
