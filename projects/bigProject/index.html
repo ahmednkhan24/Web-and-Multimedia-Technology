@@ -86,9 +86,9 @@
 
 	<!-- screen 1 -->
 	<div id="arrivalsScreen">
-		<div class="container">
-			<img id="logoImg" src="imgs/logo.jpg">
-		</div>​
+
+		<!-- cta logo image -->
+		<div class="container"><img id="logoImg" src="imgs/logo.jpg"></div>​
 
 		<!-- bus/train tab bar  -->
 		<div id="busTrainTabBar">
@@ -101,16 +101,22 @@
 
 		<div class="container">
 
-			<h1>hello</h1>
+			<!-- bus number drop down select menu -->
+			<div id="busNumSelect" class="mdc-select">
+				<select class="mdc-select__native-control">
+					<option value="" disabled selected></option>
+					<option value="grains">Bread, Cereal, Rice, and Pasta</option>
+					<option value="vegetables">Vegetables</option>
+					<option value="fruit">Fruit</option>
+				</select>
+				<div class="mdc-select__label">Pick a Food Group</div>
+				<div class="mdc-select__bottom-line"></div>
+			</div>
 
-			<h3>lets see how good this is</h3>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-			tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-			quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-			consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-			cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-			proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+
 		</div>
+
 	</div>
 
 
@@ -166,9 +172,17 @@
 	   		console.log("Document Ready");
 	   	});
 
+
 	   	// Script for temporary drawer for the tool bar
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
+
+		// Script for the bus drop down select menu
+		const select = new mdc.select.MDCSelect(document.querySelector('#busNumSelect'));
+
+		$("#busNumSelect").change(function(){
+			alert("change!");
+		});
 
 	   	/**********************************************************************************************
 		*
