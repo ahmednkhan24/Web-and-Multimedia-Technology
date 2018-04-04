@@ -36,6 +36,11 @@
 			padding: 15px 50px;
 		}
 
+		#busTrainTabBar {
+			padding-top: 30px;
+			padding-bottom: 40px;
+		}
+
 	</style>
 
 </head>
@@ -57,14 +62,14 @@
 	  	</div>
 	</header>
 
-	<!-- contents of the tool bar -->
+	<!-- temporary drawer of the tool bar -->
 	<aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
 		<nav class="mdc-drawer__drawer">
 	    	<header class="mdc-drawer__header">
 	      		<div class="mdc-drawer__header-content">
 	      			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">directions_bus</i>
 	      			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">train</i>
-	      			<strong>UIC CTA Tracker</strong>
+	      			<strong>UIC MyTransitApp - CTA Version</strong>
 	      		</div>	
 	    	</header>
 	    	<nav id="icon-with-text-demo" class="mdc-drawer__content mdc-list">
@@ -81,25 +86,21 @@
 	  	</nav>
 	</aside>
 
-	<img src="imgs/bus.png">
-
-
 	<!-- screen 1 -->
 	<div id="arrivalsScreen">
-
-		<!-- cta logo image -->
-		<div class="container"><img id="logoImg" src="imgs/logo.jpg"></div>​
-
-		<!-- bus/train tab bar  -->
-		<div id="busTrainTabBar">
-			<nav id="basic-tab-bar" class="mdc-tab-bar">
-				<a id="busNav" class="mdc-tab mdc-tab--active" href="#">Bus</a>
-				<a id="trainNav" class="mdc-tab" href="#">Train</a>
-				<span class="mdc-tab-bar__indicator"></span>
-			</nav>
-		</div>
-
+		<br><br><br>
 		<div class="container">
+			<!-- UIC Halsted image -->
+			<img id="logoImg" src="imgs/halsted.jpg">
+
+			<!-- bus/train tab bar  -->
+			<div id="busTrainTabBar">
+				<nav id="basic-tab-bar" class="mdc-tab-bar">
+					<a id="busNav" class="mdc-tab mdc-tab--active" href="#">Bus</a>
+					<a id="trainNav" class="mdc-tab" href="#">Train</a>
+					<span class="mdc-tab-bar__indicator"></span>
+				</nav>
+			</div>
 
 			<!-- bus number drop down select menu -->
 			<div id="busNumSelect" class="mdc-select">
@@ -109,14 +110,11 @@
 					<option value="vegetables">Vegetables</option>
 					<option value="fruit">Fruit</option>
 				</select>
-				<div class="mdc-select__label">Pick a Food Group</div>
+				<div class="mdc-select__label">Bus Number</div>
 				<div class="mdc-select__bottom-line"></div>
 			</div>
 
-
-
-		</div>
-
+		</div>​
 	</div>
 
 
