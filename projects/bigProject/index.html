@@ -41,6 +41,14 @@
 			padding-bottom: 40px;
 		}
 
+		#logoImg {
+			width: 100%;
+		}
+
+		.mdc-select {
+			margin: 20px;
+		}
+
 	</style>
 
 </head>
@@ -89,9 +97,10 @@
 	<!-- screen 1 -->
 	<div id="arrivalsScreen">
 		<br><br><br>
+		<!-- UIC Halsted image -->
+		<img id="logoImg" src="imgs/halsted.jpg">
 		<div class="container">
-			<!-- UIC Halsted image -->
-			<img id="logoImg" src="imgs/halsted.jpg">
+			
 
 			<!-- bus/train tab bar  -->
 			<div id="busTrainTabBar">
@@ -102,21 +111,45 @@
 				</nav>
 			</div>
 
-			<!-- bus number drop down select menu -->
-			<div id="busNumSelect" class="mdc-select">
-				<select class="mdc-select__native-control">
-					<option value="" disabled selected></option>
-					<option value="seven">7 - Harrison</option>
-					<option value="eight">8 - Halsted</option>
-					<option value="twelve">12 - Roosevelt</option>
-					<option value="sixty">60 - Blue Island/26th</option>
-					<option value="one-fifty-seven">157 - Streeterville/Taylor</option>
-				</select>
-				<div class="mdc-select__label">Select Route</div>
-				<div class="mdc-select__bottom-line"></div>
-			</div>
+			<div id="busTab">
 
+				<!-- bus route drop down select menu -->
+				<div id="busRouteSelect" class="mdc-select">
+					<select class="mdc-select__native-control">
+						<option value="" disabled selected></option>
+						<option value="seven">7 - Harrison</option>
+						<option value="eight">8 - Halsted</option>
+						<option value="twelve">12 - Roosevelt</option>
+						<option value="sixty">60 - Blue Island/26th</option>
+						<option value="one-fifty-seven">157 - Streeterville/Taylor</option>
+					</select>
+					<div class="mdc-select__label">Select Route</div>
+					<div class="mdc-select__bottom-line"></div>
+				</div>
+
+				<br>
+
+				<!-- bus direction drop down select menu -->
+				<div id="busDirectionSelect" class="mdc-select">
+					<select class="mdc-select__native-control">
+						<option value="" disabled selected></option>
+						<option value="north">Northbound</option>
+						<option value="south">Southbound</option>
+						<option value="east">Eastbound</option>
+						<option value="west">Westbound</option>
+						<option value="" disabled>____________________</option>
+					</select>
+					<div class="mdc-select__label">Select Direction</div>
+					<div class="mdc-select__bottom-line"></div>
+				</div>
+
+
+			</div>
 			
+			<div id="trainTab" class="hide">
+				<h1>hello world</h1>
+				
+			</div>
 
 		</div>​
 	</div>
@@ -174,11 +207,18 @@
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
 
-		// Script for the bus drop down select menu
-		const select = new mdc.select.MDCSelect(document.querySelector('#busNumSelect'));
+		// Script for the bus route drop down select menu
+		const busRouteSelect = new mdc.select.MDCSelect(document.querySelector('#busRouteSelect'));
 
-		$("#busNumSelect").change(function(){
-			console.log("change");
+		// Script for the bus direction drop down select menu
+		const busDirectionSelect = new mdc.select.MDCSelect(document.querySelector('#busDirectionSelect'));
+
+		$("#busRouteSelect").change(function(){
+			console.log("change route");
+		});
+
+		$("#busDirectionSelect").change(function(){
+			console.log("change direction");
 		});
 
 	   	/**********************************************************************************************
@@ -187,17 +227,7 @@
 		* 
 	   	**********************************************************************************************/
 
-	   	tabListener("#busNav", "#trainNav");
-	   	tabListener("#trainNav", "#busNav");
-
-	   	function tabListener(mainTab, otherTab)
-		{
-			$(mainTab).click(function(){
-		   		$(mainTab).addClass("mdc-tab--active");
-		   		$(otherTab).removeClass("mdc-tab--active");
-		   	});
-		}
-
+	   	// add action listeners to the 'arrivals', 'near me', and 'settings' navigation items in the nav bar
 		navListener("#arrivalsNav", "#arrivalsScreen", "#nearMeNav", "#nearMeScreen", "#settingsNav", "#settingsScreen");
 		navListener("#nearMeNav", "#nearMeScreen", "#arrivalsNav", "#arrivalsScreen", "#settingsNav", "#settingsScreen");
 		navListener("#settingsNav", "#settingsScreen", "#arrivalsNav", "#arrivalsScreen", "#nearMeNav", "#nearMeScreen");
@@ -215,6 +245,21 @@
 
 				drawer.open = false;
 			});
+		}
+
+	   	// add action listeners to the 'home' and 'train' tab in the 'arrivals' screen
+	   	tabListener("#busNav", "#busTab", "#trainNav", "#trainTab");
+	   	tabListener("#trainNav", "#trainTab", "#busNav", "#busTab");
+
+	   	function tabListener(mainNav, mainTab, otherNav, otherTab)
+		{
+			$(mainNav).click(function(){
+		   		$(mainNav).addClass("mdc-tab--active");
+		   		$(otherNav).removeClass("mdc-tab--active");
+
+		   		$(mainTab).removeClass("hide");
+		   		$(otherTab).addClass("hide");
+		   	});
 		}
 
 
