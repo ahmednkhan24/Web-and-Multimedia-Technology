@@ -298,6 +298,35 @@
 
 
 
+		// AJAX stuff
+		proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
+
+		eightBusSouthURL = "http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Southbound&format=json";
+		eightBusNorthURL = "http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Northbound&format=json";
+
+		$.ajax(
+	    {
+	    	// the url for requesting school type data from the api
+	        url: proxy += eightBusSouthURL,
+	        method: 'GET',
+	     }).done(function(response) 
+		    {
+		    	console.log(response);
+
+				// $.each(response, function(i, v)
+				// {
+				// 	console.log(i + ", " + v);
+				// });
+		        
+		    }).fail(function(err) 
+			   {
+			   		throw err;
+		       });
+
+		
+
+
+
     </script>
 </body>
 </html>
