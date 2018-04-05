@@ -46,7 +46,8 @@
 		}
 
 		.mdc-select {
-			margin: 20px;
+			margin: 30px;
+			width: 30%;
 		}
 
 	</style>
@@ -114,8 +115,8 @@
 			<div id="busTab">
 
 				<!-- bus route drop down select menu -->
-				<div id="busRouteSelect" class="mdc-select">
-					<select class="mdc-select__native-control">
+				<div id="busRoute" class="mdc-select">
+					<select id="busRouteSelect" class="mdc-select__native-control">
 						<option value="" disabled selected></option>
 						<option value="seven">7 - Harrison</option>
 						<option value="eight">8 - Halsted</option>
@@ -130,14 +131,13 @@
 				<br>
 
 				<!-- bus direction drop down select menu -->
-				<div id="busDirectionSelect" class="mdc-select">
-					<select class="mdc-select__native-control">
+				<div id="busDirection" class="mdc-select">
+					<select id="busDirectionSelect" class="mdc-select__native-control">
 						<option value="" disabled selected></option>
-						<option value="north">Northbound</option>
-						<option value="south">Southbound</option>
-						<option value="east">Eastbound</option>
-						<option value="west">Westbound</option>
-						<option value="" disabled>____________________</option>
+						<option id="north" class="hide" value="Northbound">Northbound</option>
+						<option id="south" class="hide" value="Southbound">Southbound</option>
+						<option id="east" class="hide" value="Eastbound">Eastbound</option>
+						<option id="west" class="hide" value="Westbound">Westbound</option>
 					</select>
 					<div class="mdc-select__label">Select Direction</div>
 					<div class="mdc-select__bottom-line"></div>
@@ -208,18 +208,10 @@
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
 
 		// Script for the bus route drop down select menu
-		const busRouteSelect = new mdc.select.MDCSelect(document.querySelector('#busRouteSelect'));
+		const busRouteSelect = new mdc.select.MDCSelect(document.querySelector("#busRoute"));
 
 		// Script for the bus direction drop down select menu
-		const busDirectionSelect = new mdc.select.MDCSelect(document.querySelector('#busDirectionSelect'));
-
-		$("#busRouteSelect").change(function(){
-			console.log("change route");
-		});
-
-		$("#busDirectionSelect").change(function(){
-			console.log("change direction");
-		});
+		const busDirectionSelect = new mdc.select.MDCSelect(document.querySelector("#busDirection"));
 
 	   	/**********************************************************************************************
 		*
@@ -261,6 +253,49 @@
 		   		$(otherTab).addClass("hide");
 		   	});
 		}
+
+		/**********************************************************************************************
+		*
+		* adding action listeners to the drop down select menus on the arrivals screen
+		* 
+	   	**********************************************************************************************/
+
+	   	// add action listener for a change to the first drop down menu on the arrivals screen - bus tab
+	   	$("#busRoute").change(function(){
+			console.log("Bus Route Changed");
+
+			// grab the selected route that was clicked
+			var busRouteSelect = document.getElementById("busRouteSelect");
+			var clickedValue = busRouteSelect.options[busRouteSelect.selectedIndex].value;
+
+			// change the direction value options depending on what route was chosen
+			// the eight bus is the only one that has North/South options
+			// the rest only have East/West options
+			if (clickedValue === "eight") {
+				$("#north").removeClass("hide");
+				$("#south").removeClass("hide");
+				$("#east").addClass("hide");
+				$("#west").addClass("hide");
+			}
+			else {
+				$("#east").removeClass("hide");
+				$("#west").removeClass("hide");
+				$("#north").addClass("hide");
+				$("#south").addClass("hide");
+			}
+
+			// make sure to pre-select the first empty value of the direction select
+			// every single time the route is changed in order to prevent incorrect 
+			// direction being handled with the wrong route
+			$("#busDirectionSelect").prop("selectedIndex",0);
+		});
+
+	   	// add action listener for a change to the second drop down menu on the arrivals screen - bus tab
+		$("#busDirection").change(function(){
+			console.log("change direction");
+		});
+
+
 
 
     </script>
