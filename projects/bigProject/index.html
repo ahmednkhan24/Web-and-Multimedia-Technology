@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MyTransitApp - CTA Version</title>
+	<title>MyTransitApp</title>
 
 	<!-- the MCW stylesheet-->
   	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
@@ -398,7 +398,7 @@
 			{	
 				// get the geolocation of the user
 				navigator.geolocation.getCurrentPosition(function(position) {
-					
+
 				  	userLocation.lat = position.coords.latitude;
 				  	userLocation.lng = position.coords.longitude;
 
@@ -438,10 +438,20 @@
 
 
 		// AJAX stuff
-		// proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
+		proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
 
-		// eightBusSouthURL = "http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Southbound&format=json";
-		// eightBusNorthURL = "http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Northbound&format=json";
+		// array that has each URL for each bus stop and for the route and direction given
+		busStopsURLs = [
+			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Southbound&format=json",
+			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Northbound&format=json",
+			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=12&dir=Eastbound&format=json",
+			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=12&dir=Westbound&format=json",
+			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=60&dir=Eastbound&format=json",
+			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=60&dir=Westbound&format=json",
+			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=157&dir=Eastbound&format=json",
+			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=157&dir=Westbound&format=json"
+		];
+
 
 		// $.ajax(
 	 //    {
