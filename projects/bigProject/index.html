@@ -16,27 +16,7 @@
 	  		display: none;
 	  	}
 
-  		#shrine-header {
-  			background-color: #E2E2E2;
-  		}
-
-		#shrine-header .mdc-toolbar__section {
-			overflow: visible;
-		}
-
-		.container {
-			text-align: center;
-			margin: auto;
-			width: 66.6%;
-			height: 66.6%;
-		}
-
-		.mdc-tab {
-			font-size: 25px;
-			padding: 15px 50px;
-		}
-
-		#busTrainTabBar {
+	  	#busTrainTabBar {
 			padding-top: 30px;
 			padding-bottom: 40px;
 		}
@@ -45,10 +25,43 @@
 			width: 100%;
 		}
 
+  		#shrine-header {
+  			background-color: #E2E2E2;
+  		}
+
+  		.submitBtn {
+			font-size: 30px;
+		}
+
+  		.container {
+			text-align: center;
+			margin: auto;
+			width: 66.6%;
+			height: 66.6%;
+		}
+
+		#shrine-header .mdc-toolbar__section {
+			overflow: visible;
+		}
+
+		.mdc-tab {
+			font-size: 25px;
+			padding: 15px 50px;
+		}
+
 		.mdc-select {
 			margin: 30px;
 			width: 30%;
 		}
+
+		.mdc-button {
+			margin: 20px;
+		}
+
+		.mdc-radio {
+			padding: 30px;
+		}
+
 
 	</style>
 
@@ -147,24 +160,50 @@
 					<div class="mdc-select__bottom-line"></div>
 				</div>
 				<br><br>
-				<button id="busSubmitBtn" class="mdc-button"><strong>TRACK</strong></button>
+				<button id="busSubmitBtn" class="mdc-button submitBtn"><strong>TRACK</strong></button>
 			</div>
-			
-
-
-
-
 			<div id="trainTab" class="hide">
-				<h1>hello world</h1>
-				
+				<!-- train route drop down select menu -->
+				<div id="trainStop" class="mdc-select">
+					<select id="trainStopSelect" class="mdc-select__native-control">
+						<option value="" disabled selected></option>
+						<option value="Clarke/Lake">Clarke/Lake</option>
+						<option value="Washington">Washington</option>
+						<option value="Monroe">Monroe</option>
+						<option value="Jackson">Jackson</option>
+						<option value="LaSalle">LaSalle</option>
+						<option value="Clinton">Clinton</option>
+						<option value="UIC-Halsted">UIC-Halsted</option>
+						<option value="Racine">Racine</option>
+						<option value="Illinois Medical District">Illinois Medical District</option>
+					</select>
+					<div class="mdc-select__label">Select Stop</div>
+					<div class="mdc-select__bottom-line"></div>
+				</div>
+				<br>
+				<!-- radio button for Forest Park -->
+				<div class="mdc-radio">
+					<input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios" checked>
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label id="radio-1-label" class="bound" for="radio-1">To Forest Park</label>
+				<!-- radio button for O'Hare -->
+				<div class="mdc-radio">
+					<input class="mdc-radio__native-control" type="radio" id="radio-2" name="radios">
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label id="radio-2-label" class="bound" for="radio-2">To O'Hare</label>
+				<br><br><br>
+				<button id="trainSubmitBtn" class="mdc-button submitBtn"><strong>TRACK</strong></button>
 			</div>
-
 		</div>​
 	</div>
-
-
-
-
 
 	<!-- screen 2 -->
 	<div id="nearMeScreen" class="hide">
@@ -215,15 +254,6 @@
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
 
-		// Script for the bus route drop down select menu
-		const busRouteSelect = new mdc.select.MDCSelect(document.querySelector("#busRoute"));
-
-		// Script for the bus direction drop down select menu
-		const busDirectionSelect = new mdc.select.MDCSelect(document.querySelector("#busDirection"));
-
-		// Script for the bus stop drop down select menu
-		const busStopSelect = new mdc.select.MDCSelect(document.querySelector("#busStop"));
-
 	   	/**********************************************************************************************
 		*
 		* adding action listeners to the tool bar items and the arrival screen's tab bar items
@@ -267,9 +297,18 @@
 
 		/**********************************************************************************************
 		*
-		* adding action listeners to the arrivals screen - bus tab items
+		* arrivals screen - bus tab items
 		* 
 	   	**********************************************************************************************/
+
+	   	// Script for the bus route drop down select menu
+		const busRouteSelect = new mdc.select.MDCSelect(document.querySelector("#busRoute"));
+
+		// Script for the bus direction drop down select menu
+		const busDirectionSelect = new mdc.select.MDCSelect(document.querySelector("#busDirection"));
+
+		// Script for the bus stop drop down select menu
+		const busStopSelect = new mdc.select.MDCSelect(document.querySelector("#busStop"));
 
 	   	// add action listener for a change to the first drop down menu on the arrivals screen - bus tab
 	   	$("#busRoute").change(function(){
@@ -317,11 +356,23 @@
 
 		// action listener to the submit button on the arrivals screen - bus tab
 		$("#busSubmitBtn").click(function(){
-			alert("clicked button");
+			alert("bus clicked button");
 		});
 
 
+		/**********************************************************************************************
+		*
+		* arrivals screen - train tab items
+		* 
+	   	**********************************************************************************************/
 
+	   	// Script for the bus route drop down select menu - train tab
+		const trainStopSelect = new mdc.select.MDCSelect(document.querySelector("#trainStop"));
+
+		// action listener to the submit button on the arrivals screen - train tab
+		$("#trainSubmitBtn").click(function(){
+			alert("train clicked button");
+		});
 
 
 		// AJAX stuff
