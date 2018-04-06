@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Big Project</title>
+	<title>MyTransitApp - CTA Version</title>
 
 	<!-- the MCW stylesheet-->
   	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
@@ -32,6 +32,13 @@
   		.submitBtn {
 			font-size: 30px;
 		}
+
+		#map
+	   	{
+	   		margin: 20px;
+	   		padding: 20px;
+        	height: 600px;
+        }
 
   		.container {
 			text-align: center;
@@ -212,9 +219,8 @@
 		<div class="container">
 			<h1>Near Me Screen</h1>
 		</div>
-		
 
-
+		<div id="map"></div>
 	</div>
 
 
@@ -374,6 +380,62 @@
 			alert("train clicked button");
 		});
 
+		/**********************************************************************************************
+		*
+		* near me screen
+		* 
+	   	**********************************************************************************************/
+
+	   	// set the default location to UIC SCE
+	   	var userLocation = {lat: 41.872051, lng: -87.647735};
+
+	   	var flag = false;
+
+	   	// additional action listener for the near me button in the tool bar
+	   	$("#nearMeNav").click(function(){
+
+	   		if ("geolocation" in navigator) 
+			{	
+				// get the geolocation of the user
+				navigator.geolocation.getCurrentPosition(function(position) {
+					
+				  	userLocation.lat = position.coords.latitude;
+				  	userLocation.lng = position.coords.longitude;
+
+				  	flag = true;
+
+				  	initMap();
+				});
+			} 
+			else 
+			{
+			  alert("geolocation IS NOT available");
+			}
+	   	});
+
+	   	// the variable that is the map
+    	var map;
+
+    	// add the map to the map screen inside the div with id 'map'
+    	function initMap() 
+    	{
+	        var pin = userLocation;
+	        map = new google.maps.Map(document.getElementById("map"), 
+	        {
+	          zoom: 19,
+	          center: pin
+        	});
+
+        	if (flag)
+        	{
+        		var marker = new google.maps.Marker({
+        			position: userLocation,
+        			map: map,
+        			title: "Your Location"
+        		});
+        	}
+	    }
+
 
 		// AJAX stuff
 		// proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
@@ -404,6 +466,10 @@
 
 
 
+    </script>
+    <!-- Google Maps API -->
+    <script async defer
+    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0zHggstjz-FDhr9M8nHdzOxEa_5QCvnY&callback=initMap">
     </script>
 </body>
 </html>
