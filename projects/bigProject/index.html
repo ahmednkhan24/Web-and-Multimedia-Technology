@@ -101,8 +101,6 @@
 		<!-- UIC Halsted image -->
 		<img id="logoImg" src="imgs/halsted.jpg">
 		<div class="container">
-			
-
 			<!-- bus/train tab bar  -->
 			<div id="busTrainTabBar">
 				<nav id="basic-tab-bar" class="mdc-tab-bar">
@@ -111,9 +109,7 @@
 					<span class="mdc-tab-bar__indicator"></span>
 				</nav>
 			</div>
-
 			<div id="busTab">
-
 				<!-- bus route drop down select menu -->
 				<div id="busRoute" class="mdc-select">
 					<select id="busRouteSelect" class="mdc-select__native-control">
@@ -127,9 +123,7 @@
 					<div class="mdc-select__label">Select Route</div>
 					<div class="mdc-select__bottom-line"></div>
 				</div>
-
 				<br>
-
 				<!-- bus direction drop down select menu -->
 				<div id="busDirection" class="mdc-select">
 					<select id="busDirectionSelect" class="mdc-select__native-control">
@@ -142,10 +136,24 @@
 					<div class="mdc-select__label">Select Direction</div>
 					<div class="mdc-select__bottom-line"></div>
 				</div>
-
-
+				<br>
+				<!-- bus stop drop down select menu -->
+				<div id="busStop" class="mdc-select">
+					<select id="busStopSelect" class="mdc-select__native-control">
+						<option value="" disabled selected></option>
+						<option  id="none" value="none">Placeholder</option>
+					</select>
+					<div class="mdc-select__label">Select Stop</div>
+					<div class="mdc-select__bottom-line"></div>
+				</div>
+				<br><br>
+				<button id="busSubmitBtn" class="mdc-button"><strong>TRACK</strong></button>
 			</div>
 			
+
+
+
+
 			<div id="trainTab" class="hide">
 				<h1>hello world</h1>
 				
@@ -213,6 +221,9 @@
 		// Script for the bus direction drop down select menu
 		const busDirectionSelect = new mdc.select.MDCSelect(document.querySelector("#busDirection"));
 
+		// Script for the bus stop drop down select menu
+		const busStopSelect = new mdc.select.MDCSelect(document.querySelector("#busStop"));
+
 	   	/**********************************************************************************************
 		*
 		* adding action listeners to the tool bar items and the arrival screen's tab bar items
@@ -256,7 +267,7 @@
 
 		/**********************************************************************************************
 		*
-		* adding action listeners to the drop down select menus on the arrivals screen
+		* adding action listeners to the arrivals screen - bus tab items
 		* 
 	   	**********************************************************************************************/
 
@@ -295,33 +306,48 @@
 			console.log("change direction");
 		});
 
+		// add action listener for a change to the third drop down menu on the arrivals screen - bus tab
+		$("#busStop").change(function(){
+			console.log("change stop");
+		});
+
+		// To add the ink ripple effect to a button, attach a ripple instance to the button element.
+		// this ripple effect is attached to the button on the arrivals screen in the bus tab
+		mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button'));
+
+		// action listener to the submit button on the arrivals screen - bus tab
+		$("#busSubmitBtn").click(function(){
+			alert("clicked button");
+		});
+
+
 
 
 
 		// AJAX stuff
-		proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
+		// proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
 
-		eightBusSouthURL = "http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Southbound&format=json";
-		eightBusNorthURL = "http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Northbound&format=json";
+		// eightBusSouthURL = "http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Southbound&format=json";
+		// eightBusNorthURL = "http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Northbound&format=json";
 
-		$.ajax(
-	    {
-	    	// the url for requesting school type data from the api
-	        url: proxy += eightBusSouthURL,
-	        method: 'GET',
-	     }).done(function(response) 
-		    {
-		    	console.log(response);
+		// $.ajax(
+	 //    {
+	 //    	// the url for requesting school type data from the api
+	 //        url: proxy += eightBusSouthURL,
+	 //        method: 'GET',
+	 //     }).done(function(response) 
+		//     {
+		//     	console.log(response["bustime-response"]);
 
-				// $.each(response, function(i, v)
-				// {
-				// 	console.log(i + ", " + v);
-				// });
+		// 		// $.each(response, function(i, v)
+		// 		// {
+		// 		// 	console.log(v);
+		// 		// });
 		        
-		    }).fail(function(err) 
-			   {
-			   		throw err;
-		       });
+		//     }).fail(function(err) 
+		// 	   {
+		// 	   		throw err;
+		//        });
 
 		
 
