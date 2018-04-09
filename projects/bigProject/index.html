@@ -138,7 +138,7 @@
 						<option value="eight">8 - Halsted</option>
 						<option value="twelve">12 - Roosevelt</option>
 						<option value="sixty">60 - Blue Island/26th</option>
-						<option value="one-fifty-seven">157 - Streeterville/Taylor</option>
+						<option value="onefiftyseven">157 - Streeterville/Taylor</option>
 					</select>
 					<div class="mdc-select__label">Select Route</div>
 					<div class="mdc-select__bottom-line"></div>
@@ -438,106 +438,147 @@
 
 		/**********************************************************************************************
 		*
-		* AJAX calls / building data arrays
+		* Data arrays that hold the stops for each bus number and direction
 		* 
 	   	**********************************************************************************************/
 
-	    var sevenStopsWest = [];
-	    var sixtyStopsWest = [];
-
-	    function sevenWest(response)
-	    {
-	    	$.each(response["stops"], function(i, v){
-
-	    		var id = parseInt(v.stpid);
-
-	    		if (id === 6364 || id === 6365 || id === 206 || id === 207 || id === 208)
-	    		{
-	    			sevenStopsWest.push(v);
-	    			sixtyStopsWest.push(v);
-	    		}
-	    		else if (id === 210 || id === 18340 || id === 18335)
-	    		{
-	    			sevenStopsWest.push(v);
-	    		}
-	    	});
-	    }
-
-	    function sixtyWest(response)
-	    {
-	    	$.each(response["stops"], function(i, v){
-
-	    		var id = parseInt(v.stpid);
-
-	    		if (id === 6366 || id === 6366 || id === 15401 || id === 15402 || id === 15292 || id === 15403 || id === 6370 || id === 6371)
-	    		{
-	    			sixtyStopsWest.push(v);
-	    		}
-	    	});
-	    }
-
-	    var sevenStopsEast = [];
-	    var sixtyStopsEast = [];
-
-	    function sevenEast(response)
-	    {
-	    	$.each(response["stops"], function(i, v){
-	    		
-	    		var id = parseInt(v.stpid);
-
-	    		if (id === 14210 || id === 17995 || id === 6347 || id === 201 || id === 200)
-	    		{
-	    			sevenStopsEast.push(v);
-	    			sixtyStopsEast.push(v);
-	    		}
-	    		else if (id === 198 || id === 18339 || id === 18336)
-	    		{
-	    			sevenStopsEast.push(v);
-	    		}
-	    	});
-	    }
-
-		// // AJAX stuff
-		proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
-
-		// array that has each URL for each bus stop and for the route and direction given
-		busStopsURLs = [
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=7&dir=Eastbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=7&dir=Westbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Southbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=8&dir=Northbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=12&dir=Eastbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=12&dir=Westbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=60&dir=Eastbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=60&dir=Westbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=157&dir=Eastbound&format=json",
-			"http://ctabustracker.com/bustime/api/v2/getstops&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=157&dir=Westbound&format=json"
+		var sevenEast = [
+			{stpid: "201", stpnm: "900 W Harrison", lat: 41.874346299639, lon: -87.648807764053},
+			{stpid: "14210", stpnm: "Canal & Harrison", lat: 41.874637890315, lon: -87.639527320862},
+			{stpid: "6347", stpnm: "Harrison & Halsted", lat: 41.874246439513, lon: -87.647445201874},
+			{stpid: "17995", stpnm: "Harrison & Jefferson", lat: 41.874344986696, lon: -87.641897334914},
+			{stpid: "18336", stpnm: "Harrison & Loomis", lat: 41.874141143355, lon: -87.661574504299},
+			{stpid: "200", stpnm: "Harrison & Morgan", lat: 41.874286383582, lon: -87.651940584183},
+			{stpid: "198", stpnm: "Harrison & Racine", lat: 41.874202501008, lon: -87.656666636467},
+			{stpid: "18339", stpnm: "Harrison & Throop", lat: 41.874168445122, lon: -87.659573933194}
 		];
 
-		$.ajax(
-	    {
-	    	// the url for requesting school type data from the api
-	        url: proxy += busStopsURLs[0],
-	        method: 'GET',
-	     }).done(function(response) 
-		    {
-		    	response = JSON.parse(response);
+		var sevenWest = [
+			{stpid: "207", stpnm: "900 W Harrison", lat: 41.87449409234, lon: -87.649258375168},
+			{stpid: "6364", stpnm: "Clinton & Harrison", lat: 41.874438170818, lon: -87.640986442566},
+			{stpid: "206", stpnm: "Harrison & Halsted", lat: 41.874442165214, lon: -87.647734880447},
+			{stpid: "6365", stpnm: "Harrison & Jefferson", lat: 41.874410210038, lon: -87.642263174057},
+			{stpid: "18335", stpnm: "Harrison & Loomis", lat: 41.874255633116, lon: -87.661988906746},
+			{stpid: "208", stpnm: "Harrison & Morgan", lat: 41.874450154005, lon: -87.651591897011},
+			{stpid: "210", stpnm: "Harrison & Racine", lat: 41.874354288443, lon: -87.657428383827},
+			{stpid: "18340", stpnm: "Harrison & Throop", lat: 41.874297368196, lon: -87.659625113009}
+		];
 
-		    	//console.log(response);
+		var eightSouth = [
+			{stpid: "5804", stpnm: "Halsted & 14th Place", lat: 41.862389936575, lon: -87.646812200546},
+			{stpid: "4638", stpnm: "Halsted & Harrison", lat: 41.873831019714, lon: -87.647214531898},
+			{stpid: "5799", stpnm: "Halsted & Jackson", lat: 41.878029032111, lon: -87.647313236666},
+			{stpid: "15008", stpnm: "Halsted & Madison", lat: 41.881503067986, lon: -87.647415161918},
+			{stpid: "5802", stpnm: "Halsted & Maxwell", lat: 41.864866881017, lon: -87.646881937981},
+			{stpid: "15352", stpnm: "Halsted & Monroe", lat: 41.88025454567, lon: -87.647378468173},
+			{stpid: "4639", stpnm: "Halsted & Polk", lat: 41.871937629893, lon: -87.647150158882},
+			{stpid: "17366", stpnm: "Halsted & Roosevelt", lat: 41.867215894509, lon: -87.646951675415},
+			{stpid: "4640", stpnm: "Halsted & Taylor", lat: 41.869896380997, lon: -87.647096514702},
+			{stpid: "205", stpnm: "UIC-Halsted Blue Line Station", lat: 41.875513453518, lon: -87.647277832293}
+		];
 
-		    	sevenEast(response["bustime-response"]);
+		var eightNorth = [
+			{stpid: "5926", stpnm: "Halsted & 14th Place", lat: 41.862198169133, lon: -87.64672100544},
+			{stpid: "18009", stpnm: "Halsted & Jackson", lat: 41.878208885061, lon: -87.647189001581},
+			{stpid: "440", stpnm: "Halsted & Madison", lat: 41.882007103365, lon: -87.647316455841},
+			{stpid: "5928", stpnm: "Halsted & Maxwell", lat: 41.864655145968, lon: -87.646796107292},
+			{stpid: "5931", stpnm: "Halsted & Monroe", lat: 41.880271320896, lon: -87.647260665108},
+			{stpid: "4618", stpnm: "Halsted & Polk", lat: 41.871777847595, lon: -87.646887302399},
+			{stpid: "14777", stpnm: "Halsted & Roosevelt", lat: 41.867631357301, lon: -87.646871209145},
+			{stpid: "14487", stpnm: "Halsted & Taylor", lat: 41.869756567043, lon: -87.646833658218},
+			{stpid: "18184", stpnm: "UIC-Halsted Blue Line Station", lat: 41.875578047547, lon: -87.647168084553}
+		];
 
-		    	
-		        
-		    }).fail(function(err) 
-			   {
-			   		throw err;
-		       });
+		var twelveEast = [
+			{stpid: "313", stpnm: "327 W Roosevelt", lat: 41.867199915117, lon: -87.635573744774},
+			{stpid: "307", stpnm: "900 W Roosevelt", lat: 41.867020146681, lon: -87.649419307709},
+			{stpid: "305", stpnm: "Roosevelt & Blue Island", lat: 41.86695223403, lon: -87.653641104698},
+			{stpid: "312", stpnm: "Roosevelt & Canal", lat: 41.867151976917, lon: -87.638840675354},
+			{stpid: "14459", stpnm: "Roosevelt & Halsted", lat: 41.867064090124, lon: -87.646324038506},
+			{stpid: "310", stpnm: "Roosevelt & Jefferson", lat: 41.867120018097, lon: -87.642295360565},
+			{stpid: "17003", stpnm: "Roosevelt & May", lat: 41.866924269976, lon: -87.65537917614},
+			{stpid: "306", stpnm: "Roosevelt & Morgan", lat: 41.866996177518, lon: -87.651221752167}
+		];
 
-		
+		var twelveWest = [
+			{stpid: "326", stpnm: "327 W Roosevelt", lat: 41.867393265591, lon: -87.635536193848},
+			{stpid: "332", stpnm: "900 W Roosevelt", lat: 41.867211899662, lon: -87.649462223053},
+			{stpid: "334", stpnm: "Roosevelt & Blue Island", lat: 41.867151976917, lon: -87.653083205223},
+			{stpid: "327", stpnm: "Roosevelt & Canal", lat: 41.867339734662, lon: -87.639044523239},
+			{stpid: "17396", stpnm: "Roosevelt & Halsted", lat: 41.867262250879, lon: -87.647493333335},
+			{stpid: "18174", stpnm: "Roosevelt & Jefferson", lat: 41.867300218619, lon: -87.642539020541},
+			{stpid: "335", stpnm: "Roosevelt & May", lat: 41.86711202839, lon: -87.655030488968},
+			{stpid: "333", stpnm: "Roosevelt & Morgan", lat: 41.867183935721, lon: -87.650862336159}
 
+		];
 
+		var sixtyEast = [
+			{stpid: "201", stpnm: "900 W Harrison", lat: 41.874346299639, lon: -87.648807764053},
+			{stpid: "14210", stpnm: "Canal & Harrison", lat: 41.874637890315, lon: -87.639527320862},
+			{stpid: "6347", stpnm: "Harrison & Halsted", lat: 41.874246439513, lon: -87.647445201874},
+			{stpid: "17995", stpnm: "Harrison & Jefferson", lat: 41.874344986696, lon: -87.641897334914},
+			{stpid: "200", stpnm: "Harrison & Morgan", lat: 41.874286383582, lon: -87.651940584183},
+			{stpid: "6342", stpnm: "Racine & 13th Street", lat: 41.865110575204, lon: -87.65657544136},
+			{stpid: "6341", stpnm: "Racine & 14th Street", lat: 41.863680356701, lon: -87.656543254852},
+			{stpid: "6346", stpnm: "Racine & Harrison", lat: 41.874074679731, lon: -87.656720280647},
+			{stpid: "15993", stpnm: "Racine & Lexington", lat: 41.871689967161, lon: -87.656725645065},
+			{stpid: "15404", stpnm: "Racine & Roosevelt", lat: 41.867255842972, lon: -87.656655907631},
+			{stpid: "6344", stpnm: "Racine & Taylor", lat: 41.869293181468, lon: -87.656731009483}
+		];
 
+		var sixtyWest = [
+			{stpid: "207", stpnm: "900 W Harrison", lat: 41.87449409234, lon: -87.649258375168},
+			{stpid: "6364", stpnm: "Clinton & Harrison", lat: 41.874438170818, lon: -87.640986442566},
+			{stpid: "206", stpnm: "Harrison & Halsted", lat: 41.874442165214, lon: -87.647734880447},
+			{stpid: "6365", stpnm: "Harrison & Jefferson", lat: 41.874410210038, lon: -87.642263174057},
+			{stpid: "208", stpnm: "Harrison & Morgan", lat: 41.874450154005, lon: -87.651591897011},
+			{stpid: "6370", stpnm: "Racine & 13th Street", lat: 41.865350273499, lon: -87.656666636467},
+			{stpid: "6371", stpnm: "Racine & 14th Street", lat: 41.863560504536, lon: -87.656623721123},
+			{stpid: "15402", stpnm: "Racine & Cabrini", lat: 41.871206622614, lon: -87.656854391098},
+			{stpid: "6366", stpnm: "Racine & Harrison", lat: 41.87403473553, lon: -87.656972408295},
+			{stpid: "15401", stpnm: "Racine & Lexington", lat: 41.872400996298, lon: -87.656972408295},
+			{stpid: "15403", stpnm: "Racine & Roosevelt", lat: 41.866776459772, lon: -87.656720280647},
+			{stpid: "15292", stpnm: "Racine & Taylor", lat: 41.869496911747, lon: -87.65682220459}
+		];
+
+		var onefiftysevenEast = [
+			{stpid: "6700", stpnm: "900 W Taylor", lat: 41.869468948806, lon: -87.648759484291},
+			{stpid: "6705", stpnm: "Canal & Taylor", lat: 41.869992253245, lon: -87.63925909996},
+			{stpid: "6698", stpnm: "Taylor & Aberdeen", lat: 41.869436991144, lon: -87.654402852058},
+			{stpid: "6701", stpnm: "Taylor & Halsted", lat: 41.869484927631, lon: -87.647375464439},
+			{stpid: "6703", stpnm: "Taylor & Jefferson", lat: 41.869688657298, lon: -87.642402648926},
+			{stpid: "6694", stpnm: "Taylor & Laflin", lat: 41.869265218438, lon: -87.664278745651},
+			{stpid: "6695", stpnm: "Taylor & Loomis", lat: 41.869313155054, lon: -87.661719918251},
+			{stpid: "6699", stpnm: "Taylor & Morgan", lat: 41.869480932925, lon: -87.651345133781},
+			{stpid: "6697", stpnm: "Taylor & Racine", lat: 41.869389054621, lon: -87.656854391098},
+			{stpid: "6696", stpnm: "Taylor & Throop", lat: 41.86935709692, lon: -87.659289836884}
+
+		];
+
+		var onefiftysevenWest = [
+			{stpid: "6627", stpnm: "900 W Taylor", lat: 41.869664689136, lon: -87.648534178734},
+			{stpid: "6623", stpnm: "Clinton & Taylor", lat: 41.869780535171, lon: -87.640820145607},
+			{stpid: "6629", stpnm: "Taylor & Aberdeen", lat: 41.869504901156, lon: -87.65401661396},
+			{stpid: "17277", stpnm: "Taylor & Halsted", lat: 41.869696646684, lon: -87.647370100021},
+			{stpid: "17275", stpnm: "Taylor & Jefferson", lat: 41.869748577665, lon: -87.642627954483},
+			{stpid: "6633", stpnm: "Taylor & Laflin", lat: 41.869333128633, lon: -87.663999795914},
+			{stpid: "6632", stpnm: "Taylor & Loomis", lat: 41.869373075773, lon: -87.661403417587},
+			{stpid: "6628", stpnm: "Taylor & Morgan", lat: 41.869536858784, lon: -87.651361227036},
+			{stpid: "15811", stpnm: "Taylor & Racine", lat: 41.869448975269, lon: -87.65684902668},
+			{stpid: "6631", stpnm: "Taylor & Throop", lat: 41.869417017597, lon: -87.659069895744}
+		];
+
+		var busStopsArr = [];
+		busStopsArr.push({key: "007E", value: sevenEast});
+		busStopsArr.push({key: "007W", value: sevenWest});
+		busStopsArr.push({key: "008S", value: eightSouth});
+		busStopsArr.push({key: "008N", value: eightNorth});
+		busStopsArr.push({key: "012E", value: twelveEast});
+		busStopsArr.push({key: "012W", value: twelveWest});
+		busStopsArr.push({key: "060E", value: sixtyEast});
+		busStopsArr.push({key: "060W", value: sixtyWest});
+		busStopsArr.push({key: "157E", value: onefiftysevenEast});
+		busStopsArr.push({key: "157W", value: onefiftysevenWest});
     </script>
     <!-- Google Maps API -->
     <script async defer
