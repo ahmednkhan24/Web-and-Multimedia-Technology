@@ -419,26 +419,41 @@
     	// add the map to the map screen inside the div with id 'map'
     	function initMap() 
     	{
-	        var pin = userLocation;
-	        map = new google.maps.Map(document.getElementById("map"), 
-	        {
-	          zoom: 19,
-	          center: pin
-        	});
+    		var pin = userLocation;
+    		map = new google.maps.Map(document.getElementById("map"), 
+    		{
+    			zoom: 19,
+    			center: pin
+    		});
 
-        	if (flag)
-        	{
-        		var marker = new google.maps.Marker({
-        			position: userLocation,
-        			map: map,
-        			title: "Your Location"
-        		});
-        	}
-	    }
-	    
+    		if (flag)
+    		{
+    			var marker = new google.maps.Marker({
+    				position: userLocation,
+    				map: map,
+    				title: "Your Location"
+    			});
+    		}
+    	}
+
 		/**********************************************************************************************
 		*
 		* Data arrays that hold the stops for each bus number and direction
+		*
+		* After careful consideration, I opted to hard code in the stop data for each stop
+		* I made the AJAX call for each stop which can be found at data/ajax.txt
+		* 
+		* The reasoning behind this is that these calls aren't necessary every single time on load,
+		* but it also is not worth the time/memory to cache this data either
+		*
+		* These stop ID's, stop names, and locations are very unlikely to change,
+		* and if they do change it will not be changed often
+		*
+		* I therefore believe that the best way to store this data was to make the ajax calls,
+		* but store the actual data in the source files.
+		*
+		* If any data is changed from the API, I will gladly be able to come back and 
+		* make the changes, but I am confident that changes will be rare and infrequent
 		* 
 	   	**********************************************************************************************/
 	   	var sevenEast = [
