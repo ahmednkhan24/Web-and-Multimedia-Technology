@@ -5,10 +5,8 @@
 
 	<!-- the MCW stylesheet-->
   	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-
 	<!-- the material icon font-->
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
 	<!-- Personal CSS -->
 	<style type="text/css">
 
@@ -68,14 +66,9 @@
 		.mdc-radio {
 			padding: 30px;
 		}
-
-
 	</style>
-
 </head>
-
 <body class="mdc-typography">
-
 	<!-- tool bar -->
 	<header id="shrine-header" class="mdc-toolbar mdc-toolbar--fixed mdc-theme--text-primary-on-background">
 		<div class="mdc-toolbar__row">
@@ -90,7 +83,6 @@
 		    </section>
 	  	</div>
 	</header>
-
 	<!-- temporary drawer of the tool bar -->
 	<aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
 		<nav class="mdc-drawer__drawer">
@@ -133,7 +125,7 @@
 				<!-- bus route drop down select menu -->
 				<div id="busRoute" class="mdc-select">
 					<select id="busRouteSelect" class="mdc-select__native-control">
-						<option value="" disabled selected></option>
+						<option id="disabledOption" value="" disabled selected></option>
 						<option value="seven">7 - Harrison</option>
 						<option value="eight">8 - Halsted</option>
 						<option value="twelve">12 - Roosevelt</option>
@@ -344,12 +336,74 @@
 			// every single time the route is changed in order to prevent incorrect 
 			// direction being handled with the wrong route
 			$("#busDirectionSelect").prop("selectedIndex",0);
+
+			// want to keep the first option as this is used as the empty value
+			// want to remove all the other options so you can re-populate the select box with the new data
+			$('#busStopSelect').children('option:not(:first)').remove();
 		});
 
 	   	// add action listener for a change to the second drop down menu on the arrivals screen - bus tab
 		$("#busDirection").change(function(){
 			console.log("change direction");
+
+			var busRouteSelect = document.getElementById("busRouteSelect");
+			var busDirectionSelect = document.getElementById("busDirectionSelect");
+
+			var route = busRouteSelect.value;
+			var dir = busDirectionSelect.value;
+
+			switch (route)
+			{
+				case "seven":
+					if (dir === "Eastbound")
+						addOptions("007E");
+					else
+						addOptions("007W");
+					break;
+				case "eight":
+					if (dir === "Northbound")
+						addOptions("008N");
+					else
+						addOptions("008S");
+					break;
+				case "twelve":
+					if (dir === "Eastbound")
+						addOptions("012E");
+					else
+						addOptions("012W");
+					break;
+				case "sixty":
+					if (dir === "Eastbound")
+						addOptions("060E");
+					else
+						addOptions("060W");
+					break;
+				case "onefiftyseven":
+					if (dir === "Eastbound")
+						addOptions("157E");
+					else
+						addOptions("157W");
+					break;
+				default:
+					console.log("error in busDirection change action listener");
+			}
 		});
+
+		function addOptions(key)
+		{
+			var busStopSelect = document.getElementById("busStopSelect");
+
+			// want to keep the first option as this is used as the empty value
+			// want to remove all the other options so you can re-populate the select box with the new data
+			$('#busStopSelect').children('option:not(:first)').remove();
+
+			$.each(busStopsArr[key], function(i, v){
+				var option = document.createElement("option");
+				option.text = v.stpnm;
+				option.value = v.stpnm;
+				busStopSelect.add(option);
+			});
+		}
 
 		// add action listener for a change to the third drop down menu on the arrivals screen - bus tab
 		$("#busStop").change(function(){
@@ -364,7 +418,6 @@
 		$("#busSubmitBtn").click(function(){
 			alert("bus clicked button");
 		});
-
 
 		/**********************************************************************************************
 		*
@@ -583,16 +636,17 @@
 		];
 
 		var busStopsArr = [];
-		busStopsArr.push({key: "007E", value: sevenEast});
-		busStopsArr.push({key: "007W", value: sevenWest});
-		busStopsArr.push({key: "008S", value: eightSouth});
-		busStopsArr.push({key: "008N", value: eightNorth});
-		busStopsArr.push({key: "012E", value: twelveEast});
-		busStopsArr.push({key: "012W", value: twelveWest});
-		busStopsArr.push({key: "060E", value: sixtyEast});
-		busStopsArr.push({key: "060W", value: sixtyWest});
-		busStopsArr.push({key: "157E", value: onefiftysevenEast});
-		busStopsArr.push({key: "157W", value: onefiftysevenWest});
+
+		busStopsArr["007E"] = sevenEast;
+		busStopsArr["007W"] = sevenWest;
+		busStopsArr["008S"] = eightSouth;
+		busStopsArr["008N"] = eightNorth;
+		busStopsArr["012E"] = twelveEast;
+		busStopsArr["012W"] = twelveWest;
+		busStopsArr["060E"] = sixtyEast;
+		busStopsArr["060W"] = sixtyWest;
+		busStopsArr["157E"] = onefiftysevenEast;
+		busStopsArr["157W"] = onefiftysevenWest;
     </script>
     <!-- Google Maps API -->
     <script async defer
