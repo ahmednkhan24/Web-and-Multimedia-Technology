@@ -439,75 +439,7 @@
 		* 
 	   	**********************************************************************************************/
 
-	   	// set the default location to UIC SCE
-	   	var userLocation = {lat: 41.872051, lng: -87.647735};
-
-	   	var flag = false;
-
-	   	// additional action listener for the near me button in the tool bar
-	   	$("#nearMeNav").click(function(){
-
-	   		if ("geolocation" in navigator) 
-			{	
-				// get the geolocation of the user
-				navigator.geolocation.getCurrentPosition(function(position) {
-
-				  	userLocation.lat = position.coords.latitude;
-				  	userLocation.lng = position.coords.longitude;
-
-				  	flag = true;
-
-				  	initMap();
-				});
-			} 
-			else 
-			{
-			  alert("geolocation IS NOT available");
-			}
-	   	});
-
-	   	// the variable that is the map
-	   	var map;
-
-	   	// add the map to the map screen inside the div with id 'map'
-	   	function initMap() 
-	   	{
-	   		var pin = userLocation;
-	   		map = new google.maps.Map(document.getElementById("map"), 
-	   		{
-	   			zoom: 19,
-	   			center: pin
-	   		});
-
-	   		if (flag)
-	   		{
-	   			var marker = new google.maps.Marker({
-	   				position: userLocation,
-	   				map: map,
-	   				title: "Your Location"
-	   			});
-	   		}
-	   	}
-
-	   	colors = 
-	   	{
-	   		// ROYAL BLUE
-	   		"BLU": "#0000FF",
-	   		// RED
-	   		"007": "#FF0000",
-	   		// GREEN
-	   		"008": "#006600",
-	   		// PURPLE
-	   		"012": "#9400D3",
-    		// ORANGE
-    		"060": "#FF7F00",
-    		// BROWN
-    		"157": "#663300",
-    		// BLACK
-    		"SME": "#000000",
-    	};
-
-		/**********************************************************************************************
+	   	/**********************************************************************************************
 		*
 		* Data arrays that hold the stops for each bus number and direction
 		*
@@ -527,24 +459,33 @@
 		* make the changes, but I am confident that changes will be rare and infrequent
 		* 
 	   	**********************************************************************************************/
-	   	var sevenEast = [
-	   		{stpid: "201", stpnm: "900 W Harrison", lat: 41.874346299639, lon: -87.648807764053},
+
+	   	// stops that are shared by the 7 bus and the 60 bus
+	   	var sevenSixtyEast = [
 	   		{stpid: "14210", stpnm: "Canal & Harrison", lat: 41.874637890315, lon: -87.639527320862},
-	   		{stpid: "6347", stpnm: "Harrison & Halsted", lat: 41.874246439513, lon: -87.647445201874},
 	   		{stpid: "17995", stpnm: "Harrison & Jefferson", lat: 41.874344986696, lon: -87.641897334914},
+	   		{stpid: "6347", stpnm: "Harrison & Halsted", lat: 41.874246439513, lon: -87.647445201874},
+	   		{stpid: "201", stpnm: "900 W Harrison", lat: 41.874346299639, lon: -87.648807764053},
+	   		{stpid: "200", stpnm: "Harrison & Morgan", lat: 41.874286383582, lon: -87.651940584183}
+	   	];
+
+	   	var sevenSixtyWest = [
+	   		{stpid: "6364", stpnm: "Clinton & Harrison", lat: 41.874438170818, lon: -87.640986442566},
+	   		{stpid: "6365", stpnm: "Harrison & Jefferson", lat: 41.874410210038, lon: -87.642263174057},
+	   		{stpid: "206", stpnm: "Harrison & Halsted", lat: 41.874442165214, lon: -87.647734880447},
+	   		{stpid: "207", stpnm: "900 W Harrison", lat: 41.87449409234, lon: -87.649258375168},
+	   		{stpid: "208", stpnm: "Harrison & Morgan", lat: 41.874450154005, lon: -87.651591897011}
+	   	];
+
+
+	   	var sevenEast = [
 	   		{stpid: "18336", stpnm: "Harrison & Loomis", lat: 41.874141143355, lon: -87.661574504299},
-	   		{stpid: "200", stpnm: "Harrison & Morgan", lat: 41.874286383582, lon: -87.651940584183},
 	   		{stpid: "198", stpnm: "Harrison & Racine", lat: 41.874202501008, lon: -87.656666636467},
 	   		{stpid: "18339", stpnm: "Harrison & Throop", lat: 41.874168445122, lon: -87.659573933194}
 		];
 
 		var sevenWest = [
-			{stpid: "207", stpnm: "900 W Harrison", lat: 41.87449409234, lon: -87.649258375168},
-			{stpid: "6364", stpnm: "Clinton & Harrison", lat: 41.874438170818, lon: -87.640986442566},
-			{stpid: "206", stpnm: "Harrison & Halsted", lat: 41.874442165214, lon: -87.647734880447},
-			{stpid: "6365", stpnm: "Harrison & Jefferson", lat: 41.874410210038, lon: -87.642263174057},
 			{stpid: "18335", stpnm: "Harrison & Loomis", lat: 41.874255633116, lon: -87.661988906746},
-			{stpid: "208", stpnm: "Harrison & Morgan", lat: 41.874450154005, lon: -87.651591897011},
 			{stpid: "210", stpnm: "Harrison & Racine", lat: 41.874354288443, lon: -87.657428383827},
 			{stpid: "18340", stpnm: "Harrison & Throop", lat: 41.874297368196, lon: -87.659625113009}
 		];
@@ -598,11 +539,6 @@
 		];
 
 		var sixtyEast = [
-			{stpid: "201", stpnm: "900 W Harrison", lat: 41.874346299639, lon: -87.648807764053},
-			{stpid: "14210", stpnm: "Canal & Harrison", lat: 41.874637890315, lon: -87.639527320862},
-			{stpid: "6347", stpnm: "Harrison & Halsted", lat: 41.874246439513, lon: -87.647445201874},
-			{stpid: "17995", stpnm: "Harrison & Jefferson", lat: 41.874344986696, lon: -87.641897334914},
-			{stpid: "200", stpnm: "Harrison & Morgan", lat: 41.874286383582, lon: -87.651940584183},
 			{stpid: "6342", stpnm: "Racine & 13th Street", lat: 41.865110575204, lon: -87.65657544136},
 			{stpid: "6341", stpnm: "Racine & 14th Street", lat: 41.863680356701, lon: -87.656543254852},
 			{stpid: "6346", stpnm: "Racine & Harrison", lat: 41.874074679731, lon: -87.656720280647},
@@ -612,11 +548,6 @@
 		];
 
 		var sixtyWest = [
-			{stpid: "207", stpnm: "900 W Harrison", lat: 41.87449409234, lon: -87.649258375168},
-			{stpid: "6364", stpnm: "Clinton & Harrison", lat: 41.874438170818, lon: -87.640986442566},
-			{stpid: "206", stpnm: "Harrison & Halsted", lat: 41.874442165214, lon: -87.647734880447},
-			{stpid: "6365", stpnm: "Harrison & Jefferson", lat: 41.874410210038, lon: -87.642263174057},
-			{stpid: "208", stpnm: "Harrison & Morgan", lat: 41.874450154005, lon: -87.651591897011},
 			{stpid: "6370", stpnm: "Racine & 13th Street", lat: 41.865350273499, lon: -87.656666636467},
 			{stpid: "6371", stpnm: "Racine & 14th Street", lat: 41.863560504536, lon: -87.656623721123},
 			{stpid: "15402", stpnm: "Racine & Cabrini", lat: 41.871206622614, lon: -87.656854391098},
@@ -665,6 +596,130 @@
 		busStopsArr["060W"] = sixtyWest;
 		busStopsArr["157E"] = onefiftysevenEast;
 		busStopsArr["157W"] = onefiftysevenWest;
+		busStopsArr["SMEE"] = sevenSixtyEast;
+		busStopsArr["SMEW"] = sevenSixtyWest;
+
+		colors = 
+	   	{
+	   		// ROYAL BLUE: blue line
+	   		"BLU": "#0000FF",
+	   		// RED: 7 bus
+	   		"007E": "#FF0000",
+	   		"007W": "#FF0000",
+	   		// GREEN: 8 bus
+	   		"008S": "#006600",
+	   		"008N": "#006600",
+	   		// PURPLE: 12 bus
+	   		"012E": "#9400D3",
+	   		"012W": "#9400D3",
+	   		// ORANGE: 60 bus
+    		"060E": "#FF7F00",
+    		"060W": "#FF7F00",
+    		// BROWN: 157 bus
+    		"157E": "#663300",
+    		"157W": "#663300",
+    		// BLACK: stops that are the same for 7 and 60
+    		"SMEE": "#000000",
+    		"SMEW": "#000000"
+    	};
+
+	   	// set the default location to UIC SCE
+	   	var userLocation = {lat: 41.872051, lng: -87.647735};
+
+	   	var flag = false;
+
+	   	// additional action listener for the near me button in the tool bar
+	   	$("#nearMeNav").click(function(){
+
+	   		if ("geolocation" in navigator) 
+			{	
+				// get the geolocation of the user
+				navigator.geolocation.getCurrentPosition(function(position) {
+
+				  	userLocation.lat = position.coords.latitude;
+				  	userLocation.lng = position.coords.longitude;
+
+				  	flag = true;
+
+				  	initMap();
+				});
+			} 
+			else 
+			{
+			  alert("geolocation IS NOT available");
+			}
+	   	});
+
+	   	// the variable that is the map
+	   	var map;
+
+	   	// add the map to the map screen inside the div with id 'map'
+	   	function initMap() 
+	   	{
+	   		var pin = userLocation;
+	   		map = new google.maps.Map(document.getElementById("map"), 
+	   		{
+	   			zoom: 19,
+	   			center: pin
+	   		});
+
+	   		if (flag)
+	   		{
+	   			var marker = new google.maps.Marker({
+	   				position: userLocation,
+	   				map: map,
+	   				title: "Your Location"
+	   			});
+	   		}
+
+	   		for (var i = 0; i < 12; i++)
+    		{
+    			switch (i)
+    			{
+    				case 0:
+    					addMarkers("007E");
+    					break;
+    				case 1:
+    					addMarkers("007W");
+    					break;
+    				case 2:
+    					addMarkers("008S");
+    					break;
+    				case 3:
+    					addMarkers("008N");
+    					break;
+    				case 4:
+    					addMarkers("012E");
+    					break;
+    				case 5:
+    					addMarkers("012W");
+    					break;
+    				case 6:
+    					addMarkers("060E");
+    					break;
+    				case 7:
+    					addMarkers("060W");
+    					break;
+    				case 8:
+    					addMarkers("157E");
+    					break;
+    				case 9:
+    					addMarkers("157W");
+    					break;
+    				case 10:
+    					addMarkers("SMEE");
+    					break;
+    				case 11:
+    					addMarkers("SMEW");
+    					break;
+    			}
+    		}
+	   	}
+
+	   	function addMarkers(key)
+	   	{
+	   		console.log(key);
+	   	}
     </script>
     <!-- Google Maps API -->
     <script async defer
