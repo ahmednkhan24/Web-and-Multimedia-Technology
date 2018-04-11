@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTransitApp</title>
+
+	<!-- the MCW stylesheet-->
+  	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+	<!-- the material icon font-->
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<!-- Personal CSS -->
+	<style type="text/css">
+
+	  	.hide {
+	  		display: none;
+	  	}
+
+	  	#busTrainTabBar {
+			padding-top: 30px;
+			padding-bottom: 40px;
+		}
+
+		#logoImg {
+			width: 100%;
+		}
+
+  		#shrine-header {
+  			background-color: #E2E2E2;
+  		}
+
+  		.submitBtn {
+			font-size: 30px;
+		}
+
+		#map
+	   	{
+	   		margin: 20px;
+	   		padding: 20px;
+        	height: 600px;
+        }
+
+  		.container {
+			text-align: center;
+			margin: auto;
+			width: 66.6%;
+			height: 66.6%;
+		}
+
+		#shrine-header .mdc-toolbar__section {
+			overflow: visible;
+		}
+
+		.mdc-tab {
+			font-size: 25px;
+			padding: 15px 50px;
+		}
+
+		.mdc-select {
+			margin: 30px;
+			width: 30%;
+		}
+
+		.mdc-button {
+			margin: 20px;
+		}
+
+		.mdc-radio {
+			padding: 30px;
+		}
+	</style>
+</head>
+<body class="mdc-typography">
+	<!-- tool bar -->
+	<header id="shrine-header" class="mdc-toolbar mdc-toolbar--fixed mdc-theme--text-primary-on-background">
+		<div class="mdc-toolbar__row">
+	    	<section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+				<a id="shrine-nav-icon" class="material-icons mdc-ripple-surface"
+				   href="#"
+				   aria-label="Click to show the navigation menu"
+				   aria-controls="shrine-nav-menu"
+				   data-mdc-auto-init="MDCRipple"
+				   data-mdc-ripple-is-unbounded>menu
+				</a>
+		    </section>
+	  	</div>
+	</header>
+	<!-- temporary drawer of the tool bar -->
+	<aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
+		<nav class="mdc-drawer__drawer">
+	    	<header class="mdc-drawer__header">
+	      		<div class="mdc-drawer__header-content">
+	      			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">directions_bus</i>
+	      			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">train</i>
+	      			<strong>UIC East Campus -- MyTransitApp ------- CTA Version ---------</strong>
+	      		</div>	
+	    	</header>
+	    	<nav id="icon-with-text-demo" class="mdc-drawer__content mdc-list">
+	      		<a id="arrivalsNav" class="mdc-list-item mdc-list-item--activated" href="#">
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">alarm</i>Estimated Arrivals
+	      		</a>
+	      		<a id="nearMeNav" class="mdc-list-item" href="#">
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">person_pin_circle</i>Near Me
+	      		</a>
+	      		<a id="settingsNav" class="mdc-list-item" href="#">
+	        		<i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>Settings
+	      		</a>
+	    	</nav>
+	  	</nav>
+	</aside>
+
+	<!-- screen 1 -->
+	<div id="arrivalsScreen">
+		<br><br><br>
+		<!-- UIC Halsted image -->
+		<img id="logoImg" src="imgs/halsted.jpg">
+		<div class="container">
+			<!-- bus/train tab bar  -->
+			<div id="busTrainTabBar">
+				<nav id="basic-tab-bar" class="mdc-tab-bar">
+					<a id="busNav" class="mdc-tab mdc-tab--active" href="#">Bus</a>
+					<a id="trainNav" class="mdc-tab" href="#">Train</a>
+					<span class="mdc-tab-bar__indicator"></span>
+				</nav>
+			</div>
+			<div id="busTab">
+				<!-- bus route drop down select menu -->
+				<div id="busRoute" class="mdc-select">
+					<select id="busRouteSelect" class="mdc-select__native-control">
+						<option id="disabledOption" value="" disabled selected></option>
+						<option value="seven">7 - Harrison</option>
+						<option value="eight">8 - Halsted</option>
+						<option value="twelve">12 - Roosevelt</option>
+						<option value="sixty">60 - Blue Island/26th</option>
+						<option value="onefiftyseven">157 - Streeterville/Taylor</option>
+					</select>
+					<div class="mdc-select__label">Select Route</div>
+					<div class="mdc-select__bottom-line"></div>
+				</div>
+				<br>
+				<!-- bus direction drop down select menu -->
+				<div id="busDirection" class="mdc-select">
+					<select id="busDirectionSelect" class="mdc-select__native-control">
+						<option value="" disabled selected></option>
+						<option id="north" class="hide" value="Northbound">Northbound</option>
+						<option id="south" class="hide" value="Southbound">Southbound</option>
+						<option id="east" class="hide" value="Eastbound">Eastbound</option>
+						<option id="west" class="hide" value="Westbound">Westbound</option>
+					</select>
+					<div class="mdc-select__label">Select Direction</div>
+					<div class="mdc-select__bottom-line"></div>
+				</div>
+				<br>
+				<!-- bus stop drop down select menu -->
+				<div id="busStop" class="mdc-select">
+					<select id="busStopSelect" class="mdc-select__native-control">
+						<option value="" disabled selected></option>
+						<option  id="none" class="hide" value="none">Placeholder</option>
+					</select>
+					<div class="mdc-select__label">Select Stop</div>
+					<div class="mdc-select__bottom-line"></div>
+				</div>
+				<br><br>
+				<button id="busSubmitBtn" class="mdc-button submitBtn"><strong>TRACK</strong></button>
+			</div>
+			<div id="trainTab" class="hide">
+				<!-- train route drop down select menu -->
+				<div id="trainStop" class="mdc-select">
+					<select id="trainStopSelect" class="mdc-select__native-control">
+						<option value="" disabled selected></option>
+						<option value="Clarke/Lake">Clarke/Lake</option>
+						<option value="Washington">Washington</option>
+						<option value="Monroe">Monroe</option>
+						<option value="Jackson">Jackson</option>
+						<option value="LaSalle">LaSalle</option>
+						<option value="Clinton">Clinton</option>
+						<option value="UIC-Halsted">UIC-Halsted</option>
+						<option value="Racine">Racine</option>
+						<option value="Illinois Medical District">Illinois Medical District</option>
+					</select>
+					<div class="mdc-select__label">Select Stop</div>
+					<div class="mdc-select__bottom-line"></div>
+				</div>
+				<br>
+				<!-- radio button for Forest Park -->
+				<div class="mdc-radio">
+					<input class="mdc-radio__native-control" type="radio" id="radio-1" name="radios" checked>
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label id="radio-1-label" class="bound" for="radio-1">To Forest Park</label>
+				<!-- radio button for O'Hare -->
+				<div class="mdc-radio">
+					<input class="mdc-radio__native-control" type="radio" id="radio-2" name="radios">
+					<div class="mdc-radio__background">
+						<div class="mdc-radio__outer-circle"></div>
+						<div class="mdc-radio__inner-circle"></div>
+					</div>
+				</div>
+				<label id="radio-2-label" class="bound" for="radio-2">To O'Hare</label>
+				<br><br><br>
+				<button id="trainSubmitBtn" class="mdc-button submitBtn"><strong>TRACK</strong></button>
+			</div>
+		</div>​
+	</div>
+
+	<!-- screen 2 -->
+	<div id="nearMeScreen" class="hide">
+		<br><br>
+
+		<div class="container">
+			<h1>Near Me Screen</h1>
+		</div>
+
+		<div id="map"></div>
+		<div id="legend"><h3>Legend</h3></div>
+	</div>
+
+
+	<!-- screen 3 -->
+	<div id="settingsScreen" class="hide">
+		<br><br>
+
+		<div class="container">
+			<h1>Settings Screen</h1>
+		</div>
+		
+	</div>
+
+
+
+
+
+
+	<!-- MCW Script -->
+	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
+
+	<!-- JQuery CDN -->
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous">	
+	</script>
+
+    <!-- Personal JavaScript -->
+    <script type="text/javascript">
+
+	   	$(document).ready(function(){
+	   		console.log("Document Ready");
+	   	});
+
+	   	// Script for temporary drawer for the tool bar
+	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
+		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
+
+	   	/**********************************************************************************************
+		*
+		* adding action listeners to the tool bar items and the arrival screen's tab bar items
+		* 
+	   	**********************************************************************************************/
+
+	   	// add action listeners to the 'arrivals', 'near me', and 'settings' navigation items in the nav bar
+		navListener("#arrivalsNav", "#arrivalsScreen", "#nearMeNav", "#nearMeScreen", "#settingsNav", "#settingsScreen");
+		navListener("#nearMeNav", "#nearMeScreen", "#arrivalsNav", "#arrivalsScreen", "#settingsNav", "#settingsScreen");
+		navListener("#settingsNav", "#settingsScreen", "#arrivalsNav", "#arrivalsScreen", "#nearMeNav", "#nearMeScreen");
+
+		function navListener(mainNav, mainScreen, nav2, screen2, nav3, screen3)
+		{
+			$(mainNav).click(function(){
+				$(mainNav).addClass("mdc-list-item--activated");
+				$(nav2).removeClass("mdc-list-item--activated");
+				$(nav3).removeClass("mdc-list-item--activated");
+
+				$(mainScreen).removeClass("hide");
+				$(screen2).addClass("hide");
+				$(screen3).addClass("hide");
+
+				drawer.open = false;
+			});
+		}
+
+	   	// add action listeners to the 'home' and 'train' tab in the 'arrivals' screen
+	   	tabListener("#busNav", "#busTab", "#trainNav", "#trainTab");
+	   	tabListener("#trainNav", "#trainTab", "#busNav", "#busTab");
+
+	   	function tabListener(mainNav, mainTab, otherNav, otherTab)
+		{
+			$(mainNav).click(function(){
+		   		$(mainNav).addClass("mdc-tab--active");
+		   		$(otherNav).removeClass("mdc-tab--active");
+
+		   		$(mainTab).removeClass("hide");
+		   		$(otherTab).addClass("hide");
+		   	});
+		}
+
+		/**********************************************************************************************
+		*
+		* arrivals screen - bus tab items
+		* 
+	   	**********************************************************************************************/
+
+	   	// Script for the bus route drop down select menu
+		const busRouteSelect = new mdc.select.MDCSelect(document.querySelector("#busRoute"));
+
+		// Script for the bus direction drop down select menu
+		const busDirectionSelect = new mdc.select.MDCSelect(document.querySelector("#busDirection"));
+
+		// Script for the bus stop drop down select menu
+		const busStopSelect = new mdc.select.MDCSelect(document.querySelector("#busStop"));
+
+	   	// add action listener for a change to the first drop down menu on the arrivals screen - bus tab
+	   	$("#busRoute").change(function(){
+			console.log("Bus Route Changed");
+
+			// grab the selected route that was clicked
+			var busRouteSelect = document.getElementById("busRouteSelect");
+			var clickedValue = busRouteSelect.options[busRouteSelect.selectedIndex].value;
+
+			// change the direction value options depending on what route was chosen
+			// the eight bus is the only one that has North/South options
+			// the rest only have East/West options
+			if (clickedValue === "eight") {
+				$("#north").removeClass("hide");
+				$("#south").removeClass("hide");
+				$("#east").addClass("hide");
+				$("#west").addClass("hide");
+			}
+			else {
+				$("#east").removeClass("hide");
+				$("#west").removeClass("hide");
+				$("#north").addClass("hide");
+				$("#south").addClass("hide");
+			}
+
+			// make sure to pre-select the first empty value of the direction select
+			// every single time the route is changed in order to prevent incorrect 
+			// direction being handled with the wrong route
+			$("#busDirectionSelect").prop("selectedIndex",0);
+
+			// want to keep the first option as this is used as the empty value
+			// want to remove all the other options so you can re-populate the select box with the new data
+			$('#busStopSelect').children('option:not(:first)').remove();
+		});
+
+	   	// add action listener for a change to the second drop down menu on the arrivals screen - bus tab
+		$("#busDirection").change(function(){
+			console.log("change direction");
+
+			var busRouteSelect = document.getElementById("busRouteSelect");
+			var busDirectionSelect = document.getElementById("busDirectionSelect");
+
+			var route = busRouteSelect.value;
+			var dir = busDirectionSelect.value;
+
+			switch (route)
+			{
+				case "seven":
+					if (dir === "Eastbound")
+						addOptions("007E");
+					else
+						addOptions("007W");
+					break;
+				case "eight":
+					if (dir === "Northbound")
+						addOptions("008N");
+					else
+						addOptions("008S");
+					break;
+				case "twelve":
+					if (dir === "Eastbound")
+						addOptions("012E");
+					else
+						addOptions("012W");
+					break;
+				case "sixty":
+					if (dir === "Eastbound")
+						addOptions("060E");
+					else
+						addOptions("060W");
+					break;
+				case "onefiftyseven":
+					if (dir === "Eastbound")
+						addOptions("157E");
+					else
+						addOptions("157W");
+					break;
+				default:
+					console.log("error in busDirection change action listener");
+			}
+		});
+
+		function addOptions(key)
+		{
+			var busStopSelect = document.getElementById("busStopSelect");
+
+			// want to keep the first option as this is used as the empty value
+			// want to remove all the other options so you can re-populate the select box with the new data
+			$('#busStopSelect').children('option:not(:first)').remove();
+
+			$.each(busStopsArr[key], function(i, v){
+				var option = document.createElement("option");
+				option.text = v.stpnm;
+				option.value = v.stpnm;
+				busStopSelect.add(option);
+			});
+		}
+
+		// add action listener for a change to the third drop down menu on the arrivals screen - bus tab
+		$("#busStop").change(function(){
+			console.log("change stop");
+		});
+
+		// To add the ink ripple effect to a button, attach a ripple instance to the button element.
+		// this ripple effect is attached to the button on the arrivals screen in the bus tab
+		mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button'));
+
+		// action listener to the submit button on the arrivals screen - bus tab
+		$("#busSubmitBtn").click(function(){
+			alert("bus clicked button");
+		});
+
+		/**********************************************************************************************
+		*
+		* arrivals screen - train tab items
+		* 
+	   	**********************************************************************************************/
+
+	   	// Script for the bus route drop down select menu - train tab
+		const trainStopSelect = new mdc.select.MDCSelect(document.querySelector("#trainStop"));
+
+		// action listener to the submit button on the arrivals screen - train tab
+		$("#trainSubmitBtn").click(function(){
+			alert("train clicked button");
+		});
+
+		/**********************************************************************************************
+		*
+		* near me screen
+		* 
+	   	**********************************************************************************************/
+
+	   	/**********************************************************************************************
+		*
+		* Data arrays that hold the stops for each bus number and direction
+		*
+		* After careful consideration, I opted to hard code in the stop data for each stop
+		* I made the AJAX call for each stop which can be found at data/ajax.txt
+		* 
+		* The reasoning behind this is that these calls aren't necessary every single time on load,
+		* but it also is not worth the time/memory to cache this data either
+		*
+		* These stop ID's, stop names, and locations are very unlikely to change,
+		* and if they do change it will not be changed often
+		*
+		* I therefore believe that the best way to store this data was to make the ajax calls,
+		* but store the actual data in the source files.
+		*
+		* If any data is changed from the API, I will gladly be able to come back and 
+		* make the changes, but I am confident that changes will be rare and infrequent
+		* 
+	   	**********************************************************************************************/
+
+	   	// stops that are shared by the 7 bus and the 60 bus
+	   	var sevenSixtyEast = [
+	   		{stpid: "14210", stpnm: "Canal & Harrison", lat: 41.874637890315, lon: -87.639527320862},
+	   		{stpid: "17995", stpnm: "Harrison & Jefferson", lat: 41.874344986696, lon: -87.641897334914},
+	   		{stpid: "6347", stpnm: "Harrison & Halsted", lat: 41.874246439513, lon: -87.647445201874},
+	   		{stpid: "201", stpnm: "900 W Harrison", lat: 41.874346299639, lon: -87.648807764053},
+	   		{stpid: "200", stpnm: "Harrison & Morgan", lat: 41.874286383582, lon: -87.651940584183}
+	   	];
+
+	   	var sevenSixtyWest = [
+	   		{stpid: "6364", stpnm: "Clinton & Harrison", lat: 41.874438170818, lon: -87.640986442566},
+	   		{stpid: "6365", stpnm: "Harrison & Jefferson", lat: 41.874410210038, lon: -87.642263174057},
+	   		{stpid: "206", stpnm: "Harrison & Halsted", lat: 41.874442165214, lon: -87.647734880447},
+	   		{stpid: "207", stpnm: "900 W Harrison", lat: 41.87449409234, lon: -87.649258375168},
+	   		{stpid: "208", stpnm: "Harrison & Morgan", lat: 41.874450154005, lon: -87.651591897011}
+	   	];
+
+
+	   	var sevenEast = [
+	   		{stpid: "18336", stpnm: "Harrison & Loomis", lat: 41.874141143355, lon: -87.661574504299},
+	   		{stpid: "198", stpnm: "Harrison & Racine", lat: 41.874202501008, lon: -87.656666636467},
+	   		{stpid: "18339", stpnm: "Harrison & Throop", lat: 41.874168445122, lon: -87.659573933194}
+		];
+
+		var sevenWest = [
+			{stpid: "18335", stpnm: "Harrison & Loomis", lat: 41.874255633116, lon: -87.661988906746},
+			{stpid: "210", stpnm: "Harrison & Racine", lat: 41.874354288443, lon: -87.657428383827},
+			{stpid: "18340", stpnm: "Harrison & Throop", lat: 41.874297368196, lon: -87.659625113009}
+		];
+
+		var eightSouth = [
+			{stpid: "5804", stpnm: "Halsted & 14th Place", lat: 41.862389936575, lon: -87.646812200546},
+			{stpid: "4638", stpnm: "Halsted & Harrison", lat: 41.873831019714, lon: -87.647214531898},
+			{stpid: "5799", stpnm: "Halsted & Jackson", lat: 41.878029032111, lon: -87.647313236666},
+			{stpid: "15008", stpnm: "Halsted & Madison", lat: 41.881503067986, lon: -87.647415161918},
+			{stpid: "5802", stpnm: "Halsted & Maxwell", lat: 41.864866881017, lon: -87.646881937981},
+			{stpid: "15352", stpnm: "Halsted & Monroe", lat: 41.88025454567, lon: -87.647378468173},
+			{stpid: "4639", stpnm: "Halsted & Polk", lat: 41.871937629893, lon: -87.647150158882},
+			{stpid: "17366", stpnm: "Halsted & Roosevelt", lat: 41.867215894509, lon: -87.646951675415},
+			{stpid: "4640", stpnm: "Halsted & Taylor", lat: 41.869896380997, lon: -87.647096514702},
+			{stpid: "205", stpnm: "UIC-Halsted Blue Line Station", lat: 41.875513453518, lon: -87.647277832293}
+		];
+
+		var eightNorth = [
+			{stpid: "5926", stpnm: "Halsted & 14th Place", lat: 41.862198169133, lon: -87.64672100544},
+			{stpid: "18009", stpnm: "Halsted & Jackson", lat: 41.878208885061, lon: -87.647189001581},
+			{stpid: "440", stpnm: "Halsted & Madison", lat: 41.882007103365, lon: -87.647316455841},
+			{stpid: "5928", stpnm: "Halsted & Maxwell", lat: 41.864655145968, lon: -87.646796107292},
+			{stpid: "5931", stpnm: "Halsted & Monroe", lat: 41.880271320896, lon: -87.647260665108},
+			{stpid: "4618", stpnm: "Halsted & Polk", lat: 41.871777847595, lon: -87.646887302399},
+			{stpid: "14777", stpnm: "Halsted & Roosevelt", lat: 41.867631357301, lon: -87.646871209145},
+			{stpid: "14487", stpnm: "Halsted & Taylor", lat: 41.869756567043, lon: -87.646833658218},
+			{stpid: "18184", stpnm: "UIC-Halsted Blue Line Station", lat: 41.875578047547, lon: -87.647168084553}
+		];
+
+		var twelveEast = [
+			{stpid: "313", stpnm: "327 W Roosevelt", lat: 41.867199915117, lon: -87.635573744774},
+			{stpid: "307", stpnm: "900 W Roosevelt", lat: 41.867020146681, lon: -87.649419307709},
+			{stpid: "305", stpnm: "Roosevelt & Blue Island", lat: 41.86695223403, lon: -87.653641104698},
+			{stpid: "312", stpnm: "Roosevelt & Canal", lat: 41.867151976917, lon: -87.638840675354},
+			{stpid: "14459", stpnm: "Roosevelt & Halsted", lat: 41.867064090124, lon: -87.646324038506},
+			{stpid: "310", stpnm: "Roosevelt & Jefferson", lat: 41.867120018097, lon: -87.642295360565},
+			{stpid: "17003", stpnm: "Roosevelt & May", lat: 41.866924269976, lon: -87.65537917614},
+			{stpid: "306", stpnm: "Roosevelt & Morgan", lat: 41.866996177518, lon: -87.651221752167}
+		];
+
+		var twelveWest = [
+			{stpid: "326", stpnm: "327 W Roosevelt", lat: 41.867393265591, lon: -87.635536193848},
+			{stpid: "332", stpnm: "900 W Roosevelt", lat: 41.867211899662, lon: -87.649462223053},
+			{stpid: "334", stpnm: "Roosevelt & Blue Island", lat: 41.867151976917, lon: -87.653083205223},
+			{stpid: "327", stpnm: "Roosevelt & Canal", lat: 41.867339734662, lon: -87.639044523239},
+			{stpid: "17396", stpnm: "Roosevelt & Halsted", lat: 41.867262250879, lon: -87.647493333335},
+			{stpid: "18174", stpnm: "Roosevelt & Jefferson", lat: 41.867300218619, lon: -87.642539020541},
+			{stpid: "335", stpnm: "Roosevelt & May", lat: 41.86711202839, lon: -87.655030488968},
+			{stpid: "333", stpnm: "Roosevelt & Morgan", lat: 41.867183935721, lon: -87.650862336159}
+
+		];
+
+		var sixtyEast = [
+			{stpid: "6342", stpnm: "Racine & 13th Street", lat: 41.865110575204, lon: -87.65657544136},
+			{stpid: "6341", stpnm: "Racine & 14th Street", lat: 41.863680356701, lon: -87.656543254852},
+			{stpid: "6346", stpnm: "Racine & Harrison", lat: 41.874074679731, lon: -87.656720280647},
+			{stpid: "15993", stpnm: "Racine & Lexington", lat: 41.871689967161, lon: -87.656725645065},
+			{stpid: "15404", stpnm: "Racine & Roosevelt", lat: 41.867255842972, lon: -87.656655907631},
+			{stpid: "6344", stpnm: "Racine & Taylor", lat: 41.869293181468, lon: -87.656731009483}
+		];
+
+		var sixtyWest = [
+			{stpid: "6370", stpnm: "Racine & 13th Street", lat: 41.865350273499, lon: -87.656666636467},
+			{stpid: "6371", stpnm: "Racine & 14th Street", lat: 41.863560504536, lon: -87.656623721123},
+			{stpid: "15402", stpnm: "Racine & Cabrini", lat: 41.871206622614, lon: -87.656854391098},
+			{stpid: "6366", stpnm: "Racine & Harrison", lat: 41.87403473553, lon: -87.656972408295},
+			{stpid: "15401", stpnm: "Racine & Lexington", lat: 41.872400996298, lon: -87.656972408295},
+			{stpid: "15403", stpnm: "Racine & Roosevelt", lat: 41.866776459772, lon: -87.656720280647},
+			{stpid: "15292", stpnm: "Racine & Taylor", lat: 41.869496911747, lon: -87.65682220459}
+		];
+
+		var onefiftysevenEast = [
+			{stpid: "6700", stpnm: "900 W Taylor", lat: 41.869468948806, lon: -87.648759484291},
+			{stpid: "6705", stpnm: "Canal & Taylor", lat: 41.869992253245, lon: -87.63925909996},
+			{stpid: "6698", stpnm: "Taylor & Aberdeen", lat: 41.869436991144, lon: -87.654402852058},
+			{stpid: "6701", stpnm: "Taylor & Halsted", lat: 41.869484927631, lon: -87.647375464439},
+			{stpid: "6703", stpnm: "Taylor & Jefferson", lat: 41.869688657298, lon: -87.642402648926},
+			{stpid: "6694", stpnm: "Taylor & Laflin", lat: 41.869265218438, lon: -87.664278745651},
+			{stpid: "6695", stpnm: "Taylor & Loomis", lat: 41.869313155054, lon: -87.661719918251},
+			{stpid: "6699", stpnm: "Taylor & Morgan", lat: 41.869480932925, lon: -87.651345133781},
+			{stpid: "6697", stpnm: "Taylor & Racine", lat: 41.869389054621, lon: -87.656854391098},
+			{stpid: "6696", stpnm: "Taylor & Throop", lat: 41.86935709692, lon: -87.659289836884}
+
+		];
+
+		var onefiftysevenWest = [
+			{stpid: "6627", stpnm: "900 W Taylor", lat: 41.869664689136, lon: -87.648534178734},
+			{stpid: "6623", stpnm: "Clinton & Taylor", lat: 41.869780535171, lon: -87.640820145607},
+			{stpid: "6629", stpnm: "Taylor & Aberdeen", lat: 41.869504901156, lon: -87.65401661396},
+			{stpid: "17277", stpnm: "Taylor & Halsted", lat: 41.869696646684, lon: -87.647370100021},
+			{stpid: "17275", stpnm: "Taylor & Jefferson", lat: 41.869748577665, lon: -87.642627954483},
+			{stpid: "6633", stpnm: "Taylor & Laflin", lat: 41.869333128633, lon: -87.663999795914},
+			{stpid: "6632", stpnm: "Taylor & Loomis", lat: 41.869373075773, lon: -87.661403417587},
+			{stpid: "6628", stpnm: "Taylor & Morgan", lat: 41.869536858784, lon: -87.651361227036},
+			{stpid: "15811", stpnm: "Taylor & Racine", lat: 41.869448975269, lon: -87.65684902668},
+			{stpid: "6631", stpnm: "Taylor & Throop", lat: 41.869417017597, lon: -87.659069895744}
+		];
+
+		var busStopsArr = [];
+
+		busStopsArr["007E"] = sevenEast;
+		busStopsArr["007W"] = sevenWest;
+		busStopsArr["008S"] = eightSouth;
+		busStopsArr["008N"] = eightNorth;
+		busStopsArr["012E"] = twelveEast;
+		busStopsArr["012W"] = twelveWest;
+		busStopsArr["060E"] = sixtyEast;
+		busStopsArr["060W"] = sixtyWest;
+		busStopsArr["157E"] = onefiftysevenEast;
+		busStopsArr["157W"] = onefiftysevenWest;
+		busStopsArr["SMEE"] = sevenSixtyEast;
+		busStopsArr["SMEW"] = sevenSixtyWest;
+
+		colors = 
+	   	{
+	   		// ROYAL BLUE: blue line
+	   		"BLU": "#0000FF",
+	   		// RED: 7 bus
+	   		"007E": "#FF0000",
+	   		"007W": "#FF0000",
+	   		// GREEN: 8 bus
+	   		"008S": "#006600",
+	   		"008N": "#006600",
+	   		// PURPLE: 12 bus
+	   		"012E": "#9400D3",
+	   		"012W": "#9400D3",
+	   		// ORANGE: 60 bus
+	   		"060E": "#FF7F00",
+    		"060W": "#FF7F00",
+    		// BROWN: 157 bus
+    		"157E": "#663300",
+    		"157W": "#663300",
+    		// BLACK: stops that are the same for 7 and 60
+    		"SMEE": "#000000",
+    		"SMEW": "#000000"
+    	};
+
+	   	// set the default location to UIC SCE
+	   	var userLocation = {lat: 41.872051, lng: -87.647735};
+
+	   	var flag = false;
+
+	   	// additional action listener for the near me button in the tool bar
+	   	$("#nearMeNav").click(function(){
+
+	   		if ("geolocation" in navigator) 
+			{	
+				// get the geolocation of the user
+				navigator.geolocation.getCurrentPosition(function(position) {
+
+				  	userLocation.lat = position.coords.latitude;
+				  	userLocation.lng = position.coords.longitude;
+
+				  	flag = true;
+
+				  	initMap();
+				});
+			} 
+			else 
+			{
+			  alert("geolocation IS NOT available");
+			}
+	   	});
+
+	   	// the variable that is the map
+	   	var map;
+
+	   	// add the map to the map screen inside the div with id 'map'
+	   	function initMap() 
+	   	{
+	   		var pin = userLocation;
+	   		map = new google.maps.Map(document.getElementById("map"), 
+	   		{
+	   			zoom: 19,
+	   			center: pin
+	   		});
+
+	   		if (flag)
+	   		{
+	   			var marker = new google.maps.Marker({
+	   				position: userLocation,
+	   				map: map,
+	   				title: "Your Location"
+	   			});
+	   		}
+
+	   		for (var i = 0; i < 12; i++)
+    		{
+    			switch (i)
+    			{
+    				case 0:
+    					addMarkers("007E");
+    					break;
+    				case 1:
+    					addMarkers("007W");
+    					break;
+    				case 2:
+    					addMarkers("008S");
+    					break;
+    				case 3:
+    					addMarkers("008N");
+    					break;
+    				case 4:
+    					addMarkers("012E");
+    					break;
+    				case 5:
+    					addMarkers("012W");
+    					break;
+    				case 6:
+    					addMarkers("060E");
+    					break;
+    				case 7:
+    					addMarkers("060W");
+    					break;
+    				case 8:
+    					addMarkers("157E");
+    					break;
+    				case 9:
+    					addMarkers("157W");
+    					break;
+    				case 10:
+    					addMarkers("SMEE");
+    					break;
+    				case 11:
+    					addMarkers("SMEW");
+    					break;
+    			}
+    		}
+	   	}
+
+	   	function addMarkers(key)
+	   	{
+	   		// blue line marker: google.maps.SymbolPath.CIRCLE
+	   		
+	   		$.each(busStopsArr[key], function(i, v){
+
+	   			var latitude = v.lat;
+	   			var longitude = v.lon;
+	   			var color = colors[key];
+
+	   			// create the marker for this stop
+				var marker = new google.maps.Marker(
+				{
+					position: {lat: latitude, lng: longitude},
+					map: map,
+					title: name,
+					icon: 
+					{
+				        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+				        scale: 5.5,
+				        fillColor: color,
+				        fillOpacity: 1.0,
+				        strokeWeight: 0.4
+				    }
+				});
+			});
+	   	}
+    </script>
+    <!-- Google Maps API -->
+    <script async defer
+    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0zHggstjz-FDhr9M8nHdzOxEa_5QCvnY&callback=initMap">
+    </script>
+</body>
+</html>
