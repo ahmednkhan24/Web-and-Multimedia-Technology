@@ -613,7 +613,7 @@
 	   		"012E": "#9400D3",
 	   		"012W": "#9400D3",
 	   		// ORANGE: 60 bus
-    		"060E": "#FF7F00",
+	   		"060E": "#FF7F00",
     		"060W": "#FF7F00",
     		// BROWN: 157 bus
     		"157E": "#663300",
@@ -718,7 +718,30 @@
 
 	   	function addMarkers(key)
 	   	{
-	   		console.log(key);
+	   		// blue line marker: google.maps.SymbolPath.CIRCLE
+	   		
+	   		$.each(busStopsArr[key], function(i, v){
+
+	   			var latitude = v.lat;
+	   			var longitude = v.lon;
+	   			var color = colors[key];
+
+	   			// create the marker for this stop
+				var marker = new google.maps.Marker(
+				{
+					position: {lat: latitude, lng: longitude},
+					map: map,
+					title: name,
+					icon: 
+					{
+				        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+				        scale: 5.5,
+				        fillColor: color,
+				        fillOpacity: 1.0,
+				        strokeWeight: 0.4
+				    }
+				});
+			});
 	   	}
     </script>
     <!-- Google Maps API -->
