@@ -135,11 +135,11 @@
 				<div id="busRoute" class="mdc-select">
 					<select id="busRouteSelect" class="mdc-select__native-control">
 						<option id="disabledOption" value="" disabled selected></option>
-						<option value="seven">7 - Harrison</option>
-						<option value="eight">8 - Halsted</option>
-						<option value="twelve">12 - Roosevelt</option>
-						<option value="sixty">60 - Blue Island/26th</option>
-						<option value="onefiftyseven">157 - Streeterville/Taylor</option>
+						<option value="7">7 - Harrison</option>
+						<option value="8">8 - Halsted</option>
+						<option value="12">12 - Roosevelt</option>
+						<option value="60">60 - Blue Island/26th</option>
+						<option value="157">157 - Streeterville/Taylor</option>
 					</select>
 					<div class="mdc-select__label">Select Route</div>
 					<div class="mdc-select__bottom-line"></div>
@@ -342,7 +342,7 @@
 			// change the direction value options depending on what route was chosen
 			// the eight bus is the only one that has North/South options
 			// the rest only have East/West options
-			if (clickedValue === "eight") {
+			if (clickedValue === "8") {
 				$("#north").removeClass("hide");
 				$("#south").removeClass("hide");
 				$("#east").addClass("hide");
@@ -377,31 +377,31 @@
 
 			switch (route)
 			{
-				case "seven":
+				case "7":
 					if (dir === "Eastbound")
 						addOptions("007E");
 					else
 						addOptions("007W");
 					break;
-				case "eight":
+				case "8":
 					if (dir === "Northbound")
 						addOptions("008N");
 					else
 						addOptions("008S");
 					break;
-				case "twelve":
+				case "12":
 					if (dir === "Eastbound")
 						addOptions("012E");
 					else
 						addOptions("012W");
 					break;
-				case "sixty":
+				case "60":
 					if (dir === "Eastbound")
 						addOptions("060E");
 					else
 						addOptions("060W");
 					break;
-				case "onefiftyseven":
+				case "157":
 					if (dir === "Eastbound")
 						addOptions("157E");
 					else
@@ -426,6 +426,25 @@
 				option.value = v.stpnm;
 				busStopSelect.add(option);
 			});
+
+			if (key === "007E" || key === "060E")
+			{
+				$.each(busStopsArr["SMEE"], function(i, v){
+					var option = document.createElement("option");
+					option.text = v.stpnm;
+					option.value = v.stpnm;
+					busStopSelect.add(option);
+				});
+			}
+			else if (key === "007W" || key === "060W")
+			{
+				$.each(busStopsArr["SMEW"], function(i, v){
+					var option = document.createElement("option");
+					option.text = v.stpnm;
+					option.value = v.stpnm;
+					busStopSelect.add(option);
+				});
+			}
 		}
 
 		// add action listener for a change to the third drop down menu on the arrivals screen - bus tab
@@ -440,6 +459,23 @@
 		// action listener to the submit button on the arrivals screen - bus tab
 		$("#busSubmitBtn").click(function(){
 			alert("bus clicked button");
+
+			var busRouteSelect = document.getElementById("busRouteSelect");
+			var busDirectionSelect = document.getElementById("busDirectionSelect");
+			var busStopSelect = document.getElementById("busStopSelect");
+
+			var route = busRouteSelect.value;
+			var dir = busDirectionSelect.value;
+			var stop = busStopSelect.value;
+
+
+			console.log(route);
+			console.log(dir);
+			console.log(stop);
+
+
+
+
 		});
 
 		/**********************************************************************************************
