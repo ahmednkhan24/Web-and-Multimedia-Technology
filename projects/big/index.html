@@ -501,87 +501,6 @@
 
 		});
 
-		function findStop(route, direction, stop)
-		{
-			var stop;
-
-			if (direction === "Northbound"){
-				$.each(busStopsArr["008N"], function(i, v){
-					if (v.stpnm === stop)
-						stop = v;
-				});
-			}
-			else if (direction === "Southbound"){
-				$.each(busStopsArr["008S"], function(i, v){
-					if (v.stpnm === stop)
-						stop = v;
-				});
-			}
-			else if (direction === "Eastbound"){
-				if (route === "7" || route === "60"){
-					$.each(busStopsArr["SMEE"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-					$.each(busStopsArr["007E"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-					$.each(busStopsArr["060E"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-				}
-				else if (route === "12"){
-					$.each(busStopsArr["012E"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-				}
-				else if (route === "157"){
-					$.each(busStopsArr["157E"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-				}
-			}
-			else if (direction === "Westbound"){
-				if (route === "7" || route === "60"){
-					$.each(busStopsArr["SMEW"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-					$.each(busStopsArr["007W"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-					$.each(busStopsArr["060W"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-				}
-				else if (route === "12"){
-					$.each(busStopsArr["012W"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-
-				}
-				else if (route === "157"){
-					$.each(busStopsArr["157W"], function(i, v){
-						if (v.stpnm === stop)
-							stop = v;
-					});
-				}
-			}
-			else {
-				console.log("error in getStpid with: " + route + "," + direction + "," + stop);
-			}
-
-			return stop;
-		}
-
-
 
 		/**********************************************************************************************
 		*
@@ -762,6 +681,86 @@
 		busStopsArr["157W"] = onefiftysevenWest;
 		busStopsArr["SMEE"] = sevenSixtyEast;
 		busStopsArr["SMEW"] = sevenSixtyWest;
+
+		function findStop(route, direction, stopName)
+		{
+			var stop;
+
+			if (direction === "Northbound"){
+				$.each(busStopsArr["008N"], function(i, v){
+					if (v.stpnm === stopName)
+						stop = v;
+				});
+			}
+			else if (direction === "Southbound"){
+				$.each(busStopsArr["008S"], function(i, v){
+					if (v.stpnm === stopName)
+						stop = v;
+				});
+			}
+			else if (direction === "Eastbound"){
+				if (route === "7" || route === "60"){
+					$.each(busStopsArr["SMEE"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+					$.each(busStopsArr["007E"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+					$.each(busStopsArr["060E"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+				}
+				else if (route === "12"){
+					$.each(busStopsArr["012E"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+				}
+				else if (route === "157"){
+					$.each(busStopsArr["157E"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+				}
+			}
+			else if (direction === "Westbound"){
+				if (route === "7" || route === "60"){
+					$.each(busStopsArr["SMEW"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+					$.each(busStopsArr["007W"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+					$.each(busStopsArr["060W"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+				}
+				else if (route === "12"){
+					$.each(busStopsArr["012W"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+
+				}
+				else if (route === "157"){
+					$.each(busStopsArr["157W"], function(i, v){
+						if (v.stpnm === stopName)
+							stop = v;
+					});
+				}
+			}
+			else {
+				console.log("error in getStpid with: " + route + "," + direction + "," + stop);
+			}
+
+			return stop;
+		}
 
 		colors = 
 	   	{
