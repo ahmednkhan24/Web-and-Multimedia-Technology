@@ -657,31 +657,31 @@
 
 			var route = busRouteSelect.value;
 			var dir = busDirectionSelect.value;
-			var stop = busStopSelect.value;
+			var stopName = busStopSelect.value;
 
 			console.log(route);
 			console.log(dir);
-			console.log(stop);
+			console.log(stopName);
 
-			var url = "http://localhost:8080/bustime/api/v2/getpredictions?key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=";
+			var clkdStp = findStop(stopName, dir);
 
-			var end = route + "&stpid";
+			console.log(clkdStp);
 
-			// $.each(busStopsArr, function(i, v){
-			// 	console.log(v);
-			// });
+			var cta = "http://ctabustracker.com/bustime/api/v2/getpredictions&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=";
 
-			//var theStop = findStop(route, dir, stop);
+			var end = route + "&stpid=" + clkdStp.stpid + "&format=json";
 
-			// 20&stpid=456&format=json"
+			cta += end;
+
+			var url = proxy + cta;
 
 			// $.ajax(
 		 //    {
-		 //        url: url,
+		 //        url: proxy + "http://ctabustracker.com/bustime/api/v2/gettime&key=ARXsvPdwAMNqNgnbMuyVreNbq&format=json",
 		 //        method: 'GET',
 		 //     }).done(function(response) 
 			//     {
-			//     	loadData(response);
+			//     	console.log(JSON.parse(response));
 
 			//     }).fail(function(err) 
 			// 	   {
@@ -689,7 +689,18 @@
 			//        });
 
 
+			// $.ajax(
+		 //    {
+		 //        url: url,
+		 //        method: 'GET',
+		 //     }).done(function(response) 
+			//     {
+			//     	console.log(JSON.parse(response));
 
+			//     }).fail(function(err) 
+			// 	   {
+			// 	   		throw err;
+			//        });
 
 		});
 
