@@ -48,6 +48,7 @@
 		.results {
 			background-color: #E2E2E2;
 		}
+
 		#shrine-header .mdc-toolbar__section {
 			overflow: visible;
 		}
@@ -169,20 +170,11 @@
 				</div>
 				<br><br>
 				<button id="busSubmitBtn" class="mdc-button submitBtn"><strong>TRACK</strong></button>
-
-
-
-
 				<div class="results">
-					<ul class="mdc-list">
-						<li class="mdc-list-item">Single-line item</li>
-						<li class="mdc-list-item">Single-line item</li>
-						<li class="mdc-list-item">Single-line item</li>
+					<ul id="busResults" class="mdc-list">
+						<li class="mdc-list-item hide">Single-line item</li>
 					</ul>
 				</div>
-
-
-
 			</div>
 			<div id="trainTab" class="hide">
 				<!-- train route drop down select menu -->
@@ -274,6 +266,22 @@
 	   	// Script for temporary drawer for the tool bar
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
+
+		// this is a function that I found online.
+	   	// it inserts any string into another string at any desired position
+	   	// it takes in the original string as the first parameter, 
+	   	// a string that the user wants to insert into the first parameter
+	   	// a integer that defines what index of the main string the user 
+	   	// wants to insert the second string to
+	   	// the code can be found at this website:
+	   	// https://www.w3resource.com/javascript-exercises/javascript-string-exercise-14.php
+	   	function insertToString(main_string, ins_string, pos){
+	   		if (typeof(pos) == "undefined") 
+	   			pos = 0;
+	   		if(typeof(ins_string) == "undefined") 
+	   			ins_string = '';
+	   		return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
+	   	}
 
 		/**********************************************************************************************
 		*
@@ -476,26 +484,29 @@
 	   	var proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
 
 	   	var timeURL = "http://ctabustracker.com/bustime/api/v2/gettime&key=ARXsvPdwAMNqNgnbMuyVreNbq&format=json";
-
-	   	var currentTime = {hr: 0, min: 0, sec: 0};
+	   	var currentDateTime = "1996/10/24 10:00:00";
 
 	   	function setTime(){
-	   		$.ajax(
-		    {
+	   		$.ajax({
 		        url: proxy + timeURL,
 		        method: 'GET',
-		     }).done(function(response) 
-			    {
-			    	var fullTime = JSON.parse(response["bustime-response"]["tm"]);
-			    	var strTime = fullTime.substr(9, fullTime.length);
-			    	var split = strTime.split(":");
-			    	currentTime.hr = parseInt(split[0]);
-			    	currentTime.min = parseInt(split[1]);
-			    	currentTime.sec = parseInt(split[2]);
-			    }).fail(function(err) 
-				   {
+		     }).done(function(response) {
+			    	response = JSON.parse(response);
+			    	var time = response["bustime-response"]["tm"];
+			    	time = insertToString(time, "/", 4);
+			    	time = insertToString(time, "/", 7);
+			    	currentDateTime = time;
+			    }).fail(function(err) {
 				   		throw err;
 			       });
+	   	}
+
+	   	// I did not write this function. Code can be found at:
+	   	// https://stackoverflow.com/questions/21294302/converting-milliseconds-to-minutes-and-seconds-with-javascript
+	   	function millisToMinutesAndSeconds(millis) {
+	   		var minutes = Math.floor(millis / 60000);
+	   		var seconds = ((millis % 60000) / 1000).toFixed(0);
+	   		return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 	   	}
 
 	   	/**********************************************************************************************
@@ -596,8 +607,7 @@
 			var route = busRouteSelect.value;
 			var dir = busDirectionSelect.value;
 
-			switch (route)
-			{
+			switch (route){
 				case "7":
 					if (dir === "Eastbound")
 						addOptions("007E");
@@ -676,50 +686,61 @@
 		// this ripple effect is attached to the button on the arrivals screen in the bus tab
 		mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button'));
 
+		function timeColor(minutes){
+			console.log(parseInt(minutes));
+			if (parseInt(minutes) <= 5)
+				return "#33CC33";
+			else if (parseInt(minutes) <= 11)
+				return "#ffff66";
+			else
+				return "#ff4d4d";
+		}
+
+
+
 		// action listener to the submit button on the arrivals screen - bus tab
 		$("#busSubmitBtn").click(function(){
-			alert("bus clicked button");
+			setTime();
 
-			var busRouteSelect = document.getElementById("busRouteSelect");
-			var busDirectionSelect = document.getElementById("busDirectionSelect");
-			var busStopSelect = document.getElementById("busStopSelect");
-
-			var route = busRouteSelect.value;
-			var dir = busDirectionSelect.value;
-			var stopName = busStopSelect.value;
-
-			console.log(route);
-			console.log(dir);
-			console.log(stopName);
+			var route = document.getElementById("busRouteSelect").value;
+			var dir = document.getElementById("busDirectionSelect").value;
+			var stopName = document.getElementById("busStopSelect").value;
 
 			var clkdStp = findStop(stopName, dir);
 
-			console.log(clkdStp);
-
 			var cta = "http://ctabustracker.com/bustime/api/v2/getpredictions&key=ARXsvPdwAMNqNgnbMuyVreNbq&rt=";
-
 			var end = route + "&stpid=" + clkdStp.stpid + "&format=json";
-
 			cta += end;
-
 			var url = proxy + cta;
 
-			setTime();
+			var busDisplayUL = document.getElementById("busResults");
+			$(busDisplayUL).empty();
 
+			$.ajax({
+		        url: url,
+		        method: 'GET',
+		     }).done(function(response) {
+				    response = JSON.parse(response);
 
-			// $.ajax(
-		 //    {
-		 //        url: url,
-		 //        method: 'GET',
-		 //     }).done(function(response) 
-			//     {
-			//     	console.log(JSON.parse(response));
+				    $.each(response["bustime-response"]["prd"], function(i, v){
+			    		var predictedArrival = v.prdtm;
+			    		predictedArrival = insertToString(predictedArrival, "/", 4);
+			    		predictedArrival = insertToString(predictedArrival, "/", 7);
 
-			//     }).fail(function(err) 
-			// 	   {
-			// 	   		throw err;
-			//        });
+			    		var diff = Math.abs(new Date(predictedArrival) - new Date(currentDateTime));
+			    		diff = millisToMinutesAndSeconds(diff);
+			    		var minutes = diff.split(":")[0];
 
+			    		var li = document.createElement("li");
+			    		$(li).addClass("mdc-list-item");
+			    		$(li).css("background-color", timeColor(minutes));
+			    		li.appendChild(document.createTextNode(minutes + " minutes"));
+			    		busDisplayUL.appendChild(li);
+
+				    });
+			    }).fail(function(err) {
+				   		throw err;
+			       });
 		});
 
 
@@ -754,18 +775,14 @@
 	   		if ("geolocation" in navigator) {	
 				// get the geolocation of the user
 				navigator.geolocation.getCurrentPosition(function(position) {
-
 				  	userLocation.lat = position.coords.latitude;
 				  	userLocation.lng = position.coords.longitude;
-
 				  	flag = true;
-
 				  	initMap();
 				});
 			} 
-			else {
+			else
 			  alert("geolocation IS NOT available");
-			}
 	   	});
 
 	   	// the variable that is the map
@@ -774,8 +791,7 @@
 	   	// add the map to the map screen inside the div with id 'map'
 	   	function initMap() {
 	   		var pin = userLocation;
-	   		map = new google.maps.Map(document.getElementById("map"), 
-	   		{
+	   		map = new google.maps.Map(document.getElementById("map"), {
 	   			zoom: 19,
 	   			center: pin
 	   		});
@@ -788,10 +804,8 @@
 	   			});
 	   		}
 
-	   		for (var i = 0; i < 12; i++)
-	   		{
-    			switch (i)
-    			{
+	   		for (var i = 0; i < 12; i++){
+    			switch (i){
     				case 0:
     					addMarkers("007E");
     					break;
@@ -865,8 +879,7 @@
 	   			contentString = getContentString(v);
 
 	   			// create the marker for this stop
-				var marker = new google.maps.Marker(
-				{
+				var marker = new google.maps.Marker({
 					position: {lat: latitude, lng: longitude},
 					map: map,
 					title: name,
@@ -881,15 +894,13 @@
 				});
 
 				// create the info window for this stop
-		        var infowindow = new google.maps.InfoWindow(
-		        {
-		          content: contentString
+		        var infowindow = new google.maps.InfoWindow({
+		        	content: contentString
 		        });
 
 		        // add a listener to the marker to display the info window when clicked
-		        marker.addListener('click', function() 
-		        {
-		          infowindow.open(map, marker);
+		        marker.addListener('click', function() {
+		        	infowindow.open(map, marker);
 		        });
 			});
 	   	}
