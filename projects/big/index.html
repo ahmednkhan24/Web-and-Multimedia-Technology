@@ -271,9 +271,6 @@
 	   		console.log("Document Ready");
 	   	});
 
-	   	// passthrough proxy that professor Hayes made in order to obtain manipulatable data from CTA API's
-	   	var proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
-
 	   	// Script for temporary drawer for the tool bar
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
@@ -468,6 +465,38 @@
     		"SMEE": "#000000",
     		"SMEW": "#000000"
     	};
+
+    	/**********************************************************************************************
+		*
+		* AJAX calls to retrieve data
+		* 
+	   	**********************************************************************************************/
+
+	   	// passthrough proxy that professor Hayes made in order to obtain manipulatable data from CTA API's
+	   	var proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
+
+	   	var timeURL = "http://ctabustracker.com/bustime/api/v2/gettime&key=ARXsvPdwAMNqNgnbMuyVreNbq&format=json";
+
+	   	var currentTime = {hr: 0, min: 0, sec: 0};
+
+	   	function setTime(){
+	   		$.ajax(
+		    {
+		        url: proxy + timeURL,
+		        method: 'GET',
+		     }).done(function(response) 
+			    {
+			    	var fullTime = JSON.parse(response["bustime-response"]["tm"]);
+			    	var strTime = fullTime.substr(9, fullTime.length);
+			    	var split = strTime.split(":");
+			    	currentTime.hr = parseInt(split[0]);
+			    	currentTime.min = parseInt(split[1]);
+			    	currentTime.sec = parseInt(split[2]);
+			    }).fail(function(err) 
+				   {
+				   		throw err;
+			       });
+	   	}
 
 	   	/**********************************************************************************************
 		*
@@ -675,18 +704,7 @@
 
 			var url = proxy + cta;
 
-			// $.ajax(
-		 //    {
-		 //        url: proxy + "http://ctabustracker.com/bustime/api/v2/gettime&key=ARXsvPdwAMNqNgnbMuyVreNbq&format=json",
-		 //        method: 'GET',
-		 //     }).done(function(response) 
-			//     {
-			//     	console.log(JSON.parse(response));
-
-			//     }).fail(function(err) 
-			// 	   {
-			// 	   		throw err;
-			//        });
+			setTime();
 
 
 			// $.ajax(
