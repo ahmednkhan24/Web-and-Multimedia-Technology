@@ -5,5 +5,46 @@
 </head>
 <body>
 
+	<video id="player" controls autoplay></video>
+	<button id="capture">Capture</button>
+	<canvas id="canvas" width=320 height=240></canvas>
+
+
+
+
+	<!-- JQuery CDN -->
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous">	
+	</script>
+
+	<script>
+
+		// On load, check for camera capability, and ask for permission
+		$(document).ready(function(){
+	   		console.log("Document Ready");
+	   		// Attach the video stream to the video element and autoplay.
+			navigator.mediaDevices.getUserMedia(constraints)
+				.then((stream) => {
+				player.srcObject = stream;
+			});
+	   	});
+
+
+		const player = document.getElementById('player');
+		const canvas = document.getElementById('canvas');
+		const context = canvas.getContext('2d');
+		const captureButton = document.getElementById('capture');
+		const visionApiEndpoint = 'https://vision.googleapis.com/v1/images:annotate'
+		var requestBody;
+
+		const constraints = {
+			video: true,
+		};
+
+
+
+	</script>
 </body>
 </html>
