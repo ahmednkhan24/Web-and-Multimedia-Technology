@@ -168,7 +168,7 @@
 					<div class="mdc-select__bottom-line"></div>
 				</div>
 				<br><br>
-				<button id="busSubmitBtn" class="mdc-button submitBtn"><strong>TRACK</strong></button>
+				<button id="busSubmitBtn" class="mdc-button submitBtn" disabled><strong>TRACK</strong></button>
 				<div class="results">
 					<ul id="busResults" class="mdc-list">
 						<li class="mdc-list-item hide">Single-line item</li>
@@ -213,7 +213,7 @@
 				</div>
 				<label id="radio-2-label" class="bound" for="radio-2">To O'Hare</label>
 				<br><br><br>
-				<button id="trainSubmitBtn" class="mdc-button submitBtn"><strong>TRACK</strong></button>
+				<button id="trainSubmitBtn" class="mdc-button submitBtn" disabled><strong>TRACK</strong></button>
 			</div>
 		</div>​
 	</div>
@@ -436,16 +436,54 @@
 		busStopsArr["SMEE"] = sevenSixtyEast;
 		busStopsArr["SMEW"] = sevenSixtyWest;
 
-		// given a bus stop name and the direction it is travelling,
+		var bluelineFP = [
+			{rt: "blue", dir: "Forest Park", stpid: "30374", stpnm: "Clarke/Lake", lat: 41.886017, lon: -87.630381},
+			{rt: "blue", dir: "Forest Park", stpid: "30073", stpnm: "Washington", lat: 41.882624, lon: -87.629332},
+			{rt: "blue", dir: "Forest Park", stpid: "30154", stpnm: "Monroe", lat: 41.880467, lon: -87.629398},
+			{rt: "blue", dir: "Forest Park", stpid: "30015", stpnm: "Jackson", lat: 41.877382, lon: -87.62931},
+			{rt: "blue", dir: "Forest Park", stpid: "30262", stpnm: "LaSalle", lat: 41.875762, lon: -87.633061},
+			{rt: "blue", dir: "Forest Park", stpid: "30085", stpnm: "Clinton", lat: 41.876018, lon: -87.641299},
+			{rt: "blue", dir: "Forest Park", stpid: "30069", stpnm: "UIC-Halsted", lat: 41.875897, lon: -87.647296},
+			{rt: "blue", dir: "Forest Park", stpid: "30093", stpnm: "Racine", lat: 41.875818, lon: -87.657147},
+			{rt: "blue", dir: "Forest Park", stpid: "30158", stpnm: "Illinois Medical District", lat: 41.875903, lon: -87.676512}
+		];
+
+		var bluelineOH = [
+			{rt: "blue", dir: "Forest Park", stpid: "30375", stpnm: "Clarke/Lake", lat: 41.886017, lon: -87.630381},
+			{rt: "blue", dir: "Forest Park", stpid: "30072", stpnm: "Washington", lat: 41.882624, lon: -87.629332},
+			{rt: "blue", dir: "Forest Park", stpid: "30153", stpnm: "Monroe", lat: 41.880467, lon: -87.629398},
+			{rt: "blue", dir: "Forest Park", stpid: "30014", stpnm: "Jackson", lat: 41.877382, lon: -87.62931},
+			{rt: "blue", dir: "Forest Park", stpid: "30261", stpnm: "LaSalle", lat: 41.875762, lon: -87.633061},
+			{rt: "blue", dir: "Forest Park", stpid: "30084", stpnm: "Clinton", lat: 41.876018, lon: -87.641299},
+			{rt: "blue", dir: "Forest Park", stpid: "30068", stpnm: "UIC-Halsted", lat: 41.875897, lon: -87.647296},
+			{rt: "blue", dir: "Forest Park", stpid: "30092", stpnm: "Racine", lat: 41.875818, lon: -87.657147},
+			{rt: "blue", dir: "Forest Park", stpid: "30157", stpnm: "Illinois Medical District", lat: 41.875903, lon: -87.676512}
+		];
+
+		var trainStopsArr = {};
+
+		trainStopsArr["FP"] = bluelineFP;
+		trainStopsArr["OH"] = bluelineOH;
+
+		// given a bus/train stop name and the direction it is travelling,
 		// finds the stop object in the array and returns it
 		function findStop(stopName, direction){
 			var stop;
-			Object.keys(busStopsArr).forEach(function(key){
-				$.each(busStopsArr[key], function(i, v){
-					if (v.stpnm === stopName && v.dir === direction)
-						stop = v;
+
+			if (direction === "To Forest Park"){
+
+			}
+			else if (direction === "To O'Hare"){
+
+			}
+			else{
+				Object.keys(busStopsArr).forEach(function(key){
+					$.each(busStopsArr[key], function(i, v){
+						if (v.stpnm === stopName && v.dir === direction)
+							stop = v;
+					});
 				});
-			});
+			}
 			return stop;
 		}
 		
@@ -482,17 +520,17 @@
 	   	// passthrough proxy that professor Hayes made in order to obtain manipulatable data from CTA API's
 	   	var proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
 
-	   	$.ajax({
-		        url: proxy + "http://lapi.transitchicago.com/api/1.0/ttarrivals.aspx&key=c10281242c88403baed503120fc7cc41&max=1&mapid=40360&outputType=JSON",
-		        method: 'GET',
-		     }).done(function(response) {
-			    	response = JSON.parse(response);
+	   	// $.ajax({
+		   //      url: proxy + "http://lapi.transitchicago.com/api/1.0/ttarrivals.aspx&key=c10281242c88403baed503120fc7cc41&max=1&mapid=40360&outputType=JSON",
+		   //      method: 'GET',
+		   //   }).done(function(response) {
+			  //   	response = JSON.parse(response);
 			    	
-			    	console.log(response);
+			  //   	console.log(response);
 			    
-			    }).fail(function(err) {
-				   		throw err;
-			       });
+			  //   }).fail(function(err) {
+				 //   		throw err;
+			  //      });
 
 
 
@@ -589,6 +627,8 @@
 
 	   	// add action listener for a change to the first drop down menu on the arrivals screen - bus tab
 	   	$("#busRoute").change(function(){
+	   		document.getElementById("busSubmitBtn").disabled = true;
+
 			// grab the selected route that was clicked
 			var busRouteSelect = document.getElementById("busRouteSelect");
 			var clickedValue = busRouteSelect.options[busRouteSelect.selectedIndex].value;
@@ -621,6 +661,8 @@
 
 	   	// add action listener for a change to the second drop down menu on the arrivals screen - bus tab
 		$("#busDirection").change(function(){
+			document.getElementById("busSubmitBtn").disabled = true;
+
 			var route = document.getElementById("busRouteSelect").value;
 			var dir = document.getElementById("busDirectionSelect").value;
 
@@ -696,7 +738,7 @@
 
 		// add action listener for a change to the third drop down menu on the arrivals screen - bus tab
 		$("#busStop").change(function(){
-	
+			document.getElementById("busSubmitBtn").disabled = false;
 		});
 
 		// To add the ink ripple effect to a button, attach a ripple instance to the button element.
@@ -705,7 +747,6 @@
 
 		// returns green, yellow, or red hex colors depending on how large 'minutes' is
 		function timeColor(minutes){
-			console.log(parseInt(minutes));
 			if (parseInt(minutes) <= 8)
 				return "#33CC33";
 			else if (parseInt(minutes) <= 16)
@@ -792,6 +833,11 @@
 
 	   	// Script for the bus route drop down select menu - train tab
 		const trainStopSelect = new mdc.select.MDCSelect(document.querySelector("#trainStop"));
+
+		// action listener for the drop down menu on the arrivals screen - train tab
+		$("#trainStopSelect").change(function(){
+			document.getElementById("trainSubmitBtn").disabled = false;
+		});
 
 		// action listener to the submit button on the arrivals screen - train tab
 		$("#trainSubmitBtn").click(function(){
