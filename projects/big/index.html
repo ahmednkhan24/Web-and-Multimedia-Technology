@@ -44,10 +44,6 @@
 			height: 66.6%;
 		}
 
-		.results {
-			background-color: #E2E2E2;
-		}
-
 		#shrine-header .mdc-toolbar__section {
 			overflow: visible;
 		}
@@ -757,6 +753,14 @@
 
 		// action listener to the submit button on the arrivals screen - bus tab
 		$("#busSubmitBtn").click(function(){
+			var busDisplayUL = document.getElementById("busResults");
+			
+			var li = document.createElement("li");
+    		$(li).addClass("mdc-list-item");
+    		$(li).css("background-color", "#E2E2E2");
+    		li.appendChild(document.createTextNode("Loading..."));
+    		busDisplayUL.appendChild(li);
+
 			setTime();
 
 			var route = document.getElementById("busRouteSelect").value;
@@ -769,8 +773,6 @@
 			var end = route + "&stpid=" + clkdStp.stpid + "&format=json";
 			cta += end;
 			var url = proxy + cta;
-
-			var busDisplayUL = document.getElementById("busResults");
 
 			// clear any previously stored data in the list
 			$(busDisplayUL).empty();
@@ -785,6 +787,7 @@
 				    if (response["bustime-response"]["error"]){
 				    	var li = document.createElement("li");
 			    		$(li).addClass("mdc-list-item");
+			    		$(li).css("background-color", "#E2E2E2");
 			    		li.appendChild(document.createTextNode("CTA API: No Service Scheduled"));
 			    		busDisplayUL.appendChild(li);
 				    }
@@ -813,8 +816,10 @@
 				    			$(li).css("background-color", timeColor(minutes));
 				    			li.appendChild(document.createTextNode(minutes + " minutes away"));
 				    		}
-				    		else
+				    		else{
+				    			$(li).css("background-color", "#E2E2E2");
 				    			li.appendChild(document.createTextNode("Error"));
+				    		}
 				    		
 				    		// display the results to the user
 				    		busDisplayUL.appendChild(li);
