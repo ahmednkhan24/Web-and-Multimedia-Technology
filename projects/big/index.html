@@ -2,7 +2,6 @@
 <html>
 <head>
 	<title>MyTransitApp</title>
-
 	<!-- the MCW stylesheet-->
   	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 	<!-- the material icon font-->
@@ -483,6 +482,31 @@
 	   	// passthrough proxy that professor Hayes made in order to obtain manipulatable data from CTA API's
 	   	var proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
 
+	   	$.ajax({
+		        url: proxy + "http://lapi.transitchicago.com/api/1.0/ttarrivals.aspx&key=c10281242c88403baed503120fc7cc41&max=1&mapid=40360&outputType=JSON",
+		        method: 'GET',
+		     }).done(function(response) {
+			    	response = JSON.parse(response);
+			    	
+			    	console.log(response);
+			    
+			    }).fail(function(err) {
+				   		throw err;
+			       });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	   	var timeURL = "http://ctabustracker.com/bustime/api/v2/gettime&key=ARXsvPdwAMNqNgnbMuyVreNbq&format=json";
 	   	var currentDateTime = "1996/10/24 10:00:00";
 
@@ -565,8 +589,6 @@
 
 	   	// add action listener for a change to the first drop down menu on the arrivals screen - bus tab
 	   	$("#busRoute").change(function(){
-			console.log("Bus Route Changed");
-
 			// grab the selected route that was clicked
 			var busRouteSelect = document.getElementById("busRouteSelect");
 			var clickedValue = busRouteSelect.options[busRouteSelect.selectedIndex].value;
@@ -599,13 +621,8 @@
 
 	   	// add action listener for a change to the second drop down menu on the arrivals screen - bus tab
 		$("#busDirection").change(function(){
-			console.log("change direction");
-
-			var busRouteSelect = document.getElementById("busRouteSelect");
-			var busDirectionSelect = document.getElementById("busDirectionSelect");
-
-			var route = busRouteSelect.value;
-			var dir = busDirectionSelect.value;
+			var route = document.getElementById("busRouteSelect").value;
+			var dir = document.getElementById("busDirectionSelect").value;
 
 			switch (route){
 				case "7":
@@ -679,24 +696,23 @@
 
 		// add action listener for a change to the third drop down menu on the arrivals screen - bus tab
 		$("#busStop").change(function(){
-			console.log("change stop");
+	
 		});
 
 		// To add the ink ripple effect to a button, attach a ripple instance to the button element.
 		// this ripple effect is attached to the button on the arrivals screen in the bus tab
 		mdc.ripple.MDCRipple.attachTo(document.querySelector('.mdc-button'));
 
+		// returns green, yellow, or red hex colors depending on how large 'minutes' is
 		function timeColor(minutes){
 			console.log(parseInt(minutes));
-			if (parseInt(minutes) <= 5)
+			if (parseInt(minutes) <= 8)
 				return "#33CC33";
-			else if (parseInt(minutes) <= 11)
+			else if (parseInt(minutes) <= 16)
 				return "#ffff66";
 			else
 				return "#ff4d4d";
 		}
-
-
 
 		// action listener to the submit button on the arrivals screen - bus tab
 		$("#busSubmitBtn").click(function(){
@@ -714,6 +730,8 @@
 			var url = proxy + cta;
 
 			var busDisplayUL = document.getElementById("busResults");
+
+			// clear any previously stored data in the list
 			$(busDisplayUL).empty();
 
 			$.ajax({
@@ -722,27 +740,49 @@
 		     }).done(function(response) {
 				    response = JSON.parse(response);
 
-				    $.each(response["bustime-response"]["prd"], function(i, v){
-			    		var predictedArrival = v.prdtm;
-			    		predictedArrival = insertToString(predictedArrival, "/", 4);
-			    		predictedArrival = insertToString(predictedArrival, "/", 7);
-
-			    		var diff = Math.abs(new Date(predictedArrival) - new Date(currentDateTime));
-			    		diff = millisToMinutesAndSeconds(diff);
-			    		var minutes = diff.split(":")[0];
-
-			    		var li = document.createElement("li");
+				    // if the api returned an error 
+				    if (response["bustime-response"]["error"]){
+				    	var li = document.createElement("li");
 			    		$(li).addClass("mdc-list-item");
-			    		$(li).css("background-color", timeColor(minutes));
-			    		li.appendChild(document.createTextNode(minutes + " minutes"));
+			    		li.appendChild(document.createTextNode("CTA API: No Service Scheduled"));
 			    		busDisplayUL.appendChild(li);
+				    }
+				    else{
+				    	$.each(response["bustime-response"]["prd"], function(i, v){
+				    		// get the predicted time for this stop, and add the 
+				    		// required /'s for the Date() constructor to recongize
+				    		var predictedArrival = v.prdtm;
+				    		predictedArrival = insertToString(predictedArrival, "/", 4);
+				    		predictedArrival = insertToString(predictedArrival, "/", 7);
 
-				    });
+				    		// calculate the amount of time it'll take for the bus to arrive
+				    		var diff = Math.abs(new Date(predictedArrival) - new Date(currentDateTime));
+				    		diff = millisToMinutesAndSeconds(diff);
+				    		var minutes = diff.split(":")[0];
+
+				    		// create a list item and store the time data into it
+				    		var li = document.createElement("li");
+			    			$(li).addClass("mdc-list-item");
+
+				    		if (parseInt(minutes) <= 0){
+				    			$(li).css("background-color", "#33CC33");
+				    			li.appendChild(document.createTextNode("APPROACHING"));
+				    		}
+				    		else if (parseInt(minutes) < 50){
+				    			$(li).css("background-color", timeColor(minutes));
+				    			li.appendChild(document.createTextNode(minutes + " minutes away"));
+				    		}
+				    		else
+				    			li.appendChild(document.createTextNode("Error"));
+				    		
+				    		// display the results to the user
+				    		busDisplayUL.appendChild(li);
+					    });
+				    }
 			    }).fail(function(err) {
 				   		throw err;
 			       });
 		});
-
 
 		/**********************************************************************************************
 		*
