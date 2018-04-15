@@ -9,9 +9,6 @@
 	<button id="capture">Capture</button>
 	<canvas id="canvas" width=320 height=240></canvas>
 
-
-
-
 	<!-- JQuery CDN -->
 	<script
 		src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -20,7 +17,6 @@
 	</script>
 
 	<script>
-
 		// On load, check for camera capability, and ask for permission
 		$(document).ready(function(){
 	   		console.log("Document Ready");
@@ -43,7 +39,66 @@
 			video: true,
 		};
 
+		// Capture an image of a face
+		captureButton.addEventListener('click', () => {
+			// Draw the video frame to the canvas.
+			context.drawImage(player, 0, 0, canvas.width, canvas.height);
 
+			// Use CloudVision API to retrieve data about the image
+			getImageData("FACE_DETECTION");
+		});
+
+		function getImageData(type) {
+			requestBody = {
+				"requests":[
+				{
+                	"image":{
+						"content":canvas.toDataURL().split(",")[1]
+					},
+					"features":[
+					{
+						"type": type,
+						"maxResults":10
+					}
+                    ]
+				}
+                ]
+			};
+
+			$.ajax({
+                method: "POST",
+                contentType: "application/json",
+                url: visionApiEndpoint + "?key=AIzaSyDpxNBlYSwN17YIhzYrMRb5i6aOBuB0Hx8",
+                data: JSON.stringify(requestBody)
+              })
+				.done(function(response) {
+					console.log(response);
+					
+					var topLeft = faceVertices[0];
+					var bottomRight = faceVertices[2];
+
+					var faceWidth = bottomRight.x - topLeft.x;
+					var faceHeight = bottomRight.y - topLeft.y;
+					var sourceX = topLeft.x;
+					var sourceY = topLeft.y;
+					var destWidth = faceWidth;
+					var destHeight = faceHeight;
+					var destX = 0;
+					var destY = 0;
+
+					var newCanvas = $("<canvas>");
+					newCanvas.attr("width", faceWidth);
+					newCanvas.attr("height", faceHeight);
+
+					var newContext = newCanvas[0].getContext("2d");
+
+					newContext.drawImage(canvas, sourceX, sourceY, faceWidth, faceHeight, destX, destY, faceWidth, faceHeight); 
+
+					$("body").append(newCanvas);
+             
+                });
+		}
+		
 
 	</script>
 </body>
