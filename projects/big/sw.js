@@ -1,7 +1,7 @@
 var CACHE_NAME = 'myTransitApp-cache-v1';
 var urlsToCache = [
-  '/',
-  '/imgs/halsted.jpg'
+  './',
+  './imgs/halsted.jpg'
 ];
 
 self.addEventListener('install', function(event){
