@@ -20,9 +20,6 @@ self.addEventListener('fetch', function(event) {
 				if (response) {
 					return response;
 				}
-				if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-				  return;
-				}
 				return fetch(event.request);
 			})
 	);
