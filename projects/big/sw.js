@@ -20,7 +20,7 @@ self.addEventListener('fetch', function(event) {
 				if (response) {
 					return response;
 				}
-				return;
+				return fetch(event.request);
 			})
 	);
 });
