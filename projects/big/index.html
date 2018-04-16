@@ -238,15 +238,15 @@
 	<!-- MCW Script -->
 	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
 
-	<!-- Include Dexie -->
-      <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
-
 	<!-- JQuery CDN -->
 	<script
 		src="https://code.jquery.com/jquery-3.3.1.min.js"
 		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
 		crossorigin="anonymous">	
 	</script>
+
+	<!-- Include Dexie -->
+	<script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 
     <!-- Personal JavaScript -->
     <script type="text/javascript">
@@ -1155,7 +1155,7 @@
 	   	**********************************************************************************************/
 
 	   	if('serviceWorker' in navigator){
-	   		navigator.serviceWorker.register('./sw.js').then(function(){
+	   		navigator.serviceWorkerContainer.register('sw.js').then(function(e){
 	   			console.log("Service Worker Registered");
 	   		});
 	   	}
