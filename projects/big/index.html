@@ -541,7 +541,7 @@
 		// array that holds the hex color for each bus/train route
 		colors = {
 	   		// ROYAL BLUE: blue line
-	   		"BLU": "#0000FF",
+	   		"BLUE": "#0000FF",
 	   		// RED: 7 bus
 	   		"007E": "#FF0000",
 	   		"007W": "#FF0000",
@@ -1001,7 +1001,7 @@
 	   			});
 	   		}
 
-	   		for (var i = 0; i < 12; i++){
+	   		for (var i = 0; i < 13; i++){
     			switch (i){
     				case 0:
     					addMarkers("007E");
@@ -1039,12 +1039,14 @@
     				case 11:
     					addMarkers("SMEW");
     					break;
+					case 12:
+						addMarkers("BLUE");
     			}
     		}
 	   	}
 
 	   	// creates a string filled with content to add to the info window
-	    function getContentString(v){
+	    function busContentString(v){
 	    	var gMapsURL = "https://www.google.com/maps/?q=";
 	    	var loc = v.lat + "," + v.lon;
 	    	gMapsURL += loc;
@@ -1063,43 +1065,96 @@
 			return contentString;
 	    }
 
+	    function trainContentString(v){
+	    	var gMapsURL = "https://www.google.com/maps/?q=";
+	    	var loc = v.lat + "," + v.lon;
+	    	gMapsURL += loc;
+
+			var contentString = 
+				'<div id="content">'+
+					'<h1 id="firstHeading" class="firstHeading">' + v.stpnm + '</h1>'+
+					'<div id="bodyContent">'+
+						'<p>Blue Line</p>'+
+						'<p>To Forest Park</p>'+
+						'<p>To O\'Hare</p>'+
+						'<p><a href=' + gMapsURL +'>' + 'Open in  Google Maps</a></p>'+
+					'</div>'+
+				'</div>';
+
+			return contentString;
+	    }
+
 	    // given the 4 digit key, function will add all stop locations as pins with info windows
 	    // to the map object with unique colors
 	   	function addMarkers(key){
 	   		// blue line marker: google.maps.SymbolPath.CIRCLE
 	   		
-	   		$.each(busStopsArr[key], function(i, v){
+	   		if (key === "BLUE"){
+	   			$.each(bluelineFP, function(i, v){
+	   				var latitude = v.lat;
+	   				var longitude = v.lon;
+	   				var color = colors[key];
+	   				var contentString = trainContentString(v);
 
-	   			var latitude = v.lat;
-	   			var longitude = v.lon;
-	   			var color = colors[key];
-	   			contentString = getContentString(v);
+	   				// create the marker for this stop
+					var marker = new google.maps.Marker({
+						position: {lat: latitude, lng: longitude},
+						map: map,
+						title: name,
+						icon: 
+						{
+					        path: google.maps.SymbolPath.CIRCLE,
+					        scale: 5.5,
+					        fillColor: color,
+					        fillOpacity: 1.0,
+					        strokeWeight: 0.4
+					    }
+					});
 
-	   			// create the marker for this stop
-				var marker = new google.maps.Marker({
-					position: {lat: latitude, lng: longitude},
-					map: map,
-					title: name,
-					icon: 
-					{
-				        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
-				        scale: 5.5,
-				        fillColor: color,
-				        fillOpacity: 1.0,
-				        strokeWeight: 0.4
-				    }
+					// create the info window for this stop
+			        var infowindow = new google.maps.InfoWindow({
+			        	content: contentString
+			        });
+
+			        // add a listener to the marker to display the info window when clicked
+			        marker.addListener('click', function() {
+			        	infowindow.open(map, marker);
+			        });
 				});
+	   		}
+	   		else{
+	   			$.each(busStopsArr[key], function(i, v){
+		   			var latitude = v.lat;
+		   			var longitude = v.lon;
+		   			var color = colors[key];
+		   			var contentString = busContentString(v);
 
-				// create the info window for this stop
-		        var infowindow = new google.maps.InfoWindow({
-		        	content: contentString
-		        });
+		   			// create the marker for this stop
+					var marker = new google.maps.Marker({
+						position: {lat: latitude, lng: longitude},
+						map: map,
+						title: name,
+						icon: 
+						{
+					        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+					        scale: 5.5,
+					        fillColor: color,
+					        fillOpacity: 1.0,
+					        strokeWeight: 0.4
+					    }
+					});
 
-		        // add a listener to the marker to display the info window when clicked
-		        marker.addListener('click', function() {
-		        	infowindow.open(map, marker);
-		        });
-			});
+					// create the info window for this stop
+			        var infowindow = new google.maps.InfoWindow({
+			        	content: contentString
+			        });
+
+			        // add a listener to the marker to display the info window when clicked
+			        marker.addListener('click', function() {
+			        	infowindow.open(map, marker);
+			        });
+				});
+	   		}
 	   	}
     </script>
     <!-- Google Maps API -->
