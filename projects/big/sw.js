@@ -16,12 +16,12 @@ self.addEventListener('fetch', function(event) {
 	event.respondWith(
 		caches.match(event.request)
 			.then(function(response) {
-				if (e.request.cache === 'only-if-cached' && e.request.mode !== 'same-origin') {
-				  return;
-				}
 				// Cache hit - return response
 				if (response) {
 					return response;
+				}
+				if (e.request.cache === 'only-if-cached' && e.request.mode !== 'same-origin') {
+				  return;
 				}
 				return fetch(event.request);
 			})
