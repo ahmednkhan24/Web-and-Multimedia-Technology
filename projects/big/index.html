@@ -251,6 +251,10 @@
     <!-- Personal JavaScript -->
     <script type="text/javascript">
 
+    	$(document).ready(function(){
+	   		console.log("Document Ready");
+	   	});
+
     	/**********************************************************************************************
 		*
 		* The CTA APIs don't pass back the necessary header values for us to be able to process 
@@ -294,39 +298,6 @@
 		* 
 	   	**********************************************************************************************/
 	   	var proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
-
-	   	$(document).ready(function(){
-	   		console.log("Document Ready");
-	   	});
-
-	   	/**********************************************************************************************
-		*
-		* Settings Screen
-		* 
-	   	**********************************************************************************************/
-
-	   	// if('serviceWorker' in navigator){
-	   	// 	navigator.serviceWorkerContainer.register('sw.js').then(function(e){
-	   	// 		console.log("Service Worker Registered");
-	   	// 	});
-	   	// }
-
-	   	if ('serviceWorker' in navigator){
-	   		window.addEventListener('load', function(){
-	   			navigator.serviceWorker.register('./sw.js').then(function(registration){
-	   				console.log('ServiceWorker registration successful with scope: ', registration.scope);
-	   			}, function(err){
-	   				console.log('ServiceWorker registration failed: ', err);
-	   			});
-	   		});
-	   	}
-
-
-
-
-
-
-
 
 	   	// Script for temporary drawer for the tool bar
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
@@ -1176,6 +1147,27 @@
 				});
 	   		}
 	   	}
+	   	
+	   	/**********************************************************************************************
+		*
+		* Settings Screen
+		* 
+	   	**********************************************************************************************/
+
+	   	if ('serviceWorker' in navigator){
+	   		window.addEventListener('load', function(){
+	   			navigator.serviceWorker.register('./sw.js').then(function(registration){
+	   				console.log('ServiceWorker registration successful with scope: ', registration.scope);
+	   			}, function(err){
+	   				console.log('ServiceWorker registration failed: ', err);
+	   			});
+	   		});
+	   	}
+
+
+
+
+
     </script>
     <!-- Google Maps API -->
     <script async defer

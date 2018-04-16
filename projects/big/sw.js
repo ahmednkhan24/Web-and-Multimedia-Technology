@@ -1,4 +1,4 @@
-self.addEventListener('install', function(event) {
-  // Perform install steps
-  console.log("Stuff");
+self.addEventListener('install', function(event){
+	// Perform install steps
+	console.log("Stuff");
 });
