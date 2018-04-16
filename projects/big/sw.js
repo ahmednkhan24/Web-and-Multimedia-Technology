@@ -20,25 +20,7 @@ self.addEventListener('install', function(event){
 // 				if (response) {
 // 					return response;
 // 				}
-// 				if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-// 					return;
-// 				}
 // 				return fetch(event.request);
 // 			})
 // 	);
-// });
-
-// self.addEventListener('activate', function(event) {
-// 	var cacheWhitelist = ['pages-cache-v1', 'blog-posts-cache-v1'];
-// 	event.waitUntil(
-// 		caches.keys().then(function(cacheNames) {
-// 			return Promise.all(
-// 				cacheNames.map(function(cacheName) {
-// 					if (cacheWhitelist.indexOf(cacheName) === -1) {
-// 						return caches.delete(cacheName);
-// 					}
-// 				})
-// 				);
-// 		})
-// 		);
 // });
