@@ -1034,7 +1034,7 @@
     		}
 	   	}
 
-	   	// creates a string filled with content to add to the info window
+	   	// creates a string filled with HTML content to add to the info window for busses
 	    function busContentString(v){
 	    	var gMapsURL = "https://www.google.com/maps/?q=";
 	    	var loc = v.lat + "," + v.lon;
@@ -1054,6 +1054,7 @@
 			return contentString;
 	    }
 
+	    // creates a string filled with HTML content to add to the info window for trains
 	    function trainContentString(v){
 	    	var gMapsURL = "https://www.google.com/maps/?q=";
 	    	var loc = v.lat + "," + v.lon;
@@ -1076,8 +1077,6 @@
 	    // given the 4 digit key, function will add all stop locations as pins with info windows
 	    // to the map object with unique colors
 	   	function addMarkers(key){
-	   		// blue line marker: google.maps.SymbolPath.CIRCLE
-	   		
 	   		if (key === "BLUE"){
 	   			$.each(bluelineFP, function(i, v){
 	   				var latitude = v.lat;
