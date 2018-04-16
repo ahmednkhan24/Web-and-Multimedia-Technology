@@ -259,6 +259,50 @@
     <!-- Personal JavaScript -->
     <script type="text/javascript">
 
+    	/**********************************************************************************************
+		*
+		* The CTA APIs don't pass back the necessary header values for us to be able to process 
+		* the response as JSON in our scripts.
+		*
+		* This is a known issue related to the current browser security model 
+		* (disallowing insecure scripts on secure pages) and the fact that not all servers 
+		* deliver content via HTTPS (because it costs money to have a security certificate 
+		* on your site and it add some processing time for the encryption.)
+		*
+		* One workaround is to create an HTTPS page on a proxy server which makes 
+		* the request as HTTP to the endpoint, but delivers it as HTTPS.
+		*
+		* This is a passthrough proxy that professor Hayes made in order to 
+		* obtain manipulatable data from CTA API's
+		*
+		* URL is 
+		* https://polar-garden-75406.herokuapp.com/apiPassThru.php
+		*
+		* include your regular API endpoint as a URL param named "apiEndpoint" and include the 
+		* other parameters as your normally would.  Here's an example call to the "get stops" endpoint
+		*
+ 		* https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=
+ 		* http://ctabustracker.com/bustime/api/v2/getstops&key=<your CTA API key>&rt=49&dir=Southbound&format=json
+ 		*
+ 		* The minor difference is the documentation has a question mark after 'getstops' 
+ 		* and the proxy has an ampersand after 'getstops.'
+ 		*
+ 		* It's important to understand what the question mark ("?") represents in a URL;
+ 		* to the server, it indicates the end of the file path and the start of a set of parameters, 
+ 		* formatted as name=value pairs, with each pair separated by an ampersand ("&").
+ 		* A second question mark in the URL would confuse the parsing.
+ 		*
+ 		* Professor Haye's says:
+ 		* 
+ 		* "my pass-through script parses all the parameters passed to it and constructs a 
+ 		* server-side API request to the value of apiEndpoint, passing all the other parameters 
+ 		* as parameters to apiEndpoint.
+ 		* I could have written it to accept a URL-encoded version of the destination 
+ 		* URL as the single parameter; that's just not how I chose to do it."
+		* 
+	   	**********************************************************************************************/
+	   	var proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
+
 	   	$(document).ready(function(){
 	   		console.log("Document Ready");
 	   	});
@@ -518,8 +562,11 @@
     		"SMEW": "#000000"
     	};
 
-	   	// passthrough proxy that professor Hayes made in order to obtain manipulatable data from CTA API's
-	   	var proxy = "https://polar-garden-75406.herokuapp.com/apiPassThru.php?apiEndpoint=";
+	   	/**********************************************************************************************
+		*
+		* adding action listeners to the tool bar items and the arrival screen's tab bar items
+		* 
+	   	**********************************************************************************************/
 
 	   	var timeURL = "http://ctabustracker.com/bustime/api/v2/gettime&key=ARXsvPdwAMNqNgnbMuyVreNbq&format=json";
 	   	var currentDateTime = "1996/10/24 10:00:00";
