@@ -299,6 +299,25 @@
 	   		console.log("Document Ready");
 	   	});
 
+	   	/**********************************************************************************************
+		*
+		* Settings Screen
+		* 
+	   	**********************************************************************************************/
+
+	   	if('serviceWorker' in navigator){
+	   		navigator.serviceWorkerContainer.register('sw.js').then(function(e){
+	   			console.log("Service Worker Registered");
+	   		});
+	   	}
+
+
+
+
+
+
+
+
 	   	// Script for temporary drawer for the tool bar
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
@@ -1147,28 +1166,6 @@
 				});
 	   		}
 	   	}
-
-	   	/**********************************************************************************************
-		*
-		* Settings Screen
-		* 
-	   	**********************************************************************************************/
-
-	   	if('serviceWorker' in navigator){
-	   		navigator.serviceWorkerContainer.register('sw.js').then(function(e){
-	   			console.log("Service Worker Registered");
-	   		});
-	   	}
-
-
-
-
-
-
-
-
-
-
     </script>
     <!-- Google Maps API -->
     <script async defer
