@@ -46,6 +46,7 @@
 
 			// Use CloudVision API to retrieve data about the image
 			getImageData("FACE_DETECTION");
+			getImageData("LABEL_DETECTION");
 		});
 
 		function getImageData(type) {
@@ -95,11 +96,9 @@
 					newContext.drawImage(canvas, sourceX, sourceY, faceWidth, faceHeight, destX, destY, faceWidth, faceHeight); 
 
 					$("body").append(newCanvas);
-             
+           
                 });
 		}
-		
-
 	</script>
 </body>
 </html>
