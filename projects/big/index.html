@@ -139,10 +139,6 @@
 				<div id="busDirection" class="mdc-select">
 					<select id="busDirectionSelect" class="mdc-select__native-control">
 						<option value="" disabled selected></option>
-						<option id="north" class="hide" value="Northbound">Northbound</option>
-						<option id="south" class="hide" value="Southbound">Southbound</option>
-						<option id="east" class="hide" value="Eastbound">Eastbound</option>
-						<option id="west" class="hide" value="Westbound">Westbound</option>
 					</select>
 					<div class="mdc-select__label">Select Direction</div>
 					<div class="mdc-select__bottom-line"></div>
@@ -296,22 +292,6 @@
 	   	// Script for temporary drawer for the tool bar
 	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
 		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
-
-		// this is a function that I found online.
-	   	// it inserts any string into another string at any desired position
-	   	// it takes in the original string as the first parameter, 
-	   	// a string that the user wants to insert into the first parameter
-	   	// a integer that defines what index of the main string the user 
-	   	// wants to insert the second string to
-	   	// the code can be found at this website:
-	   	// https://www.w3resource.com/javascript-exercises/javascript-string-exercise-14.php
-	   	function insertToString(main_string, ins_string, pos){
-	   		if (typeof(pos) == "undefined") 
-	   			pos = 0;
-	   		if(typeof(ins_string) == "undefined") 
-	   			ins_string = '';
-	   		return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
-	   	}
 
 		/**********************************************************************************************
 		*
@@ -580,6 +560,22 @@
 	   		return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 	   	}
 
+	   	// this is a function that I found online.
+	   	// it inserts any string into another string at any desired position
+	   	// it takes in the original string as the first parameter, 
+	   	// a string that the user wants to insert into the first parameter
+	   	// a integer that defines what index of the main string the user 
+	   	// wants to insert the second string to
+	   	// the code can be found at this website:
+	   	// https://www.w3resource.com/javascript-exercises/javascript-string-exercise-14.php
+	   	function insertToString(main_string, ins_string, pos){
+	   		if (typeof(pos) == "undefined") 
+	   			pos = 0;
+	   		if(typeof(ins_string) == "undefined") 
+	   			ins_string = '';
+	   		return main_string.slice(0, pos) + ins_string + main_string.slice(pos);
+	   	}
+
 	   	/**********************************************************************************************
 		*
 		* adding action listeners to the tool bar items and the arrival screen's tab bar items
@@ -637,25 +633,44 @@
 	   	// add action listener for a change to the first drop down menu on the arrivals screen - bus tab
 	   	$("#busRoute").change(function(){
 	   		document.getElementById("busSubmitBtn").disabled = true;
-
-			// grab the selected route that was clicked
 			var busRouteSelect = document.getElementById("busRouteSelect");
+			// grab the value attribute of the selected route option that was clicked
 			var clickedValue = busRouteSelect.options[busRouteSelect.selectedIndex].value;
+			var busDirectionSelect = document.getElementById("busDirectionSelect");
+
+			// want to keep the first option of the bus directions as this is used as the empty value
+			// want to remove all the other options so you can re-populate the select box with the new data
+			$('#busDirectionSelect').children('option:not(:first)').remove();
 
 			// change the direction value options depending on what route was chosen
 			// the eight bus is the only one that has North/South options
 			// the rest only have East/West options
+			var option = document.createElement("option");
+			var option2 = document.createElement("option");
+
 			if (clickedValue === "8") {
-				$("#north").removeClass("hide");
-				$("#south").removeClass("hide");
-				$("#east").addClass("hide");
-				$("#west").addClass("hide");
+				option.text = "Northbound";
+				option.value = "Northbound";
+				busDirectionSelect.add(option);
+
+				option2.text = "Southbound";
+				option2.value = "Southbound";
+				busDirectionSelect.add(option2);
+
+				console.log(option);
+				console.log(option2);
 			}
 			else {
-				$("#east").removeClass("hide");
-				$("#west").removeClass("hide");
-				$("#north").addClass("hide");
-				$("#south").addClass("hide");
+				option.text = "Eastbound";
+				option.value = "Eastbound";
+				busDirectionSelect.add(option);
+
+				option2.text = "Westbound";
+				option2.value = "Westbound";
+				busDirectionSelect.add(option2);
+
+				console.log(option);
+				console.log(option2);
 			}
 
 			// make sure to pre-select the first empty value of the direction select
