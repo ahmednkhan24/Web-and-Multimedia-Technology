@@ -5,11 +5,12 @@ var urlsToCache = [
 ];
 
 self.addEventListener('install', function(event){
-	if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-	  return;
-	}
 	event.waitUntil(caches.open(CACHE_NAME).then(function(cache){
 		console.log('Opened cache');
+
+		if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+			return;
+		}
 
 		return cache.addAll(urlsToCache);
 	})
@@ -18,7 +19,7 @@ self.addEventListener('install', function(event){
 
 self.addEventListener('fetch', function(event) {
 	if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-	  return;
+		return;
 	}
 	event.respondWith(
 		caches.match(event.request)
