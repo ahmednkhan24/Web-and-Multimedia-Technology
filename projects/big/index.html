@@ -656,9 +656,6 @@
 				option2.text = "Southbound";
 				option2.value = "Southbound";
 				busDirectionSelect.add(option2);
-
-				console.log(option);
-				console.log(option2);
 			}
 			else {
 				option.text = "Eastbound";
@@ -668,9 +665,6 @@
 				option2.text = "Westbound";
 				option2.value = "Westbound";
 				busDirectionSelect.add(option2);
-
-				console.log(option);
-				console.log(option2);
 			}
 
 			// make sure to pre-select the first empty value of the direction select
@@ -726,6 +720,11 @@
 			}
 		});
 
+		// add action listener for a change to the third drop down menu on the arrivals screen - bus tab
+		$("#busStop").change(function(){
+			document.getElementById("busSubmitBtn").disabled = false;
+		});
+
 		// given the 4 digit key, function will load all the stops that belong to that key
 		// to the drop down select menu that has id 'busStopSelect'
 		function addOptions(key){
@@ -759,11 +758,6 @@
 				});
 			}
 		}
-
-		// add action listener for a change to the third drop down menu on the arrivals screen - bus tab
-		$("#busStop").change(function(){
-			document.getElementById("busSubmitBtn").disabled = false;
-		});
 
 		// To add the ink ripple effect to a button, attach a ripple instance to the button element.
 		// this ripple effect is attached to the button on the arrivals screen in the bus tab
@@ -1163,6 +1157,7 @@
 		* 
 	   	**********************************************************************************************/
 
+	   	// Service Worker stuff
 	   	if ('serviceWorker' in navigator){
 	   		window.addEventListener('load', function(){
 	   			navigator.serviceWorker.register('./sw.js').then(function(registration){
@@ -1172,6 +1167,8 @@
 	   			});
 	   		});
 	   	}
+
+	   	// IndexedDB stuff
 
 
 
