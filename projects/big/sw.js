@@ -7,11 +7,6 @@ var urlsToCache = [
 self.addEventListener('install', function(event){
 	event.waitUntil(caches.open(CACHE_NAME).then(function(cache){
 		console.log('Opened cache');
-
-		if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
-			return;
-		}
-
 		return cache.addAll(urlsToCache);
 	})
 	);
