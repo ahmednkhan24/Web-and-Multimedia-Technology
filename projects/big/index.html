@@ -5,11 +5,9 @@
 
 	<meta name="description" content="UIC East Campus CTA Bus & Train Tracker">
 
-	<meta name="keywords" content="CTA,UIC,Bus,Train,Subway,Chicago,Transit,Authority,Tracker">
+	<meta name="keywords" content="CTA,UIC,Bus,Train,Subway,Chicago,Transit,Authority,Tracker,Blueline">
 
 	<meta name="author" content="Ahmed Khan">
-
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>MyTransitApp</title>
 
@@ -1203,13 +1201,8 @@
 		const settingsSelect = new mdc.select.MDCSelect(document.querySelector("#settingsDiv"));
 
 		// action listener for the drop down menu on the settings screen
-		$("#settingsScreen").change(function(){
+		$("#settingsSelect").change(function(){
 			document.getElementById("saveChanges").disabled = false;
-		});
-
-		// action listener to the save changes button on the settings screen
-		$("#saveChanges").click(function(){
-			alert("button has been clicked");
 		});
 
 		// 2 miles radius - SCE to Jubranos    15
@@ -1217,25 +1210,33 @@
 		// 0.5 mile radius SCE to taylor street 17
 		// 0.1 mile radius SCE to harrison stop 18
 
-		// IndexedDB stuff
-		// Define your database
-	   	//var db = new Dexie('MyTransitApp-Settings');
+		// IndexedDB
+	   	var db = new Dexie('MyTransitApp-Settings');
 
-		
+	   	db.version(1).stores({
+	   		preferences: 'id,name,value'
+	   	});
 
+	   	db.open().catch(function(err){
+	   		console.log("Error trying to open database");
+	   	});
 
+	   	db.preferences.add({id:1, name:"radius", value:"15"});
 
+	   	// action listener to the save changes button on the settings screen
+		$("#saveChanges").click(function(){
 
+			var settingsSelect = document.getElementById("settingsSelect");
+			var clickedValue = settingsSelect.options[settingsSelect.selectedIndex].value;
 
-
-
-
-
-
-
-
-
-
+			db.preferences.update(1,{value:clickedValue})
+				.then(function(update){
+					if (update)
+						console.log("preferences updated successfully");
+					else
+						console.log("preferences failed to update");
+				});
+		});
 
 	   	// Adding Service Worker
 	   	if ('serviceWorker' in navigator){
