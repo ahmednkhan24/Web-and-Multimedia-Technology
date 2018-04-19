@@ -2,27 +2,18 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-
 	<meta name="description" content="UIC East Campus CTA Bus & Train Tracker">
-
 	<meta name="keywords" content="CTA,UIC,Bus,Train,Subway,Chicago,Transit,Authority,Tracker,Blueline">
-
 	<meta name="author" content="Ahmed Khan">
-
 	<title>MyTransitApp</title>
-
 	<!-- the MCW stylesheet-->
   	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
-
 	<!-- the material icon font-->
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
   	<!-- favicon icon -->
   	<link rel="shortcut icon" type="image/x-icon" href="./imgs/favicon.ico"/>
-
 	<!-- Personal CSS -->
 	<style type="text/css">
-
 	  	.hide {
 	  		display: none;
 	  	}
@@ -78,9 +69,9 @@
 		.mdc-radio {
 			padding: 30px;
 		}
-
 	</style>
 </head>
+
 <body class="mdc-typography">
 	<!-- tool bar -->
 	<header id="shrine-header" class="mdc-toolbar mdc-toolbar--fixed mdc-theme--text-primary-on-background">
@@ -229,18 +220,9 @@
 		<div id="map"></div>
 	</div>
 
-
-
-
-
-
-
-
-
 	<!-- screen 3 -->
 	<div id="settingsScreen" class="hide">
 		<br><br><br><br>
-
 		<div class="container">
 			<!-- bus route drop down select menu -->
 			<div id="settingsDiv" class="mdc-select">
@@ -256,14 +238,13 @@
 			</div>
 			<br><br><br><br>
 			<button id="saveChanges" class="mdc-button submitBtn" disabled><strong>Save Changes</strong></button>
+			<div class="results">
+				<ul id="saveResults" class="mdc-list">
+					<li class="mdc-list-item hide">Single-line item</li>
+				</ul>
+			</div>
 		</div>
-		
 	</div>
-
-
-
-
-
 
 	<!-- MCW Script -->
 	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
@@ -1019,12 +1000,18 @@
 
 	   	// the variable that is the map
 	   	var map;
+	   	var zoomValue = 15;
+
+	   	// 2 miles radius  - 15
+		// 1 mile radius   - 16
+		// 0.5 mile radius - 17
+		// 0.1 mile radius - 18
 
 	   	// add the map to the map screen inside the div with id 'map'
 	   	function initMap() {
 	   		var pin = userLocation;
 	   		map = new google.maps.Map(document.getElementById("map"), {
-	   			zoom: 15,
+	   			zoom: zoomValue,
 	   			center: pin
 	   		});
 
@@ -1205,11 +1192,6 @@
 			document.getElementById("saveChanges").disabled = false;
 		});
 
-		// 2 miles radius - SCE to Jubranos    15
-		// 1 mile radius - SCE to ghareeb 16
-		// 0.5 mile radius SCE to taylor street 17
-		// 0.1 mile radius SCE to harrison stop 18
-
 		// IndexedDB
 	   	var db = new Dexie('MyTransitApp-Settings');
 
@@ -1223,19 +1205,33 @@
 
 	   	db.preferences.add({id:1, value:"15"});
 
+	   	// 2 miles radius  - 15
+		// 1 mile radius   - 16
+		// 0.5 mile radius - 17
+		// 0.1 mile radius - 18
+
 	   	// action listener to the save changes button on the settings screen
 		$("#saveChanges").click(function(){
 
 			var settingsSelect = document.getElementById("settingsSelect");
 			var clickedValue = settingsSelect.options[settingsSelect.selectedIndex].value;
 
+			var saveResultUL = document.getElementById("saveResults");
+			var li = document.createElement("li");
+    		$(li).addClass("mdc-list-item");
+
 			db.preferences.update(1,{value:clickedValue})
 				.then(function(update){
 					if (update)
-						console.log("preferences updated successfully");
+						li.appendChild(document.createTextNode("Preferences have been updated!"));
 					else
-						console.log("preferences failed to update");
+						li.appendChild(document.createTextNode("Failed to update preferences."));
 				});
+
+			saveResultUL.appendChild(li);
+
+			zoomValue = parseInt(clickedValue);
+			initMap();
 		});
 
 	   	// Adding Service Worker
