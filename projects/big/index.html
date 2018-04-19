@@ -6,6 +6,8 @@
   	<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
 	<!-- the material icon font-->
   	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  	<!-- favicon link -->
+  	<link rel='shortcut icon' type='image/x-icon' href='./imgs/favicon.ico' />
 	<!-- Personal CSS -->
 	<style type="text/css">
 
@@ -1221,7 +1223,7 @@
 
 
 
-	   	// Service Worker stuff
+	   	// Adding Service Worker
 	   	if ('serviceWorker' in navigator){
 	   		window.addEventListener('load', function(){
 	   			navigator.serviceWorker.register('./sw.js').then(function(registration){
