@@ -1214,14 +1214,14 @@
 	   	var db = new Dexie('MyTransitApp-Settings');
 
 	   	db.version(1).stores({
-	   		preferences: 'id,name,value'
+	   		preferences: 'id,value'
 	   	});
 
 	   	db.open().catch(function(err){
 	   		console.log("Error trying to open database");
 	   	});
 
-	   	db.preferences.add({id:1, name:"radius", value:"15"});
+	   	db.preferences.add({id:1, value:"15"});
 
 	   	// action listener to the save changes button on the settings screen
 		$("#saveChanges").click(function(){
