@@ -215,15 +215,41 @@
 		<div id="map"></div>
 	</div>
 
+
+
+
+
+
+
+
+
 	<!-- screen 3 -->
 	<div id="settingsScreen" class="hide">
-		<br><br>
+		<br><br><br><br>
 
 		<div class="container">
-			<h1>Settings Screen</h1>
+			<!-- bus route drop down select menu -->
+			<div id="settingsDiv" class="mdc-select">
+				<select id="settingsSelect" class="mdc-select__native-control">
+					<option id="disabledOption" value="" disabled selected></option>
+					<option value="18">0.1 miles</option>
+					<option value="17">0.5 miles</option>
+					<option value="16">1.0 miles</option>
+					<option value="15">2.0 miles</option>
+				</select>
+				<div class="mdc-select__label">'Near Me' radius within</div>
+				<div class="mdc-select__bottom-line"></div>
+			</div>
+			<br><br><br><br>
+			<button id="saveChanges" class="mdc-button submitBtn" disabled><strong>Save Changes</strong></button>
 		</div>
 		
 	</div>
+
+
+
+
+
 
 	<!-- MCW Script -->
 	<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
@@ -984,7 +1010,7 @@
 	   	function initMap() {
 	   		var pin = userLocation;
 	   		map = new google.maps.Map(document.getElementById("map"), {
-	   			zoom: 19,
+	   			zoom: 15,
 	   			center: pin
 	   		});
 
@@ -1156,6 +1182,23 @@
 		* Settings Screen
 		* 
 	   	**********************************************************************************************/
+
+	   	// Script for the distance select menu in the settings screen
+		const settingsSelect = new mdc.select.MDCSelect(document.querySelector("#settingsDiv"));
+
+		// action listener for the drop down menu on the settings screen
+		$("#settingsScreen").change(function(){
+			document.getElementById("saveChanges").disabled = false;
+		});
+
+		// action listener to the save changes button on the settings screen
+		$("#saveChanges").click(function(){
+			alert("button has been clicked");
+		});
+
+
+		
+
 
 	   	// Service Worker stuff
 	   	if ('serviceWorker' in navigator){
