@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>final</title>
+
+	<style type="text/css">
+		
+		.hide {
+	  		display: none;
+	  	}
+
+
+	</style>
+</head>
+<body>
+
+	<h1>hello world</h1>
+	<div class="container">
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend">
+		    <label class="input-group-text" for="inputGroupSelect01">Options</label>
+		  </div>
+		  <select class="custom-select" id="myselect">
+		    <option selected disabled>Choose ...</option>
+		    <option value="1">WIC Clinic</option>
+		    <option value="2">Mental Health Clinic</option>
+		    <option value="3">STI Specialty Clinic</option>
+		  </select>
+		</div>
+		<button id="searchBtn">Search</button>
+
+
+
+
+		<div class="list-group">
+			<div id="template" class="hide">
+				<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+				    <div class="d-flex w-100 justify-content-between">
+				      <strong><h5 class="mb-1">Clinic Name</h5></strong>
+				      <small>Clinic Type</small>
+				    </div>
+				    <h6>Clinic Address</h6>
+				    <h6>City, State ZIP</h6>
+				    <h6>Clinic Phone</h6>
+				    <small>Clinic Hours of Operation</small>
+				  </a>
+			</div>
+
+
+
+
+		</div>
+
+
+
+
+	</div>
+	
+
+
+	<!-- JQuery CDN -->
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous">
+	</script>
+
+	<!-- Latest compiled and minified BootStrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<!-- bootstrap javascript cdn -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+	<script type="text/javascript">
+
+		function createCard(data){
+    		var name = data.site_name;
+    		var type = data.clinic_type;
+    		var addr = data.street_address;
+    		var city = data.city;
+    		var state = data.state;
+    		var zip = data.zip;
+    		var phone = data.phone_1;
+    		var hours = data.hours_of_operation;
+
+    		var msg = '<div id="template">' +
+    		'<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">' +
+				    '<div class="d-flex w-100 justify-content-between">' + 
+				      '<strong><h5 class="mb-1">' + name + '</h5></strong>' +
+				      '<small>' + type + '</small>' +
+				    '</div>' +
+				    '<h6>' + addr + '</h6>' +
+				    '<h6>' + city + ", " + state + ", " + zip + '</h6>' +
+				    '<h6>' + phone + '</h6>' +
+				    '<small>' + hours + '</small>' +
+				  '</a>' +
+			'</div>';
+
+			$(".list-group").append(msg);
+		}
+
+		var url = "https://data.cityofchicago.org/resource/t57k-za2y.json?$where=clinic_type IN ('";
+		$("#searchBtn").click(function(){
+			var clinicType = $("#myselect option:selected").text();
+			
+			$.ajax({
+		        url: url + clinicType + "')",
+		        method: 'GET',
+		     }).done(function(response) {
+
+		     		$(".list-group").empty();
+			    	$.each(response, function(i, v){
+			    		
+
+			    		createCard(v);
+
+			    	});
+
+
+
+
+
+
+
+			    }).fail(function(err) {
+				   		throw err;
+			       });
+		});
+		
+		
+	</script>
+
+
+</body>
+</html>
