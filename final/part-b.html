@@ -9,12 +9,19 @@
 	  		display: none;
 	  	}
 
+	  	#map 
+	   	{
+	   		margin: 20px;
+	   		padding: 20px;
+        	height: 600px;
+        }
+
 
 	</style>
 </head>
 <body>
 
-	<h1>hello world</h1>
+	
 	<div class="container">
 		<div class="input-group mb-3">
 		  <div class="input-group-prepend">
@@ -45,14 +52,10 @@
 				    <small>Clinic Hours of Operation</small>
 				  </a>
 			</div>
-
-
-
-
 		</div>
 
 
-
+		<div id="map" class="hide"></div>
 
 	</div>
 	
@@ -99,6 +102,32 @@
 			$(".list-group").append(msg);
 		}
 
+		function getContentString(data){
+			var name = data.site_name;
+    		var type = data.clinic_type;
+    		var addr = data.street_address;
+    		var city = data.city;
+    		var state = data.state;
+    		var zip = data.zip;
+    		var phone = data.phone_1;
+    		var hours = data.hours_of_operation;
+
+    		var msg = '<div id="template">' +
+    		'<a href="#" class="list-group-item list-group-item-action flex-column align-items-start">' +
+				    '<div class="d-flex w-100 justify-content-between">' + 
+				      '<strong><h5 class="mb-1">' + name + '</h5></strong>' +
+				      '<small>' + type + '</small>' +
+				    '</div>' +
+				    '<h6>' + addr + '</h6>' +
+				    '<h6>' + city + ", " + state + ", " + zip + '</h6>' +
+				    '<h6>' + phone + '</h6>' +
+				    '<small>' + hours + '</small>' +
+				  '</a>' +
+			'</div>';
+
+			return msg;
+		}
+
 		var url = "https://data.cityofchicago.org/resource/t57k-za2y.json?$where=clinic_type IN ('";
 		$("#searchBtn").click(function(){
 			var clinicType = $("#myselect option:selected").text();
@@ -107,29 +136,73 @@
 		        url: url + clinicType + "')",
 		        method: 'GET',
 		     }).done(function(response) {
+		   
+		     	
 
 		     		$(".list-group").empty();
 			    	$.each(response, function(i, v){
-			    		
-
+			 
 			    		createCard(v);
 
+			    		var latitude = parseFloat(v.latitude);
+				    	var longitude = parseFloat(v.longitude);
+				    	var contentString = getContentString(v);
+
+						var marker = new google.maps.Marker(
+							{
+								position: {lat: latitude, lng: longitude},
+								map: map,
+								title: name,
+								icon: 
+								{
+							        path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+							        scale: 5.5,
+							        fillColor: "black",
+							        fillOpacity: 1.0,
+							        strokeWeight: 0.4
+							    }
+							}
+						);
+
+						// create the info window for this school
+				        var infowindow = new google.maps.InfoWindow(
+					        {
+					          content: contentString
+					        }
+					    );
+
+				        // add a listener to the marker to display the info window when clicked
+				        marker.addListener('click', function() 
+				        {
+				          infowindow.open(map, marker);
+				        });
+
 			    	});
-
-
-
-
-
-
-
 			    }).fail(function(err) {
 				   		throw err;
 			       });
+
+			$("#map").removeClass("hide");
+		
+		    initMap();
 		});
+
+		function initMap() 
+    	{
+	        var chicago = {lat: 41.8781, lng: -87.6298};
+	        map = new google.maps.Map(document.getElementById("map"), 
+	        {
+	          zoom: 10,
+	          center: chicago
+        	});
+	    }
 		
 		
 	</script>
 
-
+	<!-- Google Maps API -->
+    <script async defer
+    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0zHggstjz-FDhr9M8nHdzOxEa_5QCvnY&callback=initMap">
+    </script>
 </body>
 </html>
