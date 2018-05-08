@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="Ahmed Khan">
+	<title>part c</title>
+	<!-- the MCW stylesheet-->
+  	<link href="https://unpkg.com/material-components-web@0.34.1/dist/material-components-web.min.css" rel="stylesheet">
+	<!-- the material icon font-->
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  	
+	<!-- Personal CSS -->
+	<style type="text/css">
+
+	  	.hide {
+	  		display: none;
+	  	}
+
+	  	#busTrainTabBar {
+			padding-top: 30px;
+			padding-bottom: 40px;
+		}
+
+		#logoImg {
+			width: 100%;
+		}
+
+  		#shrine-header {
+  			background-color: #E2E2E2;
+  		}
+
+  		.submitBtn {
+			font-size: 30px;
+		}
+
+		#map {
+	   		margin: 20px;
+	   		padding: 20px;
+        	height: 850px;
+        }
+
+  		.container {
+			text-align: center;
+			margin: auto;
+			width: 66.6%;
+			height: 66.6%;
+		}
+
+		#shrine-header .mdc-toolbar__section {
+			overflow: visible;
+		}
+
+		.mdc-tab {
+			font-size: 25px;
+			padding: 15px 50px;
+		}
+
+		.mdc-select {
+			margin: 30px;
+			width: 30%;
+		}
+
+		.mdc-button {
+			margin: 20px;
+		}
+
+		.mdc-radio {
+			padding: 30px;
+		}
+		
+	</style>
+</head>
+
+<body class="mdc-typography">
+	<!-- tool bar -->
+	<header id="shrine-header" class="mdc-toolbar mdc-toolbar--fixed mdc-theme--text-primary-on-background">
+		<div class="mdc-toolbar__row">
+	    	<section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+				<a id="shrine-nav-icon" class="material-icons mdc-ripple-surface"
+				   href="#"
+				   aria-label="Click to show the navigation menu"
+				   aria-controls="shrine-nav-menu"
+				   data-mdc-auto-init="MDCRipple"
+				   data-mdc-ripple-is-unbounded>menu
+				</a>
+		    </section>
+	  	</div>
+	</header>
+	<!-- temporary drawer of the tool bar -->
+	<aside class="mdc-drawer mdc-drawer--temporary mdc-typography">
+		<nav class="mdc-drawer__drawer">
+	    	<header class="mdc-drawer__header">
+	      		<div class="mdc-drawer__header-content">
+	      		</div>	
+	    	</header>
+	    	<nav id="icon-with-text-demo" class="mdc-drawer__content mdc-list">
+	      		<a id="arrivalsNav" class="mdc-list-item mdc-list-item--activated" href="#">
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">alarm</i>Estimated Arrivals
+	      		</a>
+	      		<a id="nearMeNav" class="mdc-list-item" href="#">
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">person_pin_circle</i>Near Me
+	      		</a>
+	      		<a id="settingsNav" class="mdc-list-item hide" href="#">
+	        		<i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>Settings
+	      		</a>
+	    	</nav>
+	  	</nav>
+	</aside>
+	<br><br><br><br>
+	<h1>OPTION 3</h1>
+	<!-- screen 1 -->
+	<div id="arrivalsScreen">
+		<br><br><br>
+		<h1>screen 1</h1>
+
+		<p>these are the instructions</p>
+		
+	</div>
+
+	<!-- screen 2 -->
+	<div id="nearMeScreen" class="hide">
+		<br><br><br>
+		<h1>screen 2</h1>
+
+		<canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;">
+		
+	</div>
+
+	
+
+	<!-- MCW Script -->
+	<script src="https://unpkg.com/material-components-web@0.34.1/dist/material-components-web.js"></script>
+
+	<!-- JQuery CDN -->
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous">
+	</script>
+	
+	
+
+    <!-- Personal JavaScript -->
+    <script type="text/javascript">
+
+    	$(document).ready(function(){
+	   		console.log("Document Ready");
+	   	});
+
+	   	// Script for temporary drawer for the tool bar
+	   	let drawer = new mdc.drawer.MDCTemporaryDrawer(document.querySelector('.mdc-drawer--temporary'));
+		document.querySelector('#shrine-nav-icon').addEventListener('click', () => drawer.open = true);
+
+		
+	   	/**********************************************************************************************
+		*
+		* adding action listeners to the tool bar items and the arrival screen's tab bar items
+		* 
+	   	**********************************************************************************************/
+
+	   	// add action listeners to the 'arrivals', 'near me', and 'settings' navigation items in the nav bar
+		navListener("#arrivalsNav", "#arrivalsScreen", "#nearMeNav", "#nearMeScreen", "#settingsNav", "#settingsScreen");
+		navListener("#nearMeNav", "#nearMeScreen", "#arrivalsNav", "#arrivalsScreen", "#settingsNav", "#settingsScreen");
+		navListener("#settingsNav", "#settingsScreen", "#arrivalsNav", "#arrivalsScreen", "#nearMeNav", "#nearMeScreen");
+
+		function navListener(mainNav, mainScreen, nav2, screen2, nav3, screen3){
+			$(mainNav).click(function(){
+				$(mainNav).addClass("mdc-list-item--activated");
+				$(nav2).removeClass("mdc-list-item--activated");
+				$(nav3).removeClass("mdc-list-item--activated");
+
+				$(mainScreen).removeClass("hide");
+				$(screen2).addClass("hide");
+				$(screen3).addClass("hide");
+
+				drawer.open = false;
+			});
+		}
+
+	   	// add action listeners to the 'home' and 'train' tab in the 'arrivals' screen
+	   	tabListener("#busNav", "#busTab", "#trainNav", "#trainTab");
+	   	tabListener("#trainNav", "#trainTab", "#busNav", "#busTab");
+
+	   	function tabListener(mainNav, mainTab, otherNav, otherTab){
+			$(mainNav).click(function(){
+		   		$(mainNav).addClass("mdc-tab--active");
+		   		$(otherNav).removeClass("mdc-tab--active");
+
+		   		$(mainTab).removeClass("hide");
+		   		$(otherTab).addClass("hide");
+		   	});
+		}
+
+		/**********************************************************************************************
+		*
+		* screen 1
+		* 
+	   	**********************************************************************************************/
+
+	   
+
+	
+
+    	/**********************************************************************************************
+		*
+		* screen 2
+		* 
+	   	**********************************************************************************************/
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+
+		// A
+		ctx.moveTo(20,300);
+		ctx.lineTo(100,100);
+		ctx.stroke();
+
+		ctx.moveTo(100,100);
+		ctx.lineTo(200,300);
+		ctx.stroke();
+
+		ctx.moveTo(60,200);
+		ctx.lineTo(150,200);
+		ctx.stroke();
+
+		// K
+		ctx.moveTo(250,300);
+		ctx.lineTo(250,100);
+		ctx.stroke();
+
+		ctx.moveTo(100,300);
+		ctx.lineTo(350,100);
+		ctx.stroke();
+
+    </script>
+</body>
+</html>
