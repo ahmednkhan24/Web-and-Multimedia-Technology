@@ -95,10 +95,10 @@
 	    	</header>
 	    	<nav id="icon-with-text-demo" class="mdc-drawer__content mdc-list">
 	      		<a id="arrivalsNav" class="mdc-list-item mdc-list-item--activated" href="#">
-	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">alarm</i>Estimated Arrivals
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">alarm</i>screen 1
 	      		</a>
 	      		<a id="nearMeNav" class="mdc-list-item" href="#">
-	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">person_pin_circle</i>Near Me
+	       			<i class="material-icons mdc-list-item__graphic" aria-hidden="true">person_pin_circle</i>screen 2
 	      		</a>
 	      		<a id="settingsNav" class="mdc-list-item hide" href="#">
 	        		<i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>Settings
@@ -206,29 +206,10 @@
 		* screen 2
 		* 
 	   	**********************************************************************************************/
-		var canvas = document.getElementById("myCanvas");
-		var ctx = canvas.getContext("2d");
-
-		// A
-		ctx.moveTo(20,300);
-		ctx.lineTo(100,100);
-		ctx.stroke();
-
-		ctx.moveTo(100,100);
-		ctx.lineTo(200,300);
-		ctx.stroke();
-
-		ctx.moveTo(60,200);
-		ctx.lineTo(150,200);
-		ctx.stroke();
-
-		// K
-		ctx.moveTo(250,300);
-		ctx.lineTo(250,100);
-		ctx.stroke();
-
-		ctx.moveTo(100,300);
-		ctx.lineTo(350,100);
+		var c=document.getElementById("myCanvas");
+		var ctx=c.getContext("2d");
+		ctx.beginPath();
+		ctx.arc(100,75,50,0,2*Math.PI);
 		ctx.stroke();
 
     </script>
